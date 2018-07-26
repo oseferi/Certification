@@ -115,6 +115,7 @@ public class UserDaoImpl implements UserDao {
 			.createQuery("Select user From User user Where user.username=:username And user.deleted=0",User.class)
 			.setParameter("username", username)
 			.getSingleResult();
+			
 			//Compare passwords in encrypted forms
 			BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 			if(passwordEncryptor.checkPassword(password, user.getPassword())) {

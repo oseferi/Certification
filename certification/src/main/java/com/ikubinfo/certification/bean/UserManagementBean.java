@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.Convert;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.primefaces.context.RequestContext;
 
 import com.ikubinfo.certification.exception.DeletedUserException;
@@ -25,7 +26,6 @@ import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.RoleService;
 import com.ikubinfo.certification.service.UserService;
-import com.ikubinfo.certification.utility.MessageUtility;
 
 
 
@@ -46,13 +46,14 @@ public class UserManagementBean implements Serializable {
 	private ArrayList<User> employees;
 	private User selectedEmployee;
 	private boolean selectedEmployeeEditable;
+	private boolean selectedEmployeeCredentialsEditable;	
 	private List<User> filteredEmployees;
+	private String newPassword;
 	
 	 @PostConstruct
 	 public void init() {
 		refreshEmployees(); 
 		employee = new User();
-
 	 }
 	public UserService getUserService() {
 		return userService;
@@ -107,18 +108,32 @@ public class UserManagementBean implements Serializable {
 		this.selectedEmployeeEditable = selectedEmployeeEditable;
 	}
 	
+	public boolean isSelectedEmployeeCredentialsEditable() {
+		return selectedEmployeeCredentialsEditable;
+	}
+	public void setSelectedEmployeeCredentialsEditable(boolean selectedEmployeeCredentialsEditable) {
+		this.selectedEmployeeCredentialsEditable = selectedEmployeeCredentialsEditable;
+	}
+	
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+	
 	@SuppressWarnings("finally")
 	public String addEmployee() {
 		try {
 			 employee.setManager(userBean.getUser());
 			 employee.setRole(roleService.findById(2));
 			 if(userService.add(employee)) {
-				 employee = new User();
-				 refreshEmployees();
 				 System.out.println("User was added!");
 				 FacesContext context = FacesContext.getCurrentInstance();
 			     context.addMessage(null, new FacesMessage("Employee Added!", "Employee : "+employee.getName()+" was added succesfully!") );
-			}else{
+			     employee = new User();
+				 refreshEmployees();
+			 }else{
 				System.out.println("User failed to be added!");
 				FacesContext context = FacesContext.getCurrentInstance();
 			    context.addMessage(null, new FacesMessage("Error!", "Employee : "+employee.getName()+" could not be added! If this problem persists please contact the Administrator") );
@@ -151,13 +166,29 @@ public class UserManagementBean implements Serializable {
 	}
 	
 	public String updateEmployee(int id) {
+		BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 		User user = userService.findById(id);
+		if(newPassword!=null && newPassword!="") {
+			if(passwordEncryptor.checkPassword(newPassword, user.getPassword())) {
+				System.out.println("New password is the same as the old one!Please provide a valid password");
+				FacesContext context = FacesContext.getCurrentInstance();
+			    context.addMessage(null, new FacesMessage("Error!", "The new password is the same as the old one.Please enter a valid password!"));
+			    newPassword="";
+			    return null;
+			}else {
+				selectedEmployee.setPassword(passwordEncryptor.encryptPassword(newPassword));
+				System.out.println("Password was updated succesfully");
+				FacesContext context = FacesContext.getCurrentInstance();
+			    context.addMessage(null, new FacesMessage("Success!", "The password was updated succesfully!"));
+			    newPassword="";
+			}
+		}
 		if(selectedEmployee.equals(user)) {
 			disableEditing();
 			System.out.println("No changes have been made to employee!");
 			FacesContext context = FacesContext.getCurrentInstance();
 		    context.addMessage(null, new FacesMessage("Info!", "No changes have been made to employee :"+selectedEmployee.getName()+" "+selectedEmployee.getSurname()) );
-		    return "";
+		    return null;
 		}
 		try {
 			if(userService.update(selectedEmployee)) {
@@ -199,7 +230,7 @@ public class UserManagementBean implements Serializable {
 		}
 	
 	public String removeEmployee(int id) {
-		
+		System.out.println("removeEmployee executed");
 		if(userService.remove(userService.findById(id))) {
 			refreshEmployees();
 			selectedEmployee = new User();
@@ -225,5 +256,14 @@ public class UserManagementBean implements Serializable {
 	}
 	public void disableEditing() {
 		selectedEmployeeEditable = false;
+		selectedEmployeeCredentialsEditable = false;
 	}
+	
+	public void enableCredentialsEditing() {
+		selectedEmployeeCredentialsEditable = true;
+
+	}
+
+	
+	
 }

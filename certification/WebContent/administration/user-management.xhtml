@@ -9,6 +9,7 @@
 
 <h:head>
 <title>User Management Area</title>
+<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
 </h:head>
 
 <h:body>
@@ -23,7 +24,8 @@
                  rows="10" paginator="true" 
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="5,10,15"
-                 selectionMode="single" selection="#{userManagementBean.selectedEmployee}" rowKey="#{employe.id}"
+                 selectionMode="single" selection="#{userManagementBean.selectedEmployee}" 
+                 rowKey="#{employe.id}"
                  emptyMessage="No employees found with given criteria" filteredValue="#{userManagementBean.filteredEmployees}">
                   
 	 		<f:facet name="header">
@@ -45,67 +47,119 @@
 				<h:outputText value="#{employe.surname}" />
 			</p:column>
 			
+			<p:column filterMatchMode="contains" filterBy="#{employe.address}" sortBy="#{employe.address}">
+				<f:facet name="header">Address</f:facet>
+				<h:outputText value="#{employe.address}" />
+			</p:column>
+			
+			<p:column filterMatchMode="contains" filterBy="#{employe.dateOfBirth}" sortBy="#{employe.dateOfBirth}">
+				<f:facet name="header">Birth Day</f:facet>
+				<h:outputText value="#{employe.dateOfBirth}" />
+			</p:column>
+			
+			<p:column >
+				<f:facet name="header">Action</f:facet>
+				<p:button outcome="edit" icon="ui-icon-star" title="Edit">
+					<f:param name="employee" value="#{employe}" />
+					<f:param name="object" value="employee" />
+				</p:button>
+				
+			</p:column>
 			
 		</p:dataTable>
+		<p:growl id="growl1" showDetail="true" sticky="true" />  
 		
-		<p:dialog header="Employee Info" widgetVar="employeeDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		<p:dialog header="Employee Info" widgetVar="employeeDialog"  showEffect="fade" hideEffect="fade" resizable="false">
 	        <p:outputPanel id="employeeDetail" style="text-align:center;">
-	            <p:panelGrid id="employeeDetailGD" columns="2" rendered="#{not empty userManagementBean.selectedEmployee}" columnClasses="label,value">
-	                <h:outputText value="Name:" />
-	                <h:outputText value="#{userManagementBean.selectedEmployee.name}" rendered="#{not userManagementBean.selectedEmployeeEditable}"/>
-	              	<h:inputText id="Employee_Name_Editable" value="#{userManagementBean.selectedEmployee.name}" rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
+	                <h:outputText value="Name:" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.name}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	              	<h:inputText id="Employee_Name_Editable" value="#{userManagementBean.selectedEmployee.name}"
+	              		 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	              		 maxlength="200"/>
 	 				<p:message for="Employee_Name_Editable"   />
 	 				
 	 				
-	                <h:outputText value="Surname" />
-	                <h:outputText value="#{userManagementBean.selectedEmployee.surname}" rendered="#{not userManagementBean.selectedEmployeeEditable}"/>
-	                <h:inputText id="Employee_Surname_Editable" value="#{userManagementBean.selectedEmployee.surname}" rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
+	                <h:outputText value="Surname" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.surname}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	                <h:inputText id="Employee_Surname_Editable" value="#{userManagementBean.selectedEmployee.surname}" 
+	                	rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	                	maxlength="200"/>
 	            	<p:message for="Employee_Surname_Editable"   />
 	            	
 	            	
-	 				<h:outputText value="SSN:" />
-	                <h:outputText value="#{userManagementBean.selectedEmployee.ssn}" rendered="#{not userManagementBean.selectedEmployeeEditable}" />
-	                <h:inputText id="Employee_SSN_Editable" value="#{userManagementBean.selectedEmployee.ssn}" rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
+	 				<h:outputText value="SSN:" 
+	 				rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.ssn}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}" />
+	                <h:inputText id="Employee_SSN_Editable" value="#{userManagementBean.selectedEmployee.ssn}" 
+	                	rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	                	maxlength="50"/>
 	                <p:message for="Employee_SSN_Editable"   />
 	                
 	                
-	 				<h:outputText value="Date of Birth:" />
-	                <h:outputText value="#{userManagementBean.selectedEmployee.dateOfBirth}" rendered="#{not userManagementBean.selectedEmployeeEditable}"/>
-	                <p:calendar id="Employee_BirthDay_Editable" value="#{userManagementBean.selectedEmployee.dateOfBirth}" rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
-	                <p:message for="Employee_BirthDay_Editable"   />
+	 				<h:outputText value="Date of Birth:" 
+	 				rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.dateOfBirth}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	                <p:calendar id="Employee_BirthDay_Editable" value="#{userManagementBean.selectedEmployee.dateOfBirth}"
+	                	 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
+	                <p:message for="Employee_BirthDay_Editable"
+	                maxlength="200"/>
 	                
 	                
-	                <h:outputText value="Address:" />
-	                <h:outputText value="#{userManagementBean.selectedEmployee.address}" rendered="#{not userManagementBean.selectedEmployeeEditable}"/>
-	                <h:inputText id="Employee_Address_Editable" value="#{userManagementBean.selectedEmployee.address}" rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
-	                <p:message for="Employee_Address_Editable"   />
+	                <h:outputText value="Address:" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.address}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	                <h:inputText id="Employee_Address_Editable" value="#{userManagementBean.selectedEmployee.address}"
+	                	 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
+	                <p:message for="Employee_Address_Editable"
+	                maxlength="500"/>
+					
+	                <h:outputText  value="Username:" 
+	                rendered="#{userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:inputText id="Employee_Username_Editable" value="#{userManagementBean.selectedEmployee.username}" 
+	                rendered="#{userManagementBean.selectedEmployeeCredentialsEditable}"	required="true"/>
+	                <p:message for="Employee_Username_Editable"
+	                maxlength="200"/>
+	                
+	                <h:outputText value="Password:" 
+	                rendered="#{userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <p:password id="Employee_Password_Editable" value="#{userManagementBean.newPassword}" 
+	                rendered="#{userManagementBean.selectedEmployeeCredentialsEditable}"	feedback="true" />
+	                <p:message for="Employee_Password_Editable"
+	                maxlength="32"/>	                
+		    	                
+	                <p:splitButton value="Edit Personal Information"  update="employeeDetail" 
+	                			rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"
+	                			 action="#{userManagementBean.enableEditing()}" icon="ui-icon-disk">
+				        <p:menuitem value="Edit Credentials"  update="employeeDetail" icon="ui-icon-arrowrefresh-1-w"
+				         action="#{userManagementBean.enableCredentialsEditing()}"/>
+				        <p:menuitem value="Delete" update="growl1 tableStateDT" oncomplete="PF('employeeDialog').hide()"
+				        			action="#{userManagementBean.removeEmployee(userManagementBean.selectedEmployee.id)}" 
+	                			    icon="ui-icon-close" >	
+				        <p:confirm header="Confirmation" message="Delete Employee?" icon="ui-icon-alert"  />
+				        </p:menuitem>
+				        <p:separator />
+				    </p:splitButton>
 	                
 	                
-	                
-	                <p:commandButton id="delete_button" type="submit" update="growl tableStateDT" 
-	                					oncomplete="PF('employeeDialog').hide()" value="Delete Employee" 
-	                					action="#{userManagementBean.removeEmployee(userManagementBean.selectedEmployee.id)}" 
-	                					rendered="#{not userManagementBean.selectedEmployeeEditable}">
-		           	
-		           		<p:confirm header="Confirmation" message="Delete Employee?" icon="ui-icon-alert"  />
-		           	</p:commandButton>
-		           	
-		            <p:commandButton id="edit_button" type="submit" update="employeeDetailGD "  
-		            				value="Edit Employee" rendered="#{not userManagementBean.selectedEmployeeEditable}" 
-		            				action="#{userManagementBean.enableEditing()}" >
-		           	</p:commandButton>
-		           	
-		           	<p:commandButton id="save_button" type="submit" update="growl tableStateDT"
+		           	<p:commandButton id="save_button" type="submit" update="growl1 tableStateDT"
 		           					 oncomplete="PF('employeeDialog').hide()" value="Save Employee" 
-		           					 rendered="#{userManagementBean.selectedEmployeeEditable}"  
+		           					 rendered="#{userManagementBean.selectedEmployeeEditable or userManagementBean.selectedEmployeeCredentialsEditable}"  
 		           					 action="#{userManagementBean.updateEmployee(userManagementBean.selectedEmployee.id)}" >
 		           	  <p:confirm header="Confirmation" message="Save Employee?" icon="ui-icon-alert" />
 		           	</p:commandButton>
 		           	
-		           	<p:commandButton id="cancel_button" type="submit" update="employeeDetailGD"
+		           	<p:commandButton id="cancel_button" type="submit" update="employeeDetail"
 		           					 value="Cancel Editing" 
-		           					 rendered="#{userManagementBean.selectedEmployeeEditable}"  
-		           					 action="#{userManagementBean.disableEditing()}" >
+		           					 rendered="#{userManagementBean.selectedEmployeeEditable or userManagementBean.selectedEmployeeCredentialsEditable}"  
+		           					 action="#{userManagementBean.disableEditing()}"
+		           					 immediate="true" >
 		           	  <p:confirm header="Confirmation" message="Cancel Editing?" icon="ui-icon-alert" />
 		           	</p:commandButton>
 		           	
@@ -113,22 +167,26 @@
 				        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 				        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 				    </p:confirmDialog>
-	            </p:panelGrid>
 	        </p:outputPanel>
     	</p:dialog>
-    	<p:dialog header="New Employee" widgetVar="newEmployeeDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+    	</h:form>
+    	<h:form id="addForm">
+    	<p:dialog header="New Employee" widgetVar="newEmployeeDialog" showEffect="fade" hideEffect="fade" resizable="false">
 		   	<p:growl id="growl" showDetail="true" sticky="true" />  
 	        <p:outputPanel id="newEmployee" style="text-align:center;">
 	                <h:outputText value="Name:" />
-	                <h:inputText id="Employee_Name" value="#{userManagementBean.employee.name}" required="true"/>
+	                <h:inputText id="Employee_Name" value="#{userManagementBean.employee.name}" required="true"
+	                maxlength="200"/>
 	 				<p:message for="Employee_Name"   />
 	 				
 	                <h:outputText  value="Surname" />
-	                <h:inputText id="Employee_Surname" value="#{userManagementBean.employee.surname}" required="true"/>
-	                <p:message for="Employee_Surname"   />
+	                <h:inputText id="Employee_Surname" value="#{userManagementBean.employee.surname}" required="true"
+	                maxlength="200"/>
+	                <p:message for="Employee_Surname"/>
 	                
 	                <h:outputText  value="SSN" />
-	                <h:inputText id="Employee_SSN" value="#{userManagementBean.employee.ssn}" required="true"/>
+	                <h:inputText id="Employee_SSN" value="#{userManagementBean.employee.ssn}" required="true"
+	                maxlength="50"/>
 	                <p:message for="Employee_SSN"   />
 	                
 	                <h:outputText  value="Date of Birth" />
@@ -136,20 +194,24 @@
 	                <p:message for="Employee_BirthDay"   />
 	                
 	                <h:outputText  value="Address" />
-	                <h:inputText id="Employee_Address" value="#{userManagementBean.employee.address}" required="true"/>
+	                <h:inputText id="Employee_Address" value="#{userManagementBean.employee.address}" required="true"
+	                maxlength="500"/>
 	                <p:message for="Employee_Address"   />
 	                
 	            <h2>Credentials</h2>
 	            
 	                <h:outputText  value="Username:" />
-	                <h:inputText id="Employee_Username" value="#{userManagementBean.employee.username}" required="true"/>
+	                <h:inputText id="Employee_Username" value="#{userManagementBean.employee.username}" required="true"
+	                maxlength="200"/>
 	                <p:message for="Employee_Username"   />
 	                
 	                <h:outputText value="Password:" />
 	                <p:password id="Employee_Password" value="#{userManagementBean.employee.password}" feedback="true" required="true"/>
-	                <p:message for="Employee_Password"/>	                
-		           	<p:commandButton id="Add_Button" type="submit" update="growl newEmployee tableStateDT " 
-		           	oncomplete="PF('newEmployeeDialog').hide()" value="Add Employee" 
+	                <p:message for="Employee_Password"
+	                maxlength="32"/>	
+	                                
+		           	<p:commandButton id="Add_Button" type="submit" update="growl newEmployee :employeeForm:tableStateDT " 
+		           	onsuccess="PF('newEmployeeDialog').hide()" value="Add Employee" 
 		           	action="#{userManagementBean.addEmployee()}" >
 		           	  <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
 		           	</p:commandButton>
@@ -161,7 +223,17 @@
 	            
 	        </p:outputPanel>
 		</p:dialog>
+		<p:commandButton value="test" onclick="validateFields()"></p:commandButton>
 	</h:form>
-	
+	<h:form id="form2"></h:form>
+	<h:outputScript>
+		$ = jQuery;
+		function validateFields(){
+		var input = $.trim($("#spa").val());
+			alert(input);	
+		//PF('newEmployeeDialog').show();
+		}
+		
+	</h:outputScript>
 </h:body>
 </html>

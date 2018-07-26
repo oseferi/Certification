@@ -17,7 +17,7 @@
 		<p:inputText  value="#{loginBean.username}"  label="UserName" required="true" id="User_Name" ></p:inputText>
 		<p:message for="User_Name"   />
 		Password:
-	    <p:password value="#{loginBean.password}" label="Password" required ="true" id="Password" feedback="true" inline="true" />
+	    <p:password value="#{loginBean.password}" label="Password" required ="true" id="Password" inline="true" />
 		<p:message for="Password" styleClass="error_message" />
 		<p:commandButton type="submit" update="growl"  value="Sign in" action="#{loginBean.logIn()}"></p:commandButton>
 	</h:form>

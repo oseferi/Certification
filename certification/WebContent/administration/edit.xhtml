@@ -8,9 +8,9 @@
 
 <h:head></h:head>
 <h:body>
-	<h:form>
-	<h3>Hello ${userBean.user.username}</h3>
-	<h:commandButton value="Log Out" action="${loginBean.logOut()}"></h:commandButton> 
-	</h:form>
+<f:metadata>
+    <f:viewParam name="employee" value="#{userManagementBean.selectedEmployee}" />
+</f:metadata>
+<h:outputText value="userManagementBean.selectedEmployee.name"></h:outputText>
 </h:body>
 </html>
