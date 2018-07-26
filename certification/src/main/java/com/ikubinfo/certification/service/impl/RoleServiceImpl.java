@@ -1,7 +1,9 @@
 package com.ikubinfo.certification.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +12,15 @@ import com.ikubinfo.certification.model.Role;
 import com.ikubinfo.certification.service.RoleService;
 
 @Service("roleService")
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl implements RoleService, Serializable {
+	
+	private static final long serialVersionUID = -969765987579610857L;
 
 	@Autowired
 	RoleDao roleDao;
 	
 	@Override
-	public boolean add(Role role) {
+	public boolean add(Role role) throws ConstraintViolationException{
 		return roleDao.add(role);
 	}
 

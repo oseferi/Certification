@@ -229,6 +229,12 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency-->
+	<dependency>
+		<groupId>org.primefaces.themes</groupId>
+		<artifactId>bootstrap</artifactId>
+		<version>1.0.10</version>
+	</dependency>
+		
 </dependencies>
   <build>
     <finalName>certification</finalName>
@@ -251,4 +257,13 @@
 			</plugin>
 		</plugins>
   </build>
+  
+  <repositories>
+    <repository>
+        <id>prime-repo</id>
+        <name>PrimeFaces Maven Repository</name>
+        <url>http://repository.primefaces.org</url>
+        <layout>default</layout>
+    </repository>
+</repositories>
 </project>
