@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.aop.ThrowsAdvice;
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.ikubinfo.certification.dao.UserDao;
 import com.ikubinfo.certification.exception.DeletedUserException;
+import com.ikubinfo.certification.exception.EmailExistsException;
 import com.ikubinfo.certification.exception.FullNameExistsException;
+import com.ikubinfo.certification.exception.PhoneNumberExistsException;
 import com.ikubinfo.certification.exception.SsnExistsException;
 import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.User;
@@ -25,6 +28,7 @@ import com.mysql.jdbc.ResultSetInternalMethods;
 @Scope("singleton")
 @Component
 public class UserDaoImpl implements UserDao {
+	private static Logger log = Logger.getLogger(UserDaoImpl.class);
 
 	@PersistenceContext
 	EntityManager entityManager;
@@ -34,11 +38,12 @@ public class UserDaoImpl implements UserDao {
 	public boolean add(User user) {
 		try {
 			entityManager.persist(user);
-			System.out.println("User was added succesfully!");
+			log.info("User: "+user.getUsername()+" was added succesfully!");
+			//System.out.println("User was added succesfully!");
 			return true;
 		} catch (Exception e) {
-			
-			System.out.println("Failed to add user! Error Message :"+e.getMessage());
+			log.error("Failed to add user! Error Message :"+e.getMessage());
+			//System.out.println("Failed to add user! Error Message :"+e.getMessage());
 			return false;
 		}
 	}
@@ -51,11 +56,13 @@ public class UserDaoImpl implements UserDao {
 			 createQuery("update User set deleted=1 where id=:id")
 			.setParameter("id",user.getId())
 			.executeUpdate();
-			System.out.println("User was removed succesfully!");
+			log.info("User: "+user.getUsername()+" was removed succesfully!");
+			//System.out.println("User was removed succesfully!");
 			return true;			
 			
 		} catch (Exception e) {
-			System.out.println("User failed to be removed! Error message :"+e.getMessage());
+			log.info("User: "+user.getUsername()+" failed to be removed! Error message :"+e.getMessage());
+			//System.out.println("User failed to be removed! Error message :"+e.getMessage());
 			return false;		
 			}
 	}
@@ -65,11 +72,13 @@ public class UserDaoImpl implements UserDao {
 	public boolean update(User user) {
 		try {
 			entityManager.merge(user);
-			System.out.println("User was updated succesfully!");
+			log.info("User: "+user.getUsername()+ " was updated succesfully!");
+			//System.out.println("User was updated succesfully!");
 			return true;
 		}
 		catch(Exception e){
-			System.out.println("User failed to be updated! Error message :"+e.getMessage());
+			log.error("User: "+user.getUsername()+" failed to be updated! Error message :"+e.getMessage());
+			//System.out.println("User failed to be updated! Error message :"+e.getMessage());
 			//e.printStackTrace();
 			return false;
 		}
@@ -83,11 +92,13 @@ public class UserDaoImpl implements UserDao {
 				return user;
 			}
 			else {
-				System.out.println("User is deleted!");
+				log.warn("User: "+user.getUsername()+" is deleted!");
+				//System.out.println("User is deleted!");
 				return null;
 			}
 		} catch (Exception e) {
-			System.out.println("User cannot be found! Error message :"+e.getMessage());
+			log.warn("User cannot be found! Error message :"+e.getMessage());
+			//System.out.println("User cannot be found! Error message :"+e.getMessage());
 			return null;
 		}
 	}
@@ -102,7 +113,8 @@ public class UserDaoImpl implements UserDao {
 					.getResultList();
 				
 		} catch (Exception e) {
-			System.out.println("Users cannot be found! Error message :"+e.getMessage());
+			log.info("Users cannot be found! Error message :"+e.getMessage());
+			//System.out.println("Users cannot be found! Error message :"+e.getMessage());
 			return null;
 		}
 	}
@@ -119,15 +131,18 @@ public class UserDaoImpl implements UserDao {
 			//Compare passwords in encrypted forms
 			BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 			if(passwordEncryptor.checkPassword(password, user.getPassword())) {
-				System.out.println("User Found!");
+				//System.out.println("User Found!");
+				log.info("User Found!");
 				return user;
 			}
 			else {
-				System.out.println("Wrong credentials!");
+				log.warn("Wrong credentials!");
+				//System.out.println("Wrong credentials!");
 				return null;
 			}
 		} catch (NoResultException e) {
-			System.out.println("User cannot be found!(Maybe wrong credentials) Error message :"+e.getMessage());
+			log.warn("User cannot be found!(Maybe wrong credentials) Error message :"+e.getMessage());
+			//System.out.println("User cannot be found!(Maybe wrong credentials) Error message :"+e.getMessage());
 			return null;
 		
 		}
@@ -143,16 +158,19 @@ public class UserDaoImpl implements UserDao {
 			.setParameter("username", userToBeValidated.getUsername())
 			.getSingleResult();
 			if(user.isDeleted()) {
-				System.out.println("Username belongs to previously deleted User!");
+				log.warn("Username belongs to previously deleted User!");
+				//System.out.println("Username belongs to previously deleted User!");
 				throw new DeletedUserException();
 			}
 			else {
-				System.out.println("Username belongs to active User!");
+				log.warn("Username belongs to active User!");
+				//System.out.println("Username belongs to active User!");
 				throw new UsernameExistsException();
 			}
 			
 		}catch (NoResultException e) {
-			System.out.println("Username "+userToBeValidated.getUsername()+" is Valid");
+			log.info("Username "+userToBeValidated.getUsername()+" is Valid");
+			//System.out.println("Username "+userToBeValidated.getUsername()+" is Valid");
 			return true;
 		}
 	}
@@ -165,16 +183,19 @@ public class UserDaoImpl implements UserDao {
 				.setParameter("ssn",userToBeValidated.getSsn())
 				.getSingleResult();
 				if(user.isDeleted()) {
-					System.out.println("SSN belongs to previously deleted User!");
+					log.warn("SSN belongs to previously deleted User: "+user.getUsername()+"!");
+					//System.out.println("SSN belongs to previously deleted User!");
 					throw new DeletedUserException();
 				}
 				else {
-					System.out.println("SSN belongs to active User!");
+					log.warn("SSN belongs to active User: "+user.getUsername()+"!");
+					//System.out.println("SSN belongs to active User!");
 					throw new SsnExistsException();
 				}
 				
 			}catch (NoResultException e) {
-				System.out.println("SSN "+userToBeValidated.getSsn()+" is Valid");
+				log.warn("SSN "+userToBeValidated.getSsn()+" is Valid");
+				//System.out.println("SSN "+userToBeValidated.getSsn()+" is Valid");
 				return true;
 			}
 	}
@@ -190,22 +211,77 @@ public class UserDaoImpl implements UserDao {
 			.getSingleResult();
 			
 			if(user.isDeleted()) {
-				System.out.println("Full Name belongs to previously deleted User!");
+				log.warn("Full Name belongs to previously deleted User"+user.getUsername()+"!");
+				//System.out.println("Full Name belongs to previously deleted User!");
 				throw new DeletedUserException();
 			}
 			else {
-				
-				System.out.println("Full Name belongs to active User!");
+				log.warn("Full Name belongs to active User"+user.getUsername()+"!");
+				//System.out.println("Full Name belongs to active User!");
 				throw new FullNameExistsException();
 			}
 			
 		}catch (NoResultException e) {
-			System.out.println("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
+			log.info("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
+			//System.out.println("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
 			return true;
 		}
 		
 	}
+	
+	@Override
+	public boolean isValidPhoneNumber(User userToBeValidated) throws DeletedUserException, PhoneNumberExistsException {
 
+		try{
+			User user= (User)entityManager
+			.createQuery("Select user From User user Where user.phoneNumber=:phoneNumber",User.class)
+			.setParameter("phoneNumber",userToBeValidated.getPhoneNumber())
+			.getSingleResult();
+			
+			if(user.isDeleted()) {
+				log.warn("Phone Number belongs to previously deleted User"+user.getUsername()+"!");
+				//System.out.println("Full Name belongs to previously deleted User!");
+				throw new DeletedUserException();
+			}
+			else {
+				log.warn("Phone Number belongs to active User"+user.getUsername()+"!");
+				//System.out.println("Full Name belongs to active User!");
+				throw new PhoneNumberExistsException();
+			}
+			
+		}catch (NoResultException e) {
+			log.info("Phone Number "+userToBeValidated.getPhoneNumber()+" is Valid");
+			//System.out.println("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
+			return true;
+		}
+		
+	}
 	
-	
+	@Override
+	public boolean isValidEmail(User userToBeValidated) throws DeletedUserException, EmailExistsException {
+
+		try{
+			User user= (User)entityManager
+			.createQuery("Select user From User user Where user.email=:email",User.class)
+			.setParameter("email",userToBeValidated.getEmail())
+			.getSingleResult();
+			
+			if(user.isDeleted()) {
+				log.warn("Email Address belongs to previously deleted User"+user.getUsername()+"!");
+				//System.out.println("Full Name belongs to previously deleted User!");
+				throw new DeletedUserException();
+			}
+			else {
+				log.warn("Email Address belongs to active User"+user.getUsername()+"!");
+				//System.out.println("Full Name belongs to active User!");
+				throw new EmailExistsException();
+			}
+			
+		}catch (NoResultException e) {
+			log.info("Email Address "+userToBeValidated.getEmail()+" is Valid");
+			//System.out.println("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
+			return true;
+		}
+		
+	}
 }

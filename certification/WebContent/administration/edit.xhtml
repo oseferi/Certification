@@ -4,13 +4,144 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head></h:head>
 <h:body>
 <f:metadata>
-    <f:viewParam name="employee" value="#{userManagementBean.selectedEmployee}" />
+    <f:viewParam name="employee" value="#{userManagementBean.id}" />
+    <f:event type="preRenderView" listener="#{userManagementBean.init}" />
 </f:metadata>
-<h:outputText value="userManagementBean.selectedEmployee.name"></h:outputText>
+<h:form id="employeeForm"> 
+		<p:growl id="growl1" showDetail="true" severity="info" sticky="true" />  
+   
+			<p:outputPanel id="employeeDetail" style="text-align:center;">
+	                <h:outputText value="Name:" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.name}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	              	<h:inputText id="Employee_Name_Editable" value="#{userManagementBean.selectedEmployee.name}"
+	              		 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	              		 maxlength="200"/>
+	 				<p:message for="Employee_Name_Editable"   />
+	 				
+	 				
+	                <h:outputText value="Surname" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.surname}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	                <h:inputText id="Employee_Surname_Editable" value="#{userManagementBean.selectedEmployee.surname}" 
+	                	rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	                	maxlength="200"/>
+	            	<p:message for="Employee_Surname_Editable"   />
+	            	
+	            	
+	 				<h:outputText value="SSN:" 
+	 				rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.ssn}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}" />
+	                <h:inputText id="Employee_SSN_Editable" value="#{userManagementBean.selectedEmployee.ssn}" 
+	                	rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	                	maxlength="50"/>
+	                <p:message for="Employee_SSN_Editable"   />
+	                
+	                
+	 				<h:outputText value="Date of Birth:" 
+	 				rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.dateOfBirth}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	                <p:calendar id="Employee_BirthDay_Editable" value="#{userManagementBean.selectedEmployee.dateOfBirth}"
+	                	 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
+	                <p:message for="Employee_BirthDay_Editable"
+	                maxlength="200"/>
+	                
+	                
+	                <h:outputText value="Address:" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.address}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	                <h:inputText id="Employee_Address_Editable" value="#{userManagementBean.selectedEmployee.address}"
+	                	 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"/>
+	                <p:message for="Employee_Address_Editable"
+	                maxlength="500"/>
+					
+					<h:outputText value="Email:" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.email}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	              	<h:inputText id="Employee_Email_Editable" value="#{userManagementBean.selectedEmployee.email}"
+	              		 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	              		 maxlength="200"/>
+	 				<p:message for="Employee_Email_Editable"   />
+	 				
+	 				<h:outputText value="Telephone:" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.phoneNumber}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	              	<h:inputText id="Employee_Phone_Number_Editable" value="#{userManagementBean.selectedEmployee.phoneNumber}"
+	              		 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	              		 maxlength="200"/>
+	 				<p:message for="Employee_Phone_Number_Editable"   />
+					
+					<h:outputText value="Salary:" 
+	                rendered="#{not userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:outputText value="#{userManagementBean.selectedEmployee.salary}" 
+	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
+	              	<h:inputText id="Employee_Salary_Editable" value="#{userManagementBean.selectedEmployee.salary}"
+	              		 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
+	              		 maxlength="200"/>
+	 				<p:message for="Employee_Salary_Editable"   />
+					
+	                <h:outputText  value="Username:" 
+	                rendered="#{userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <h:inputText id="Employee_Username_Editable" value="#{userManagementBean.selectedEmployee.username}" 
+	                rendered="#{userManagementBean.selectedEmployeeCredentialsEditable}"	required="true"/>
+	                <p:message for="Employee_Username_Editable"
+	                maxlength="200"/>
+	                
+	                <h:outputText value="Password:" 
+	                rendered="#{userManagementBean.selectedEmployeeCredentialsEditable}"/>
+	                <p:password id="Employee_Password_Editable" value="#{userManagementBean.newPassword}" 
+	                rendered="#{userManagementBean.selectedEmployeeCredentialsEditable}"	feedback="true" />
+	                <p:message for="Employee_Password_Editable"
+	                maxlength="32"/>	                
+		    	                
+		    	                
+	                <p:splitButton value="Edit Personal Information"  update="employeeDetail" 
+	                			rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"
+	                			 action="#{userManagementBean.enableEditing()}" icon="ui-icon-disk">
+				        <p:menuitem value="Edit Credentials"  update="employeeDetail" icon="ui-icon-arrowrefresh-1-w"
+				         action="#{userManagementBean.enableCredentialsEditing()}"/>
+				        <p:menuitem value="Delete" update="growl1 " oncomplete="PF('employeeDialog').hide()"
+				        			action="#{userManagementBean.removeEmployee(userManagementBean.selectedEmployee.id)}" 
+	                			    icon="ui-icon-close" >	
+				        <p:confirm header="Confirmation" message="Delete Employee?" icon="ui-icon-alert"  />
+				        </p:menuitem>
+				        <p:separator />
+				    </p:splitButton>
+	                
+	                
+		           	<p:commandButton id="save_button" type="submit" update="growl1 employeeDetail"
+		           					  value="Save Employee" 
+		           					 rendered="#{userManagementBean.selectedEmployeeEditable or userManagementBean.selectedEmployeeCredentialsEditable}"  
+		           					 action="#{userManagementBean.updateEmployee(userManagementBean.selectedEmployee.id)}" >
+		           	  <p:confirm header="Confirmation" message="Save Employee?" icon="ui-icon-alert" />
+		           	</p:commandButton>
+		           	
+		           	<p:commandButton id="cancel_button" type="submit" update="employeeDetail"
+		           					 value="Cancel Editing" 
+		           					 rendered="#{userManagementBean.selectedEmployeeEditable or userManagementBean.selectedEmployeeCredentialsEditable}"  
+		           					 action="#{userManagementBean.disableEditing()}"
+		           					 immediate="true" >
+		           	  <p:confirm header="Confirmation" message="Cancel Editing?" icon="ui-icon-alert" />
+		           	</p:commandButton>
+		           	
+		            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				    </p:confirmDialog>
+	        </p:outputPanel>
+    	</h:form>
 </h:body>
 </html>

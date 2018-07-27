@@ -52,6 +52,15 @@ public class User implements Serializable{
 	@Column(name = "address", nullable = false, length = 500)
 	private String address;
 	
+	@Column(name = "salary", nullable = false)
+	private float salary;
+	
+	@Column(name = "email", nullable = false, length = 100)
+	private String email;
+	
+	@Column(name = "phoneNumber", nullable = false, length = 20)
+	private String phoneNumber;
+	
 	@Column(name = "deleted", nullable = false)
 	private boolean deleted;
 	
@@ -125,6 +134,24 @@ public class User implements Serializable{
 		this.role = role;
 	}
 	
+	public float getSalary() {
+		return salary;
+	}
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 	public User getManager() {
 		return manager;
 	}
@@ -137,12 +164,13 @@ public class User implements Serializable{
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
-		result = prime * result + (deleted ? 1231 : 1237);
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((manager == null) ? 0 : manager.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + Float.floatToIntBits(salary);
 		result = prime * result + ((ssn == null) ? 0 : ssn.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -167,7 +195,10 @@ public class User implements Serializable{
 				return false;
 		} else if (dateOfBirth.compareTo(other.dateOfBirth)!=0)
 			return false;
-		if (deleted != other.deleted)
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
 			return false;
 		if (id != other.id)
 			return false;
@@ -176,12 +207,13 @@ public class User implements Serializable{
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (password == null) {
-			if (other.password != null)
+		if (phoneNumber == null) {
+			if (other.phoneNumber != null)
 				return false;
-		} else if (!password.equals(other.password))
+		} else if (!phoneNumber.equals(other.phoneNumber))
 			return false;
-		
+		if (Float.floatToIntBits(salary) != Float.floatToIntBits(other.salary))
+			return false;
 		if (ssn == null) {
 			if (other.ssn != null)
 				return false;
@@ -202,13 +234,9 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", ssn=" + ssn + ", name="
-				+ name + ", surname=" + surname + ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", deleted="
-				+ deleted + ", role=" + role + ", manager=" + manager + "]";
+				+ name + ", surname=" + surname + ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", salary="
+				+ salary + ", email=" + email + ", phoneNumber=" + phoneNumber + ", deleted=" + deleted + ", role="
+				+ role + ", manager=" + manager + "]";
 	}
-	
-	
-	
-	
-	
 	
 }

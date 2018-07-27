@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.ikubinfo.certification.exception.DeletedUserException;
+import com.ikubinfo.certification.exception.EmailExistsException;
 import com.ikubinfo.certification.exception.FullNameExistsException;
+import com.ikubinfo.certification.exception.PhoneNumberExistsException;
 import com.ikubinfo.certification.exception.SsnExistsException;
 import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.User;
@@ -22,5 +24,7 @@ public interface UserDao {
 	public boolean isValidUsername(User user) throws DeletedUserException, UsernameExistsException;
 	public boolean isValidSsn(User user) throws DeletedUserException, SsnExistsException;
 	public boolean isValidFullName(User user) throws DeletedUserException, FullNameExistsException;
+	boolean isValidPhoneNumber(User userToBeValidated) throws DeletedUserException, PhoneNumberExistsException;
+	boolean isValidEmail(User userToBeValidated) throws DeletedUserException, EmailExistsException;
 	
 }
