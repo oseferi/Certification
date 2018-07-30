@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.UserService;
-import com.ikubinfo.certification.utility.Log4JExample;
 
 @ManagedBean(name="loginBean")
 @RequestScoped

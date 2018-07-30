@@ -2401,3 +2401,1006 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
 	... 24 more
+[INFO ] 2018-07-29 13:57:54,726 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 13:57:55,009 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 13:57:55 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 13:57:55,244 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 13:57:57,412 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 13:57:58,142 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 13:57:59,196 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 13:57:59,446 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 13:58:00,552 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 13:58:00,561 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 13:58:01,052 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 13:58:06,288 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 13:58:06,590 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 13:58:17,020 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[WARN ] 2018-07-29 13:58:17,182 org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551) - "Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'CertificateDao': Unsatisfied dependency expressed through field 'entityManager'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'javax.persistence.EntityManager' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}"
+[INFO ] 2018-07-29 13:58:17,183 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[ERROR] 2018-07-29 13:58:17,195 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:350) - "Context initialization failed"
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'CertificateDao': Unsatisfied dependency expressed through field 'entityManager'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'javax.persistence.EntityManager' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4792)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5256)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1421)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1411)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'javax.persistence.EntityManager' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1493)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 24 more
+[INFO ] 2018-07-29 14:16:34,721 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 14:16:35,047 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 14:16:35 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 14:16:35,304 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 14:16:37,518 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 14:16:38,295 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 14:16:38,983 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 14:16:39,076 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 14:16:39,695 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 14:16:39,701 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 14:16:40,029 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 14:16:42,004 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 14:16:42,592 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 14:16:46,303 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[WARN ] 2018-07-29 14:16:46,477 org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551) - "Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'CertificateDao': Unsatisfied dependency expressed through field 'entityManager'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'javax.persistence.EntityManager' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}"
+[INFO ] 2018-07-29 14:16:46,478 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[ERROR] 2018-07-29 14:16:46,505 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:350) - "Context initialization failed"
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'CertificateDao': Unsatisfied dependency expressed through field 'entityManager'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'javax.persistence.EntityManager' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4792)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5256)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1421)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1411)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'javax.persistence.EntityManager' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1493)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 24 more
+[INFO ] 2018-07-29 14:20:25,968 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 14:20:26,222 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 14:20:26 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 14:20:26,445 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 14:20:28,327 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 14:20:28,961 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 14:20:29,489 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 14:20:29,563 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 14:20:30,129 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 14:20:30,135 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 14:20:30,393 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 14:20:32,007 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 14:20:32,507 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 14:20:36,270 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 14:20:37,044 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 11068 ms"
+[INFO ] 2018-07-29 14:20:56,011 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-29 14:20:57,513 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-29 14:20:57,767 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[WARN ] 2018-07-29 14:24:04,465 com.ikubinfo.certification.dao.impl.UserDaoImpl.findById(UserDaoImpl.java:91) - "User cannot be found! Error message :null"
+[INFO ] 2018-07-29 14:30:07,179 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Sun Jul 29 14:20:26 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 14:30:07,183 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 14:30:21,617 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 14:30:21,872 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 14:30:21 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 14:30:22,073 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 14:30:23,932 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 14:30:24,570 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 14:30:25,249 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 14:30:25,350 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 14:30:25,897 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 14:30:25,906 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 14:30:26,202 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 14:30:27,695 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 14:30:27,853 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 14:30:31,023 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 14:30:31,521 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 9897 ms"
+[INFO ] 2018-07-29 16:05:23,490 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 16:05:23,770 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 16:05:23 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 16:05:23,999 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 16:05:26,468 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 16:05:27,247 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 16:05:28,305 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:05:28,575 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 16:05:29,610 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 16:05:29,618 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 16:05:30,065 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 16:05:32,223 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 16:05:32,572 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 16:05:36,437 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:05:37,122 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 13610 ms"
+[INFO ] 2018-07-29 16:06:05,141 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-29 16:06:06,900 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-29 16:06:07,047 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-29 16:07:35,643 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Sun Jul 29 16:05:23 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 16:07:35,646 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:07:51,520 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 16:07:51,777 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 16:07:51 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 16:07:51,974 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 16:07:53,634 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 16:07:54,282 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 16:07:54,910 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:07:55,026 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 16:07:55,822 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 16:07:55,831 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 16:07:56,182 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 16:07:57,743 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 16:07:58,026 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 16:08:01,910 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:08:02,595 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 11066 ms"
+[INFO ] 2018-07-29 16:15:31,273 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 16:15:31,587 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 16:15:31 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 16:15:31,816 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 16:15:34,320 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 16:15:35,001 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 16:15:35,630 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:15:35,706 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 16:15:36,276 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 16:15:36,283 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 16:15:36,574 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 16:15:39,474 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 16:15:39,669 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 16:15:42,859 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:15:43,806 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 12521 ms"
+[INFO ] 2018-07-29 16:16:18,529 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-29 16:16:19,982 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-29 16:16:20,087 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-29 16:17:38,615 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Sun Jul 29 16:15:31 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 16:17:38,620 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:18:31,588 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 16:18:31,887 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 16:18:31 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 16:18:32,148 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 16:18:35,149 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 16:18:36,120 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 16:18:36,847 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:18:36,933 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 16:18:37,566 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 16:18:37,577 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 16:18:37,889 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 16:18:39,806 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 16:18:40,072 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 16:18:44,021 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:18:46,075 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 14480 ms"
+[INFO ] 2018-07-29 16:23:35,731 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Sun Jul 29 16:18:31 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 16:23:35,741 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:25:46,167 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-29 16:25:46,598 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Sun Jul 29 16:25:46 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-29 16:25:46,877 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-29 16:25:49,391 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-29 16:25:50,534 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-29 16:25:51,268 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:25:51,368 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-29 16:25:52,172 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-29 16:25:52,180 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-29 16:25:52,699 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-29 16:25:55,698 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-29 16:25:56,104 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-29 16:26:00,143 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-29 16:26:01,798 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 15622 ms"
+[INFO ] 2018-07-29 16:31:16,544 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-29 16:31:18,784 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:18,929 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:29,930 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:30,088 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:31,663 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:31,729 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:32,556 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:32,611 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:33,823 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:33,929 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:35,888 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:36,366 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:36,621 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:37,295 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:38,287 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:38,527 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:38,765 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:38,894 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:38,986 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:40,453 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:40,487 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:40,639 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:40,704 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:40,856 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:40,948 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:41,211 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:41,322 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:41,600 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:41,650 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:45,997 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:48,369 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:51,925 com.ikubinfo.certification.bean.UserManagementBean.updateEmployee(UserManagementBean.java:203) - "No changes have been made to employee!"
+[INFO ] 2018-07-29 16:31:52,166 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:31:56,577 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-29 16:32:00,731 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 08:46:23,039 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 08:46:23,666 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 08:46:23 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 08:46:23,972 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 08:46:27,909 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 08:46:29,570 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 08:46:31,753 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 08:46:32,433 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 08:46:34,221 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 08:46:34,231 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 08:46:35,088 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 08:46:38,892 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 08:46:39,256 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 08:46:47,166 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 08:46:48,047 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 24989 ms"
+[INFO ] 2018-07-30 08:47:45,579 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 08:47:48,208 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 08:47:48,489 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 08:52:40,834 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 08:46:23 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 08:52:40,842 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 08:53:24,007 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 08:53:24,411 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 08:53:24 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 08:53:24,761 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 08:53:28,396 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 08:53:29,524 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 08:54:18,760 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 08:54:19,078 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 08:54:19 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 08:54:19,407 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 08:54:22,227 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 08:54:23,241 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 08:54:24,461 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 08:54:24,801 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 08:54:26,085 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 08:54:26,092 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 08:54:26,872 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 08:54:29,983 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 08:54:30,754 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 08:54:40,660 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 08:54:42,204 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 23436 ms"
+[INFO ] 2018-07-30 08:55:04,482 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 08:55:05,171 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:113) - "Certificatons cannot be found! Error message :org.hibernate.hql.internal.ast.QuerySyntaxException: EmployeeCertification is not mapped [Select ec from EmployeeCertification ec Where ec.user.manager.id=:manager And deleted=0]"
+[INFO ] 2018-07-30 08:56:09,396 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:113) - "Certificatons cannot be found! Error message :org.hibernate.hql.internal.ast.QuerySyntaxException: EmployeeCertification is not mapped [Select ec from EmployeeCertification ec Where ec.user.manager.id=:manager And deleted=0]"
+[INFO ] 2018-07-30 08:59:35,170 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 08:54:19 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 08:59:35,177 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:02:56,569 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 09:02:57,001 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 09:02:57 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:02:57,286 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 09:03:00,411 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 09:03:01,502 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 09:03:03,139 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:03:03,548 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 09:03:04,684 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 09:03:04,694 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 09:03:05,480 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 09:03:08,127 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 09:03:08,452 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[WARN ] 2018-07-30 09:03:13,896 org.hibernate.tool.schema.internal.ExceptionHandlerLoggedImpl.handleException(ExceptionHandlerLoggedImpl.java:27) - "GenerationTarget encountered exception accepting command : Error executing DDL via JDBC Statement"
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.createTable(AbstractSchemaMigrator.java:277)
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:71)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:207)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:183)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:72)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:313)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:452)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:889)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:60)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:360)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:382)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:371)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:336)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1080)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:857)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4792)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5256)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1421)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1411)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: BLOB/TEXT column 'user_id' used in key specification without a key length
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:406)
+	at com.mysql.jdbc.Util.getInstance(Util.java:381)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1030)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:956)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3558)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3490)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2109)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2637)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2566)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:782)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:625)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 39 more
+[INFO ] 2018-07-30 09:03:14,081 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:03:14,899 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 18316 ms"
+[INFO ] 2018-07-30 09:03:30,726 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 09:03:31,721 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:113) - "Certificatons cannot be found! Error message :org.hibernate.QueryException: could not resolve property: manager of: com.ikubinfo.certification.model.EmployeeCertification [Select ec from com.ikubinfo.certification.model.EmployeeCertification ec Where ec.user.manager.id=:manager And deleted=0]"
+[INFO ] 2018-07-30 09:06:54,743 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 09:02:57 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:06:54,746 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:10:49,939 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 09:10:50,301 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 09:10:50 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:10:50,628 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 09:10:53,249 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 09:10:53,886 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 09:10:54,619 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:10:54,780 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 09:10:55,436 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 09:10:55,443 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 09:10:55,812 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 09:10:57,698 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 09:10:58,488 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[WARN ] 2018-07-30 09:11:02,304 org.hibernate.tool.schema.internal.ExceptionHandlerLoggedImpl.handleException(ExceptionHandlerLoggedImpl.java:27) - "GenerationTarget encountered exception accepting command : Error executing DDL via JDBC Statement"
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.createTable(AbstractSchemaMigrator.java:277)
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:71)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:207)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:183)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:72)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:313)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:452)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:889)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:60)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:360)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:382)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:371)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:336)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1080)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:857)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4792)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5256)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1421)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1411)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: BLOB/TEXT column 'user_id' used in key specification without a key length
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:406)
+	at com.mysql.jdbc.Util.getInstance(Util.java:381)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1030)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:956)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3558)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3490)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2109)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2637)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2566)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:782)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:625)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 39 more
+[INFO ] 2018-07-30 09:11:02,455 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:11:03,248 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 13303 ms"
+[INFO ] 2018-07-30 09:11:14,949 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 09:11:15,852 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:115) - "Certificatons cannot be found! Error message :org.hibernate.QueryException: could not resolve property: manager of: com.ikubinfo.certification.model.EmployeeCertification [Select ec from com.ikubinfo.certification.model.EmployeeCertification ec Where ec.user.manager=:manager And deleted=0]"
+[INFO ] 2018-07-30 09:19:05,731 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 09:19:06,240 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 09:19:06 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:19:06,601 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 09:19:10,383 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 09:19:11,340 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 09:19:12,392 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:19:12,609 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 09:19:13,491 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 09:19:13,500 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 09:19:13,916 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 09:19:16,021 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 09:19:16,381 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 09:19:27,521 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:19:28,507 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 22768 ms"
+[INFO ] 2018-07-30 09:20:19,639 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 09:20:20,743 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 09:20:20,876 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 09:20:35,089 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:115) - "Certificatons cannot be found! Error message :org.hibernate.QueryException: could not resolve property: manager of: com.ikubinfo.certification.model.EmployeeCertification [Select ec from com.ikubinfo.certification.model.EmployeeCertification ec Where ec.user.manager=:manager And deleted=0]"
+[INFO ] 2018-07-30 09:21:23,698 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:115) - "Certificatons cannot be found! Error message :org.hibernate.QueryException: could not resolve property: manager of: com.ikubinfo.certification.model.EmployeeCertification [Select ec from com.ikubinfo.certification.model.EmployeeCertification ec Where ec.user.manager=:manager And deleted=0]"
+[INFO ] 2018-07-30 09:34:47,096 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 09:34:47,741 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 09:34:47 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:34:48,045 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 09:34:50,925 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 09:34:51,869 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 09:34:52,907 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:34:53,174 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 09:34:54,154 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 09:34:54,162 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 09:34:54,764 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 09:34:56,969 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 09:34:57,601 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 09:35:02,799 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:35:03,690 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 16570 ms"
+[INFO ] 2018-07-30 09:35:46,675 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 09:35:48,132 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 09:35:48,372 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 09:35:53,969 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:113) - "Certificatons cannot be found! Error message :org.hibernate.QueryException: could not resolve property: manager of: com.ikubinfo.certification.model.EmployeeCertification [SELECT ec FROM com.ikubinfo.certification.model.EmployeeCertification ec WHERE ec.user.manager=:manager AND deleted=0]"
+[INFO ] 2018-07-30 09:37:26,774 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 09:34:47 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:37:26,777 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:38:12,973 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 09:38:13,351 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 09:38:13 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:38:13,657 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 09:38:16,628 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 09:38:17,485 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 09:38:18,564 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:38:18,845 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 09:38:20,097 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 09:38:20,111 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 09:38:21,234 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 09:38:26,045 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 09:38:27,073 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 09:38:37,226 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:38:38,276 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 25294 ms"
+[INFO ] 2018-07-30 09:38:50,018 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 09:41:55,903 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 09:38:13 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:41:55,907 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:42:22,474 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 09:42:22,827 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 09:42:22 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:42:23,122 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 09:42:26,784 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 09:42:28,073 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 09:42:29,425 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:42:29,652 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 09:42:30,609 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 09:42:30,617 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 09:42:31,144 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 09:42:33,409 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 09:42:34,210 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 09:49:17,954 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 09:49:18,270 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 09:49:18 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:49:18,564 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 09:49:21,395 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 09:49:22,131 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 09:49:23,253 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:49:23,491 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 09:49:25,289 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 09:49:25,296 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 09:49:25,842 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 09:49:28,353 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 09:49:28,785 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 09:49:38,756 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:49:39,576 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 21604 ms"
+[INFO ] 2018-07-30 09:50:15,050 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 09:50:16,199 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 09:50:16,370 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 09:50:21,041 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:113) - "Certificatons cannot be found! Error message :org.hibernate.QueryException: could not resolve property: manager of: com.ikubinfo.certification.model.EmployeeCertification [SELECT ec FROM com.ikubinfo.certification.model.EmployeeCertification ec WHERE ec.user.manager=:manager AND deleted=0]"
+[INFO ] 2018-07-30 09:52:15,225 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 09:49:18 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:52:15,240 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:53:07,164 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 09:53:07,443 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 09:53:07 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 09:53:07,661 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 09:53:10,026 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 09:53:10,686 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 09:53:11,357 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 09:53:11,502 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 09:53:12,328 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 09:53:12,336 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 09:53:12,797 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 09:53:15,116 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 09:53:15,401 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[WARN ] 2018-07-30 09:53:16,939 org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551) - "Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'myEmf' defined in ServletContext resource [/WEB-INF/application-context.xml]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @Column(s) not allowed on a @ManyToOne property: com.ikubinfo.certification.model.EmployeeCertification.user"
+[ERROR] 2018-07-30 09:53:16,950 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:350) - "Context initialization failed"
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'myEmf' defined in ServletContext resource [/WEB-INF/application-context.xml]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @Column(s) not allowed on a @ManyToOne property: com.ikubinfo.certification.model.EmployeeCertification.user
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1628)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1080)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:857)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4792)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5256)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1421)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1411)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.hibernate.AnnotationException: @Column(s) not allowed on a @ManyToOne property: com.ikubinfo.certification.model.EmployeeCertification.user
+	at org.hibernate.cfg.AnnotationBinder.processElementAnnotations(AnnotationBinder.java:1760)
+	at org.hibernate.cfg.AnnotationBinder.processIdPropertiesIfNotAlready(AnnotationBinder.java:925)
+	at org.hibernate.cfg.AnnotationBinder.bindClass(AnnotationBinder.java:752)
+	at org.hibernate.boot.model.source.internal.annotations.AnnotationMetadataSourceProcessorImpl.processEntityHierarchies(AnnotationMetadataSourceProcessorImpl.java:249)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess$1.processEntityHierarchies(MetadataBuildingProcess.java:222)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:265)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:858)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:885)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:60)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:360)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:382)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:371)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:336)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624)
+	... 21 more
+[INFO ] 2018-07-30 10:43:01,681 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 10:43:02,082 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 10:43:02 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 10:43:02,303 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 10:43:05,308 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 10:43:06,156 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 10:43:07,132 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 10:43:07,357 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 10:43:08,222 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 10:43:08,229 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 10:43:08,628 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 10:43:11,033 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 10:43:11,482 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 10:43:16,116 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 10:43:17,190 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 15467 ms"
+[INFO ] 2018-07-30 10:44:19,142 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 10:44:22,091 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 10:44:22,597 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 10:44:28,106 com.ikubinfo.certification.dao.impl.CertificationDaoImpl.getAllActive(CertificationDaoImpl.java:113) - "Certificatons cannot be found! Error message :org.hibernate.QueryException: could not resolve property: manager of: com.ikubinfo.certification.model.EmployeeCertification [SELECT ec FROM com.ikubinfo.certification.model.EmployeeCertification ec WHERE ec.user.manager=:manager AND deleted=0]"
+[INFO ] 2018-07-30 11:03:04,566 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 11:03:04,995 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 11:03:04 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 11:03:05,297 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 11:03:12,010 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 11:03:14,100 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 11:03:17,596 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 11:03:18,093 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 11:03:20,199 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 11:03:20,210 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 11:03:22,178 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 11:03:25,866 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 11:03:26,840 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 11:03:40,598 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 11:03:41,389 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 36678 ms"
+[INFO ] 2018-07-30 11:04:16,620 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 11:04:19,215 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 11:04:19,436 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 11:17:06,512 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 11:17:06,816 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 11:17:06 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 11:17:07,047 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 11:17:09,377 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 11:17:10,284 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 11:17:11,018 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 11:17:11,114 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 11:17:11,801 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 11:17:11,808 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 11:17:12,104 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 11:17:13,765 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 11:17:14,138 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 11:17:17,986 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 11:17:19,136 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 12616 ms"
+[INFO ] 2018-07-30 11:20:39,203 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 11:20:39,555 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 11:20:39 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 11:20:39,889 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 11:20:42,219 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 11:20:42,821 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 11:20:43,386 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 11:20:43,487 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 11:20:44,164 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 11:20:44,171 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 11:20:44,496 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 11:20:46,043 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 11:20:46,451 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 11:20:52,397 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 11:20:54,666 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 15448 ms"
+[INFO ] 2018-07-30 11:21:26,200 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 11:21:27,555 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 11:21:27,711 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 12:07:14,350 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:07:14,913 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:07:14 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:07:15,245 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:07:19,298 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:07:20,456 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:07:21,869 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:07:22,347 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:07:23,832 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:07:23,839 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:07:24,595 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:07:30,973 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:07:31,236 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:07:40,249 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:07:41,389 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 26978 ms"
+[INFO ] 2018-07-30 12:08:18,601 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:08:20,298 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 12:08:20,575 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 12:17:05,903 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 12:07:14 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:17:05,907 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:17:36,714 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:17:37,018 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:17:37 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:18:47,976 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:18:48,368 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:18:48 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:18:48,753 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:18:51,354 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:18:52,073 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:18:52,911 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:18:53,106 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:18:53,911 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:18:53,917 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:18:54,348 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:18:56,690 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:18:57,008 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:19:01,251 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:19:01,930 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 13946 ms"
+[INFO ] 2018-07-30 12:21:01,111 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:23:34,014 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 12:18:48 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:23:34,023 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:24:13,430 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:24:13,820 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:24:13 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:24:14,249 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:24:17,130 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:24:17,990 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:24:18,610 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:24:18,706 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:24:19,374 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:24:19,381 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:24:19,676 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:24:21,229 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:24:21,598 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:24:25,056 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:24:25,933 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 12496 ms"
+[INFO ] 2018-07-30 12:24:34,131 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:27:38,409 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 12:24:13 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:27:38,416 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:27:55,225 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:27:55,536 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:27:55 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:27:55,747 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:27:58,224 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:27:59,122 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:27:59,814 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:27:59,994 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:28:00,604 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:28:00,613 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:28:00,933 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:28:02,429 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:28:02,597 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:28:05,710 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:28:06,351 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 11118 ms"
+[INFO ] 2018-07-30 12:28:13,032 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:29:38,734 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 12:27:55 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:29:38,753 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:29:54,003 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:29:54,301 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:29:54 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:29:54,486 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:29:56,067 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:29:56,764 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:29:57,367 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:29:57,456 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:29:58,022 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:29:58,030 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:29:58,343 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:29:59,737 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:29:59,931 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:30:03,256 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:30:03,876 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 9867 ms"
+[INFO ] 2018-07-30 12:30:14,501 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:30:20,139 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 12:29:54 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:30:20,142 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:30:35,119 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:30:35,389 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:30:35 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:30:35,589 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:30:37,457 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:30:38,094 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:30:38,645 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:30:38,751 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:30:39,313 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:30:39,320 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:30:39,759 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:30:41,419 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:30:41,578 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:30:45,536 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:30:46,200 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 11075 ms"
+[INFO ] 2018-07-30 12:30:52,597 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:36:07,965 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:36:08,310 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:36:08 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:36:08,552 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:36:11,036 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:36:11,957 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:36:13,226 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:36:13,855 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:36:16,614 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:36:16,621 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:36:17,275 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:36:19,252 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:36:19,490 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:36:24,313 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:36:25,119 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 17144 ms"
+[INFO ] 2018-07-30 12:36:59,451 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:37:00,703 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 12:37:00,855 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 12:41:41,628 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 12:36:08 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:41:41,635 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:42:02,575 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:42:02,916 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:42:02 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:42:03,193 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:42:05,337 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:42:05,993 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:42:06,685 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:42:06,772 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:42:07,996 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:42:08,023 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:42:08,650 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:42:11,329 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:42:11,655 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:42:18,108 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:42:19,027 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 16444 ms"
+[INFO ] 2018-07-30 12:42:57,979 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 12:42:02 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:42:57,981 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:43:17,224 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:43:17,717 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:43:17 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:43:17,934 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:43:19,990 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:43:20,910 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:43:21,582 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:43:21,668 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:43:22,583 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:43:22,591 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:43:22,863 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:43:25,395 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:43:25,917 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:43:35,983 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:43:36,792 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 19561 ms"
+[INFO ] 2018-07-30 12:44:13,541 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:45:36,747 org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:984) - "Closing Root WebApplicationContext: startup date [Mon Jul 30 12:43:17 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:45:36,751 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:563) - "Closing JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:47:26,971 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 12:47:27,238 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 12:47:27 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 12:47:27,453 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 12:47:29,873 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 12:47:30,878 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 12:47:31,757 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:47:31,911 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 12:47:32,652 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 12:47:32,660 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 12:47:33,013 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 12:47:34,768 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 12:47:35,093 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 12:47:38,410 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 12:47:39,110 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 12129 ms"
+[INFO ] 2018-07-30 12:49:12,222 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 12:49:26,438 com.ikubinfo.certification.dao.impl.CertificateDaoImpl.isValid(CertificateDaoImpl.java:141) - "Certificate d is Valid"
+[INFO ] 2018-07-30 12:49:27,496 com.ikubinfo.certification.dao.impl.CertificateDaoImpl.add(CertificateDaoImpl.java:35) - "Certificate: d was added succesfully! "
+[WARN ] 2018-07-30 12:49:28,378 com.ikubinfo.certification.bean.ManagerCertificationBean.addCertificate(ManagerCertificationBean.java:162) - "Certificate Already exists!"
+[INFO ] 2018-07-30 12:52:11,538 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:11,639 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:15,687 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:15,817 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:16,160 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:16,350 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:16,644 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:16,782 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:17,490 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:18,139 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:18,189 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:18,324 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:18,380 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:19,039 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:20,530 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:20,941 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:21,492 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:22,428 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:22,514 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:22,867 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:22,930 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:34,838 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:54) - "User John Sno"
+[INFO ] 2018-07-30 12:52:34,838 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:55) - "User to be validated John Sno"
+[WARN ] 2018-07-30 12:52:34,918 com.ikubinfo.certification.dao.impl.UserDaoImpl.isValidSsn(UserDaoImpl.java:178) - "SSN J3304302 is Valid"
+[INFO ] 2018-07-30 12:52:34,988 com.ikubinfo.certification.dao.impl.UserDaoImpl.update(UserDaoImpl.java:69) - "User: jsnow was updated succesfully!"
+[INFO ] 2018-07-30 12:52:35,479 com.ikubinfo.certification.bean.UserManagementBean.updateEmployee(UserManagementBean.java:212) - "Employee updated succesfully!"
+[INFO ] 2018-07-30 12:52:35,534 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:35,573 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:52,378 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:54) - "User John Sno"
+[INFO ] 2018-07-30 12:52:52,379 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:55) - "User to be validated John Sno"
+[WARN ] 2018-07-30 12:52:52,415 com.ikubinfo.certification.dao.impl.UserDaoImpl.isValidSsn(UserDaoImpl.java:178) - "SSN J3304302K is Valid"
+[INFO ] 2018-07-30 12:52:52,458 com.ikubinfo.certification.dao.impl.UserDaoImpl.update(UserDaoImpl.java:69) - "User: jsnow was updated succesfully!"
+[INFO ] 2018-07-30 12:52:53,142 com.ikubinfo.certification.bean.UserManagementBean.updateEmployee(UserManagementBean.java:212) - "Employee updated succesfully!"
+[INFO ] 2018-07-30 12:52:53,468 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:52:53,732 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:53:23,435 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:53:23,512 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:54:09,111 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:54) - "User John Sno"
+[INFO ] 2018-07-30 12:54:09,111 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:55) - "User to be validated John Sno"
+[INFO ] 2018-07-30 12:54:09,161 com.ikubinfo.certification.dao.impl.UserDaoImpl.update(UserDaoImpl.java:69) - "User: jsnow was updated succesfully!"
+[WARN ] 2018-07-30 12:54:09,305 org.hibernate.engine.jdbc.spi.SqlExceptionHelper.logExceptions(SqlExceptionHelper.java:129) - "SQL Error: 1406, SQLState: 22001"
+[ERROR] 2018-07-30 12:54:09,306 org.hibernate.engine.jdbc.spi.SqlExceptionHelper.logExceptions(SqlExceptionHelper.java:131) - "Data truncation: Data too long for column 'address' at row 1"
+[INFO ] 2018-07-30 12:54:09,312 org.hibernate.engine.jdbc.batch.internal.AbstractBatchImpl.release(AbstractBatchImpl.java:193) - "HHH000010: On release of batch it still contained JDBC statements"
+[ERROR] 2018-07-30 12:54:09,313 org.hibernate.internal.ExceptionMapperStandardImpl.mapManagedFlushFailure(ExceptionMapperStandardImpl.java:39) - "HHH000346: Error during managed flush [org.hibernate.exception.DataException: could not execute statement]"
+[INFO ] 2018-07-30 12:57:05,567 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:57:05,624 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:57:22,465 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:54) - "User James Carter"
+[INFO ] 2018-07-30 12:57:22,466 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:55) - "User to be validated James Carter"
+[INFO ] 2018-07-30 12:57:22,511 com.ikubinfo.certification.dao.impl.UserDaoImpl.update(UserDaoImpl.java:69) - "User: jcarter was updated succesfully!"
+[INFO ] 2018-07-30 12:57:22,932 com.ikubinfo.certification.bean.UserManagementBean.updateEmployee(UserManagementBean.java:212) - "Employee updated succesfully!"
+[INFO ] 2018-07-30 12:57:23,050 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:57:23,080 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:57:37,928 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:54) - "User James Carter"
+[INFO ] 2018-07-30 12:57:37,929 com.ikubinfo.certification.service.impl.UserServiceImpl.update(UserServiceImpl.java:55) - "User to be validated James Carter"
+[INFO ] 2018-07-30 12:57:37,984 com.ikubinfo.certification.dao.impl.UserDaoImpl.update(UserDaoImpl.java:69) - "User: jcarter was updated succesfully!"
+[INFO ] 2018-07-30 12:57:38,421 com.ikubinfo.certification.bean.UserManagementBean.updateEmployee(UserManagementBean.java:212) - "Employee updated succesfully!"
+[INFO ] 2018-07-30 12:57:38,657 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 12:57:38,752 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 13:01:28,743 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:22:42,240 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 14:22:42,588 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 14:22:42 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 14:22:42,827 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 14:22:47,230 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 14:22:48,268 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 14:22:49,496 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 14:22:49,848 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 14:22:51,082 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 14:22:51,089 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 14:22:51,842 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 14:23:01,414 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 14:23:01,816 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 14:23:13,786 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 14:23:14,830 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 32563 ms"
+[INFO ] 2018-07-30 14:23:49,761 org.hibernate.hql.internal.QueryTranslatorFactoryInitiator.initiateService(QueryTranslatorFactoryInitiator.java:47) - "HHH000397: Using ASTQueryTranslatorFactory"
+[INFO ] 2018-07-30 14:23:51,452 com.ikubinfo.certification.dao.impl.UserDaoImpl.exists(UserDaoImpl.java:123) - "User Found!"
+[INFO ] 2018-07-30 14:23:51,934 com.ikubinfo.certification.bean.LoginBean.logIn(LoginBean.java:41) - "Manager Successfully logged in!"
+[INFO ] 2018-07-30 14:24:08,183 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:24:08,629 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:24:36,335 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:24:36,488 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:24:46,387 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:24:46,580 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:25:10,751 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:25:10,874 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:25:30,784 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:25:30,857 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:28:12,955 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:28:12,991 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:28:30,164 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:28:30,514 com.ikubinfo.certification.bean.UserManagementBean.selectEmployee(UserManagementBean.java:273) - "selectEmployee executed"
+[INFO ] 2018-07-30 14:47:59,895 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:304) - "Root WebApplicationContext: initialization started"
+[INFO ] 2018-07-30 14:48:00,215 org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:583) - "Refreshing Root WebApplicationContext: startup date [Mon Jul 30 14:48:00 CEST 2018]; root of context hierarchy"
+[INFO ] 2018-07-30 14:48:00,477 org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions(XmlBeanDefinitionReader.java:317) - "Loading XML bean definitions from ServletContext resource [/WEB-INF/application-context.xml]"
+[INFO ] 2018-07-30 14:48:03,671 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init>(AutowiredAnnotationBeanPostProcessor.java:155) - "JSR-330 'javax.inject.Inject' annotation found and supported for autowiring"
+[INFO ] 2018-07-30 14:48:04,655 org.springframework.jdbc.datasource.DriverManagerDataSource.setDriverClassName(DriverManagerDataSource.java:133) - "Loaded JDBC driver: com.mysql.jdbc.Driver"
+[INFO ] 2018-07-30 14:48:06,960 org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:356) - "Building JPA container EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 14:48:07,979 org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - "HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]"
+[INFO ] 2018-07-30 14:48:10,365 org.hibernate.Version.logVersion(Version.java:45) - "HHH000412: Hibernate Core {5.2.12.Final}"
+[INFO ] 2018-07-30 14:48:10,377 org.hibernate.cfg.Environment.<clinit>(Environment.java:213) - "HHH000206: hibernate.properties not found"
+[INFO ] 2018-07-30 14:48:12,032 org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:66) - "HCANN000001: Hibernate Commons Annotations {5.0.1.Final}"
+[INFO ] 2018-07-30 14:48:15,412 org.hibernate.dialect.Dialect.<init>(Dialect.java:157) - "HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect"
+[INFO ] 2018-07-30 14:48:15,938 org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl.useContextualLobCreation(LobCreatorBuilderImpl.java:98) - "HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4"
+[INFO ] 2018-07-30 14:48:21,903 org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:392) - "Initialized JPA EntityManagerFactory for persistence unit 'default'"
+[INFO ] 2018-07-30 14:48:23,085 org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:344) - "Root WebApplicationContext: initialization completed in 23182 ms"

@@ -4,18 +4,38 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
+@Entity
+@Table(name="employee_certifications",uniqueConstraints=
+@UniqueConstraint(columnNames={"user_id", "certificate_id"})
+)
 public class EmployeeCertification implements Serializable{
 
+	private static final long serialVersionUID = 8621206485256765828L;
+
 	@Id
-	@Column(name="user_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id", nullable = false)
+	private int id;
+	
+	
+	@ManyToOne( fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	
-	@Id
-	@Column(name="certificate_id", nullable = false)
+	@ManyToOne( fetch = FetchType.LAZY)
+	@JoinColumn(name = "certificate_id", nullable = false)
 	private Certificate certificate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -67,6 +87,13 @@ public class EmployeeCertification implements Serializable{
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,6 +101,7 @@ public class EmployeeCertification implements Serializable{
 		result = prime * result + ((certificate == null) ? 0 : certificate.hashCode());
 		result = prime * result + ((dateAssigned == null) ? 0 : dateAssigned.hashCode());
 		result = prime * result + (deleted ? 1231 : 1237);
+		result = prime * result + id;
 		result = prime * result + score;
 		result = prime * result + (status ? 1231 : 1237);
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
@@ -93,16 +121,7 @@ public class EmployeeCertification implements Serializable{
 				return false;
 		} else if (!certificate.equals(other.certificate))
 			return false;
-		if (dateAssigned == null) {
-			if (other.dateAssigned != null)
-				return false;
-		} else if (!dateAssigned.equals(other.dateAssigned))
-			return false;
-		if (deleted != other.deleted)
-			return false;
-		if (score != other.score)
-			return false;
-		if (status != other.status)
+		if (id != other.id)
 			return false;
 		if (user == null) {
 			if (other.user != null)
@@ -111,16 +130,5 @@ public class EmployeeCertification implements Serializable{
 			return false;
 		return true;
 	}
-	public EmployeeCertification(User user, Certificate certificate, Date dateAssigned, boolean status, int score,
-			boolean deleted) {
-		super();
-		this.user = user;
-		this.certificate = certificate;
-		this.dateAssigned = dateAssigned;
-		this.status = status;
-		this.score = score;
-		this.deleted = deleted;
-	}
-	
 	public EmployeeCertification () {};
 }

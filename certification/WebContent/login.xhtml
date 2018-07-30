@@ -11,6 +11,7 @@
 	<title>Login</title>
 </h:head>
 <h:body>
+	<div style="padding-top:20%;padding-left:40%;" >
 	<h:form id="form1">
 	    <p:growl id="growl" showDetail="true" sticky="true" />    
 		Username: 
@@ -19,7 +20,10 @@
 		Password:
 	    <p:password value="#{loginBean.password}" label="Password" required ="true" id="Password" inline="true" />
 		<p:message for="Password" styleClass="error_message" />
-		<p:commandButton type="submit" update="growl"  value="Sign in" action="#{loginBean.logIn()}"></p:commandButton>
+		<div style="padding-left:15%">
+			<p:commandButton type="submit" update="growl"  value="Sign in" action="#{loginBean.logIn()}"></p:commandButton>
+		</div>
 	</h:form>
+	</div>
 </h:body>
 </html>
