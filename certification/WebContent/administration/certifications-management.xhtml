@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:head>
+<title>Certifications Management Area</title>
+<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
+</h:head>
+
+<h:body>
+<h:form id="certificationsForm">
+    <p:commandButton value="Add new Certificate" id="add"  onclick="PF('newCertificateDialog').show()" />	
+
+	<p:dataTable id="certificationsTable" var="certification" value="#{managerCertificationBean.certifications}"
+				 widgetVar="certificationsTable" multiViewState="true"
+                 rows="10" paginator="true" 
+                 paginatorPosition="bottom"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"
+                 selectionMode="single" 
+                 selection="#{managerCertificationBean.certification}" 
+                 rowKey="#{certification}"
+                 emptyMessage="No employees found with given criteria" 
+                 filteredValue="#{managerCertificationBean.filteredCertifications}"
+                 >
+                  
+	 		<f:facet name="header">
+	            <p:outputPanel>
+	                <h:outputText value="Search all fields:" />
+	                <p:inputText id="globalFilter" onkeyup="PF('certificationsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+	            </p:outputPanel>
+	        </f:facet>
+	 
+	        <p:ajax event="rowSelect" update=":certificationsForm:certificationDetail" oncomplete="PF('certificationDialog').show()" />
+	 
+			<p:column id="table_header_name" filterMatchMode="contains" filterBy="#{certification.user.name}"  sortBy="#{certification.user.name}">
+				<f:facet name="header" >Name</f:facet>
+				<h:outputText value="#{certification.user.name}" />
+			</p:column>
+			
+			<p:column id="table_header_surname" filterMatchMode="contains"  filterBy="#{certification.user.surname}" sortBy="#{certification.user.surname}">
+				<f:facet name="header">Surname</f:facet>
+				<h:outputText value="#{certification.user.surname}" />
+			</p:column>
+			
+			<p:column id="table_header_address" filterMatchMode="contains" filterBy="#{certification.certificate.title}" sortBy="#{certification.certificate.title}">
+				<f:facet name="header">Certificate</f:facet>
+				<h:outputText value="#{certification.certificate.title}" />
+			</p:column>
+			
+			
+			<p:column >
+				<p:commandLink action="managerCertificationBean.edit()" >
+					<i class="fa fa-pencil"></i>
+				</p:commandLink>
+			</p:column>
+			
+		</p:dataTable>
+		<p:growl id="growl1" showDetail="true" severity="info" sticky="true" />  
+		
+		<p:dialog header="Add a Certificate" widgetVar="certificationDialog"  showEffect="fade" hideEffect="fade" resizable="false">
+	        <p:outputPanel id="certificationDetail" style="text-align:center;">
+	             
+	        </p:outputPanel>
+    	</p:dialog>
+    	<p:dialog header="Assign certificate to employee" widgetVar="certificateAssignDialog"  showEffect="fade" hideEffect="fade" resizable="false">
+	        <p:outputPanel id="certificateAssignDetail" style="text-align:center;">
+	             
+	        </p:outputPanel>
+    	</p:dialog>
+    	<p:dialog header="New Certificate" widgetVar="newCertificateDialog">
+    		<p:outputPanel id="newCertificateDetails">
+				<p:inputText id="new_certificate_title" value="#{managerCertificationBean.certificate.title}" 
+				pt:placeholder="Title" required="true"></p:inputText>
+				<p:message for="new_certificate_title" />
+				
+				<p:inputText id="new_certificate_Description" value="#{managerCertificationBean.certificate.description}"
+				 pt:placeholder="Description" required="true"></p:inputText>
+				<p:message for="new_certificate_Description" />
+				
+				<p:selectOneMenu id="new_certificate_technology"  
+				converter="#{technologyConverter}"
+				value="#{managerCertificationBean.certificate.technology}" 
+				lazy="true" style="width:125px" required="true">
+		            <f:selectItem itemLabel="Select One" itemValue="" />
+		            <f:selectItems var="technology"
+			            value="#{managerCertificationBean.technologies}"
+			            itemLabel="#{technology.title}"
+			            itemValue="#{technology}" />
+		        </p:selectOneMenu>	
+		        <p:message for="new_certificate_technology" />
+		        
+		        <p:commandButton action="#{managerCertificationBean.addCertificate()}" 
+		        update="growl1 certificationsTable newCertificateDetails"
+		        oncomplete="if (args &amp;&amp; !args.validationFailed) PF('certificationDialog').hide()"
+		        id="add_Certificate" type="submit"
+		        value="Add Certificate">
+		        </p:commandButton>			
+    		</p:outputPanel>
+    	</p:dialog>
+
+</h:form>
+</h:body>
+</html>
