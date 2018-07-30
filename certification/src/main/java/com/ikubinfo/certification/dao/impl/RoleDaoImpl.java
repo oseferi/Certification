@@ -52,8 +52,6 @@ public class RoleDaoImpl implements RoleDao{
 			return entityManager.find(Role.class, id);
 		} catch (Exception e) {
 			log.error("Role cannot be found! Error message :"+e.getMessage());
-			//System.out.println("Role cannot be found! Error message :"+e.getMessage());
-			//e.printStackTrace();
 			return null;
 		}
 	}

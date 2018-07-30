@@ -7,9 +7,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
-import org.hibernate.exception.ConstraintViolationException;
 import org.jasypt.util.password.BasicPasswordEncryptor;
-import org.springframework.aop.ThrowsAdvice;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -39,11 +37,9 @@ public class UserDaoImpl implements UserDao {
 		try {
 			entityManager.persist(user);
 			log.info("User: "+user.getUsername()+" was added succesfully!");
-			//System.out.println("User was added succesfully!");
 			return true;
 		} catch (Exception e) {
 			log.error("Failed to add user! Error Message :"+e.getMessage());
-			//System.out.println("Failed to add user! Error Message :"+e.getMessage());
 			return false;
 		}
 	}
@@ -57,12 +53,10 @@ public class UserDaoImpl implements UserDao {
 			.setParameter("id",user.getId())
 			.executeUpdate();
 			log.info("User: "+user.getUsername()+" was removed succesfully!");
-			//System.out.println("User was removed succesfully!");
 			return true;			
 			
 		} catch (Exception e) {
 			log.info("User: "+user.getUsername()+" failed to be removed! Error message :"+e.getMessage());
-			//System.out.println("User failed to be removed! Error message :"+e.getMessage());
 			return false;		
 			}
 	}
@@ -73,12 +67,10 @@ public class UserDaoImpl implements UserDao {
 		try {
 			entityManager.merge(user);
 			log.info("User: "+user.getUsername()+ " was updated succesfully!");
-			//System.out.println("User was updated succesfully!");
 			return true;
 		}
 		catch(Exception e){
 			log.error("User: "+user.getUsername()+" failed to be updated! Error message :"+e.getMessage());
-			//System.out.println("User failed to be updated! Error message :"+e.getMessage());
 			//e.printStackTrace();
 			return false;
 		}
@@ -93,12 +85,10 @@ public class UserDaoImpl implements UserDao {
 			}
 			else {
 				log.warn("User: "+user.getUsername()+" is deleted!");
-				//System.out.println("User is deleted!");
 				return null;
 			}
 		} catch (Exception e) {
 			log.warn("User cannot be found! Error message :"+e.getMessage());
-			//System.out.println("User cannot be found! Error message :"+e.getMessage());
 			return null;
 		}
 	}
@@ -114,7 +104,6 @@ public class UserDaoImpl implements UserDao {
 				
 		} catch (Exception e) {
 			log.info("Users cannot be found! Error message :"+e.getMessage());
-			//System.out.println("Users cannot be found! Error message :"+e.getMessage());
 			return null;
 		}
 	}
@@ -131,18 +120,15 @@ public class UserDaoImpl implements UserDao {
 			//Compare passwords in encrypted forms
 			BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 			if(passwordEncryptor.checkPassword(password, user.getPassword())) {
-				//System.out.println("User Found!");
 				log.info("User Found!");
 				return user;
 			}
 			else {
 				log.warn("Wrong credentials!");
-				//System.out.println("Wrong credentials!");
 				return null;
 			}
 		} catch (NoResultException e) {
 			log.warn("User cannot be found!(Maybe wrong credentials) Error message :"+e.getMessage());
-			//System.out.println("User cannot be found!(Maybe wrong credentials) Error message :"+e.getMessage());
 			return null;
 		
 		}
@@ -159,18 +145,15 @@ public class UserDaoImpl implements UserDao {
 			.getSingleResult();
 			if(user.isDeleted()) {
 				log.warn("Username belongs to previously deleted User!");
-				//System.out.println("Username belongs to previously deleted User!");
 				throw new DeletedUserException();
 			}
 			else {
 				log.warn("Username belongs to active User!");
-				//System.out.println("Username belongs to active User!");
 				throw new UsernameExistsException();
 			}
 			
 		}catch (NoResultException e) {
 			log.info("Username "+userToBeValidated.getUsername()+" is Valid");
-			//System.out.println("Username "+userToBeValidated.getUsername()+" is Valid");
 			return true;
 		}
 	}
@@ -184,18 +167,15 @@ public class UserDaoImpl implements UserDao {
 				.getSingleResult();
 				if(user.isDeleted()) {
 					log.warn("SSN belongs to previously deleted User: "+user.getUsername()+"!");
-					//System.out.println("SSN belongs to previously deleted User!");
 					throw new DeletedUserException();
 				}
 				else {
 					log.warn("SSN belongs to active User: "+user.getUsername()+"!");
-					//System.out.println("SSN belongs to active User!");
 					throw new SsnExistsException();
 				}
 				
 			}catch (NoResultException e) {
 				log.warn("SSN "+userToBeValidated.getSsn()+" is Valid");
-				//System.out.println("SSN "+userToBeValidated.getSsn()+" is Valid");
 				return true;
 			}
 	}
@@ -212,18 +192,15 @@ public class UserDaoImpl implements UserDao {
 			
 			if(user.isDeleted()) {
 				log.warn("Full Name belongs to previously deleted User"+user.getUsername()+"!");
-				//System.out.println("Full Name belongs to previously deleted User!");
 				throw new DeletedUserException();
 			}
 			else {
 				log.warn("Full Name belongs to active User"+user.getUsername()+"!");
-				//System.out.println("Full Name belongs to active User!");
 				throw new FullNameExistsException();
 			}
 			
 		}catch (NoResultException e) {
 			log.info("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
-			//System.out.println("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
 			return true;
 		}
 		
@@ -240,18 +217,15 @@ public class UserDaoImpl implements UserDao {
 			
 			if(user.isDeleted()) {
 				log.warn("Phone Number belongs to previously deleted User"+user.getUsername()+"!");
-				//System.out.println("Full Name belongs to previously deleted User!");
 				throw new DeletedUserException();
 			}
 			else {
 				log.warn("Phone Number belongs to active User"+user.getUsername()+"!");
-				//System.out.println("Full Name belongs to active User!");
 				throw new PhoneNumberExistsException();
 			}
 			
 		}catch (NoResultException e) {
 			log.info("Phone Number "+userToBeValidated.getPhoneNumber()+" is Valid");
-			//System.out.println("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
 			return true;
 		}
 		
@@ -265,21 +239,17 @@ public class UserDaoImpl implements UserDao {
 			.createQuery("Select user From User user Where user.email=:email",User.class)
 			.setParameter("email",userToBeValidated.getEmail())
 			.getSingleResult();
-			
+
 			if(user.isDeleted()) {
 				log.warn("Email Address belongs to previously deleted User"+user.getUsername()+"!");
-				//System.out.println("Full Name belongs to previously deleted User!");
 				throw new DeletedUserException();
 			}
 			else {
 				log.warn("Email Address belongs to active User"+user.getUsername()+"!");
-				//System.out.println("Full Name belongs to active User!");
 				throw new EmailExistsException();
 			}
-			
 		}catch (NoResultException e) {
 			log.info("Email Address "+userToBeValidated.getEmail()+" is Valid");
-			//System.out.println("Full Name "+userToBeValidated.getName()+" "+userToBeValidated.getSurname()+" is Valid");
 			return true;
 		}
 		

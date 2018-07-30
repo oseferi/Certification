@@ -6,17 +6,14 @@ public class UsernameExistsException extends Exception{
 
 	public UsernameExistsException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public UsernameExistsException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	public UsernameExistsException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 	
 	
