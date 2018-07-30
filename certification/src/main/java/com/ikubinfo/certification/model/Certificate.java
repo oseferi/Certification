@@ -16,6 +16,9 @@ import javax.persistence.Table;
 @Table(name = "certificates")
 public class Certificate implements Serializable{
 	
+
+	private static final long serialVersionUID = 5305566387492793877L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, length = 11)

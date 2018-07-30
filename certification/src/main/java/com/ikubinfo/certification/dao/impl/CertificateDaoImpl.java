@@ -3,13 +3,12 @@ package com.ikubinfo.certification.dao.impl;
 
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -17,18 +16,15 @@ import org.springframework.stereotype.Repository;
 import com.ikubinfo.certification.dao.CertificateDao;
 import com.ikubinfo.certification.exception.CertificateExistsException;
 import com.ikubinfo.certification.exception.DeletedCertificateException;
-import com.ikubinfo.certification.exception.DeletedUserException;
-import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.Certificate;
-import com.ikubinfo.certification.model.User;
 
-@Repository("CertificateDao")
+@Repository(value="CertificateDao")
 @Scope("singleton")
 @Component
 public class CertificateDaoImpl implements CertificateDao{
 	private static Logger log = Logger.getLogger(CertificateDaoImpl.class);
 	
-	@Autowired
+	@PersistenceContext
 	EntityManager entityManager;
 	
 	@Transactional

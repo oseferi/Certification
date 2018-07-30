@@ -2,6 +2,8 @@ package com.ikubinfo.certification.exception;
 
 public class CertificateExistsException extends Exception {
 
+	private static final long serialVersionUID = -4443667652938265694L;
+
 	public CertificateExistsException() {
 		super();
 		// TODO Auto-generated constructor stub
