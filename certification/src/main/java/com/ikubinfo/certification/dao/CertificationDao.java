@@ -13,7 +13,7 @@ public interface CertificationDao {
 	public boolean edit(EmployeeCertification certification);
 	public boolean remove(EmployeeCertification certification);
 	public boolean isValid(EmployeeCertification certification) throws CertificationException;
-	public EmployeeCertification find(User user,Certificate certificate);
+	public EmployeeCertification find(int id);
 	public ArrayList<EmployeeCertification> findByUser(User user);
 	public ArrayList<EmployeeCertification> getAllActive(User manager);
 }

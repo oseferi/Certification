@@ -11,10 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name="employee_certifications",uniqueConstraints=
@@ -38,12 +41,13 @@ public class EmployeeCertification implements Serializable{
 	@JoinColumn(name = "certificate_id", nullable = false)
 	private Certificate certificate;
 	
+	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_assigned", insertable = false)
+	@Column(name = "date_assigned")
 	private Date dateAssigned;
 	
-	@Column(name="status")
-	private boolean status;
+	@Column(name="status", nullable = true)
+	private Boolean status;
 	
 	@Column(name = "score", length = 11)
 	private int score;
@@ -69,10 +73,10 @@ public class EmployeeCertification implements Serializable{
 	public void setDateAssigned(Date dateAssigned) {
 		this.dateAssigned = dateAssigned;
 	}
-	public boolean isStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 	public int getScore() {
@@ -94,16 +98,17 @@ public class EmployeeCertification implements Serializable{
 		this.id = id;
 	}
 	
+	@PrePersist
+	  protected void onCreate() {
+		dateAssigned = new Date();
+	  }
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((certificate == null) ? 0 : certificate.hashCode());
-		result = prime * result + ((dateAssigned == null) ? 0 : dateAssigned.hashCode());
-		result = prime * result + (deleted ? 1231 : 1237);
 		result = prime * result + id;
-		result = prime * result + score;
-		result = prime * result + (status ? 1231 : 1237);
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -130,5 +135,18 @@ public class EmployeeCertification implements Serializable{
 			return false;
 		return true;
 	}
-	public EmployeeCertification () {};
+	public EmployeeCertification() {
+		super();
+	}
+	public EmployeeCertification(User user, Certificate certificate, Date dateAssigned, boolean status, int score) {
+		super();
+		this.user = user;
+		this.certificate = certificate;
+		this.dateAssigned = dateAssigned;
+		this.status = status;
+		this.score = score;
+	}
+	
+	
+	
 }

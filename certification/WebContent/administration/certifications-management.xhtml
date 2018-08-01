@@ -16,9 +16,11 @@
 
 <h:body>
 <h:form id="certificationsForm">
-    <p:commandButton value="Add new Certificate" id="add"  onclick="PF('newCertificateDialog').show()" />	
-
-	<p:dataTable id="certificationsTable" var="certification" value="#{managerCertificationBean.certifications}"
+    <p:commandButton value="Add new Certificate"  onclick="PF('newCertificateDialog').show()" />	
+	<p:commandButton value="Certificates"  onclick="PF('certificatesDialog').show()" />	
+	<p:commandButton value="Assign Certification"  onclick="PF('assignCertificationDialog').show()" />	
+	
+	<p:dataTable id="certificationTable" var="certification" value="#{managerCertificationBean.certifications}"
 				 widgetVar="certificationsTable" multiViewState="true"
                  rows="10" paginator="true" 
                  paginatorPosition="bottom"
@@ -35,58 +37,120 @@
 	 		<f:facet name="header">
 	            <p:outputPanel>
 	                <h:outputText value="Search all fields:" />
-	                <p:inputText id="globalFilter" onkeyup="PF('certificationsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+	                <p:inputText id="globalFilter" onkeyup="PF('certificationsTable').filter()" 
+	                	style="width:150px" placeholder="Enter keyword"/>
 	            </p:outputPanel>
 	        </f:facet>
 	 
-	        <p:ajax event="rowSelect" update=":certificationsForm:certificationDetail" oncomplete="PF('certificationDialog').show()" />
-	 
-			<p:column id="table_header_name" filterMatchMode="contains" filterBy="#{certification.user.name}"  sortBy="#{certification.user.name}">
+			<p:column id="table_header_name" filterMatchMode="contains" 
+				filterBy="#{certification.user.name}"  sortBy="#{certification.user.name}">
 				<f:facet name="header" >Name</f:facet>
 				<h:outputText value="#{certification.user.name}" />
 			</p:column>
 			
-			<p:column id="table_header_surname" filterMatchMode="contains"  filterBy="#{certification.user.surname}" sortBy="#{certification.user.surname}">
+			<p:column id="table_header_surname" filterMatchMode="contains"  
+				filterBy="#{certification.user.surname}" sortBy="#{certification.user.surname}">
 				<f:facet name="header">Surname</f:facet>
 				<h:outputText value="#{certification.user.surname}" />
 			</p:column>
 			
-			<p:column id="table_header_address" filterMatchMode="contains" filterBy="#{certification.certificate.title}" sortBy="#{certification.certificate.title}">
+			<p:column id="table_header_address" filterMatchMode="contains" 
+				filterBy="#{certification.certificate.title}" sortBy="#{certification.certificate.title}">
 				<f:facet name="header">Certificate</f:facet>
 				<h:outputText value="#{certification.certificate.title}" />
 			</p:column>
 			
+			<p:column id="table_header_date" >
+				<f:facet name="header">Date</f:facet>
+				<h:outputText value="#{certification.dateAssigned}" />
+			</p:column>
 			
 			<p:column >
 				<p:commandLink action="managerCertificationBean.edit()" >
 					<i class="fa fa-pencil"></i>
 				</p:commandLink>
 			</p:column>
-			
 		</p:dataTable>
 		<p:growl id="growl1" showDetail="true" severity="info" sticky="true" />  
-		
-		<p:dialog header="Add a Certificate" widgetVar="certificationDialog"  showEffect="fade" hideEffect="fade" resizable="false">
-	        <p:outputPanel id="certificationDetail" style="text-align:center;">
-	             
+	</h:form>
+	
+	<h:form id="assignCertificateForm">
+		<p:dialog header="Assign Certification" widgetVar="assignCertificationDialog"  
+				  showEffect="fade" hideEffect="fade" resizable="false">
+	        <p:outputPanel id="assignCertificationDetail" 
+	        	style="text-align:center;">
+
+	        	<p:selectOneMenu 
+				id="assign_user_Certification"  
+				value="#{managerCertificationBean.userId}" 
+				lazy="true" style="width:125px" required="true">
+		            <f:selectItem itemLabel="Select One" itemValue="" />
+		            <f:selectItems var="employee"
+			            value="#{managerCertificationBean.employees}"
+			            itemLabel="#{employee.name} #{employee.surname}"
+			            itemValue="#{employee.id}" />
+		        </p:selectOneMenu>
+		         <p:message for ="assign_user_Certification"/>
+		         
+		        <p:selectOneMenu 
+				id="assign_certificate_Certification"
+				value="#{managerCertificationBean.certificateId}" 
+				lazy="true" style="width:125px" required="true">
+		            <f:selectItem itemLabel="Select One" itemValue="" />
+		            <f:selectItems var="certificate"
+			            value="#{managerCertificationBean.certificates}"
+			            itemLabel="#{certificate.title}"
+			            itemValue="#{certificate.id}" />
+		        </p:selectOneMenu>
+		        <p:message for ="assign_certificate_Certification"/>
 	        </p:outputPanel>
+		        <p:commandButton value="Assign" 
+		        action="#{managerCertificationBean.assignCertification()}"
+		        update="certificationsForm:certificationTable :certificationsForm:growl1 :assignCertificateForm:assignCertificationDetail">
+		        </p:commandButton>
     	</p:dialog>
-    	<p:dialog header="Assign certificate to employee" widgetVar="certificateAssignDialog"  showEffect="fade" hideEffect="fade" resizable="false">
-	        <p:outputPanel id="certificateAssignDetail" style="text-align:center;">
-	             
-	        </p:outputPanel>
-    	</p:dialog>
+	</h:form>
+	
+	<h:form id="certificatesForm">
+      <p:dialog header="All certificates" id="allcertificates" widgetVar="certificatesDialog"  
+      			showEffect="fade" hideEffect="fade" resizable="false">
+	    <p:dataTable id="certificates" 
+	    	var="certificate" value="#{managerCertificationBean.certificates}"
+	    	multiViewState="true" rows="10" paginator="true" paginatorPosition="bottom">
+	        <p:column headerText="Title">
+	            <h:outputText value="#{certificate.title}" />
+	        </p:column>
+	        <p:column headerText="Description">
+	            <h:outputText value="#{certificate.description}" />
+	        </p:column>
+	        <p:column headerText="Technology">
+	            <h:outputText value="#{certificate.technology.title}" />
+	        </p:column>
+	        <p:column style="width:32px;text-align: center">
+	             <p:commandButton 
+	             update=":certificatesForm:certificates :certificationsForm:growl1"  
+	             icon="ui-icon-trash" 
+	             title="Remove" 
+	             action="#{managerCertificationBean.removeCertificate(certificate.id)}">
+	            </p:commandButton>
+	        </p:column>
+	    </p:dataTable>
+	   </p:dialog>
+	  
     	<p:dialog header="New Certificate" widgetVar="newCertificateDialog">
     		<p:outputPanel id="newCertificateDetails">
-				<p:inputText id="new_certificate_title" value="#{managerCertificationBean.certificate.title}" 
+				<p:inputText id="new_certificate_title" 
+				value="#{managerCertificationBean.certificate.title}" 
 				pt:placeholder="Title" required="true"></p:inputText>
 				<p:message for="new_certificate_title" />
 				
-				<p:inputText id="new_certificate_Description" value="#{managerCertificationBean.certificate.description}"
+				<p:inputText id="new_certificate_Description" 
+				value="#{managerCertificationBean.certificate.description}"
 				 pt:placeholder="Description" required="true"></p:inputText>
 				<p:message for="new_certificate_Description" />
 				
-				<p:selectOneMenu id="new_certificate_technology"  
+				<p:selectOneMenu 
+				id="new_certificate_technology"  
 				converter="#{technologyConverter}"
 				value="#{managerCertificationBean.certificate.technology}" 
 				lazy="true" style="width:125px" required="true">
@@ -99,9 +163,9 @@
 		        <p:message for="new_certificate_technology" />
 		        
 		        <p:commandButton action="#{managerCertificationBean.addCertificate()}" 
-		        update="growl1 certificationsTable newCertificateDetails"
-		        oncomplete="if (args &amp;&amp; !args.validationFailed) PF('certificationDialog').hide()"
-		        id="add_Certificate" type="submit"
+		        type="submit"
+		        oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('newCertificateDialog').hide();PF('certificatesDialog').show()}"
+		        update=":certificatesForm:certificates :certificationsForm:growl1 "
 		        value="Add Certificate">
 		        </p:commandButton>			
     		</p:outputPanel>

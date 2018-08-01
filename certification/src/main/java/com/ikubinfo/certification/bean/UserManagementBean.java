@@ -129,6 +129,7 @@ public class UserManagementBean implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
 	@SuppressWarnings("finally")
 	public String addEmployee() {
 		try {
@@ -253,6 +254,7 @@ public class UserManagementBean implements Serializable {
 		}
 	
 	public String removeEmployee(int id) {
+		log.info("removeEmployee Init");
 		if(userService.remove(userService.findById(id))) {
 			refreshEmployees();
 			selectedEmployee = new User();

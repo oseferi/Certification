@@ -47,8 +47,8 @@ public class CertificationServiceImpl implements CertificationService {
 	}
 
 	@Override
-	public EmployeeCertification find(User user, Certificate certificate) {
-		return certificationDao.find(user, certificate);
+	public EmployeeCertification find(int id) {
+		return certificationDao.find(id);
 	}
 
 	@Override

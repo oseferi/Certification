@@ -79,6 +79,19 @@ public class Role implements Serializable{
 	public String toString() {
 		return "Role [id=" + id + ", title=" + title + ", deleted=" + deleted + "]";
 	}
+	/**
+	 * @param title
+	 */
+	public Role(String title) {
+		super();
+		this.title = title;
+	}
+	/**
+	 * 
+	 */
+	public Role() {
+		super();
+	}
 	
 	
 	

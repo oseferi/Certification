@@ -13,7 +13,9 @@ import javax.faces.context.FacesContext;
 import org.apache.log4j.Logger;
 
 import com.ikubinfo.certification.exception.CertificateExistsException;
+import com.ikubinfo.certification.exception.CertificationException;
 import com.ikubinfo.certification.exception.DeletedCertificateException;
+import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.Technology;
@@ -41,13 +43,16 @@ public class ManagerCertificationBean implements Serializable{
 	@ManagedProperty(value="#{userService}")
 	UserService userService;
 	
-	private EmployeeCertification certification;
+	private EmployeeCertification certification,newCertification;
 	private Certificate certificate;
+	private int certificateId, userId, technologyId;
 	private ArrayList<EmployeeCertification> certifications;
 	private ArrayList<EmployeeCertification> filteredCertifications;
 	private ArrayList<Certificate> certificates;
 	private ArrayList<Technology> technologies;
 	private ArrayList<User> employees;
+	
+	
 	
 	public UserBean getUser() {
 		return user;
@@ -96,13 +101,45 @@ public class ManagerCertificationBean implements Serializable{
 	public void setCertification(EmployeeCertification certification) {
 		this.certification = certification;
 	}
-	
+
+	public EmployeeCertification getNewCertification() {
+		return newCertification;
+	}
+
+	public void setNewCertification(EmployeeCertification newCertification) {
+		this.newCertification = newCertification;
+	}
+
 	public Certificate getCertificate() {
 		return certificate;
 	}
 
 	public void setCertificate(Certificate certificate) {
 		this.certificate = certificate;
+	}
+
+	public int getCertificateId() {
+		return certificateId;
+	}
+
+	public void setCertificateId(int certificateId) {
+		this.certificateId = certificateId;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public int getTechnologyId() {
+		return technologyId;
+	}
+
+	public void setTechnologyId(int technologyId) {
+		this.technologyId = technologyId;
 	}
 
 	public ArrayList<EmployeeCertification> getCertifications() {
@@ -112,10 +149,11 @@ public class ManagerCertificationBean implements Serializable{
 	public void setCertifications(ArrayList<EmployeeCertification> certifications) {
 		this.certifications = certifications;
 	}
-	
+
 	public ArrayList<EmployeeCertification> getFilteredCertifications() {
 		return filteredCertifications;
 	}
+
 	public void setFilteredCertifications(ArrayList<EmployeeCertification> filteredCertifications) {
 		this.filteredCertifications = filteredCertifications;
 	}
@@ -127,7 +165,7 @@ public class ManagerCertificationBean implements Serializable{
 	public void setCertificates(ArrayList<Certificate> certificates) {
 		this.certificates = certificates;
 	}
-	
+
 	public ArrayList<Technology> getTechnologies() {
 		return technologies;
 	}
@@ -148,10 +186,12 @@ public class ManagerCertificationBean implements Serializable{
 	public void init() {
 		certification = new EmployeeCertification();
 		certificate = new Certificate();
+		newCertification = new EmployeeCertification();
 		refreshCertifications();
 		refreshCertificates();
 		refreshTechnologies();
 		refreshEmployees();
+		
 	}
 	
 	@SuppressWarnings("finally")
@@ -159,11 +199,12 @@ public class ManagerCertificationBean implements Serializable{
 		try {
 			certificateService.add(certificate);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!","Certificate added successfully!"));
-			log.warn("Certificate Already exists!");
+			log.info("Certificate added successfully!");
+			certificate=new Certificate();
+			refreshCertificates();
 		} catch (CertificateExistsException ce) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!","Certificate Already exists!"));
 			log.warn("Certificate Already exists!");
-			
 		}
 		catch (DeletedCertificateException dc) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!","Certificate has been previously deleted!"));
@@ -174,6 +215,59 @@ public class ManagerCertificationBean implements Serializable{
 		}
 	}
 	
+	public String removeCertificate(int id) {
+		if(certificateService.remove(certificateService.findById(id))) {
+			log.info("Certificate deleted succesfully!");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certificate was deleted Succesfully!"));
+			refreshCertificates();
+		}else {
+			log.info("Certificate could not be deleted!");
+			System.out.println("Certificate could not be deleted!");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Certificate failed to be deleted!") );
+		}
+		return null;
+	}
+	
+	public String assignCertification() {
+		log.info("assign Certification executed!");
+		try {
+			User newEmployee = userService.findById(userId);
+			this.newCertification.setUser(newEmployee);
+			Certificate newCertificate = certificateService.findById(certificateId);
+			this.newCertification.setCertificate(newCertificate);
+			certificationService.add(newCertification);
+			log.info("Certification assigned Succesfully");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification assigned successfully!") );
+			newCertification = new EmployeeCertification();
+			refreshCertifications();
+		}catch(CertificationException e) {
+			if(e.getMessage().equals(ErrorMessages.DUBLICATE_CERTIFICATION.getMessage())) {
+				log.info("Certification is already assigned to employee!");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Certification is already assigned to employee!") );
+			}else if(e.getMessage().equals(ErrorMessages.PREVIOUSLY_DELETED_CERTIFICATION.getMessage())) {
+				log.info("Certification has been previously assigned to employee!");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification has been previously assigned to employee but has been deleted!") );
+			}
+			else {
+				log.error(e.getMessage());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "error message:"+e.getMessage()) );
+			}
+		}
+			return null;
+	}
+	
+	public String removeCertification(int id) {
+		if(certificationService.remove(certificationService.find(id))) {
+			log.info("Certification unassigned succesfully!");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification was unassgined succesfully from employee!"));
+			refreshCertificates();
+		}else {
+			log.info("Certificate could not be unassigned!");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Certification failed to be unassigned from employee!") );
+		}
+		return null;
+		
+	}
 	public void refreshCertifications() {
 		certifications = certificationService.getAllActive(user.getUser());
 	}

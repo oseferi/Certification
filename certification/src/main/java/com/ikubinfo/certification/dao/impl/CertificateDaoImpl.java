@@ -110,12 +110,11 @@ public class CertificateDaoImpl implements CertificateDao{
 	public ArrayList<Certificate> getAllActive() { 
 		try {
 			return (ArrayList<Certificate>) entityManager
-					.createQuery("Select user from User user Where deleted=0")
+					.createQuery("Select certificate from Certificate certificate Where deleted=0")
 					.getResultList();
 				
 		} catch (Exception e) {
 			log.info("Certificates cannot be found! Error message :"+e.getMessage());
-			//System.out.println("Users cannot be found! Error message :"+e.getMessage());
 			return null;
 		}
 	}
@@ -139,7 +138,6 @@ public class CertificateDaoImpl implements CertificateDao{
 			
 		}catch (NoResultException e) {
 			log.info("Certificate "+certificateToBeValidated.getTitle()+" is Valid");
-			//System.out.println("Username "+userToBeValidated.getUsername()+" is Valid");
 			return true;
 		}
 

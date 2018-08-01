@@ -34,6 +34,7 @@ public class CertificationDaoImpl implements CertificationDao {
 	@Override
 	public boolean add(EmployeeCertification certification) {
 		try {
+			//certification.setStatus(new Boolean(null));
 			entityManager.persist(certification);
 			log.info("Certificate: "+certification.getCertificate().getTitle()+" assigned succesfully to employee :"+certification.getUser().getName()+" "+certification.getUser().getSurname());
 			return true;
@@ -72,6 +73,7 @@ public class CertificationDaoImpl implements CertificationDao {
 			
 		} catch (Exception e) {
 			log.warn("Error while removing certification for employee! "+certification.getUser().getName()+" "+certification.getUser().getSurname()+" .Error message: "+e.getMessage());
+			e.printStackTrace();
 			return false;
 			}
 	}
@@ -81,7 +83,7 @@ public class CertificationDaoImpl implements CertificationDao {
 		try {
 			EmployeeCertification certification;
 			certification= (EmployeeCertification)entityManager
-			.createQuery("Select certification From EmployeeCertification certification Where certification.user=:user And certification.certificate",EmployeeCertification.class)
+			.createQuery("Select ec From EmployeeCertification ec Where ec.user=:user And ec.certificate=:certificate",EmployeeCertification.class)
 			.setParameter("user", certificationToBeValidated.getUser())
 			.setParameter("certificate", certificationToBeValidated.getCertificate())
 			.getSingleResult();
@@ -115,20 +117,19 @@ public class CertificationDaoImpl implements CertificationDao {
 		}
 	}
 
-	@Override
-	public EmployeeCertification find(User user, Certificate certificate) {
+	@Override 
+	public EmployeeCertification find(int id) {
 		try {
 			EmployeeCertification employeeCertification = (EmployeeCertification) entityManager
-			.createQuery("SELECT ec FROM EmployeeCertification ec WHERE ec.user=:user AND ec.certificate=:certificate")
-			.setParameter("user", user)
-			.setParameter("certificate", certificate)
+			.createQuery("SELECT ec FROM EmployeeCertification ec WHERE ec.id=:id")
+			.setParameter("id", id)
 			.getSingleResult();
 															
 			if(!employeeCertification.isDeleted()) {
 				return employeeCertification;
 			}
 			else {
-				log.warn("Certification : "+certificate.getTitle()+" for employee "+user.getUsername()+" is deleted!");
+				log.warn("Certification : "+employeeCertification.getCertificate().getTitle()+" for employee "+employeeCertification.getUser().getUsername()+" is deleted!");
 				return null;
 			}
 		} catch (Exception e) {

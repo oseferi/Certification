@@ -108,6 +108,17 @@ public class Certificate implements Serializable{
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Certificate [id=" + id + ", title=" + title + ", description=" + description + ", technology="
+				+ technology + ", deleted=" + deleted + "]";
+	}
+	/**
+	 * @param title
+	 * @param description
+	 * @param technology
+	 * @param deleted
+	 */
 	public Certificate(String title, String description, Technology technology, boolean deleted) {
 		super();
 		this.title = title;
@@ -115,7 +126,12 @@ public class Certificate implements Serializable{
 		this.technology = technology;
 		this.deleted = deleted;
 	}
+	/**
+	 * 
+	 */
+	public Certificate() {
+		super();
+	}
 	
-	public Certificate() {};
 	
 }

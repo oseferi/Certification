@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Table(name = "technologies")
 public class Technology implements Serializable{
 	
+	private static final long serialVersionUID = -7844721930014209509L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,14 +88,27 @@ public class Technology implements Serializable{
 			return false;
 		return true;
 	}
-	public Technology(String title, String description, boolean deleted) {
+	@Override
+	public String toString() {
+		return "Technology [id=" + id + ", title=" + title + ", description=" + description + ", deleted=" + deleted
+				+ "]";
+	}
+	/**
+	 * @param title
+	 * @param description
+	 */
+	public Technology(String title, String description) {
 		super();
 		this.title = title;
 		this.description = description;
-		this.deleted = deleted;
 	}
-
-	public Technology() {};	
-
+	/**
+	 * 
+	 */
+	public Technology() {
+		super();
+	}
+	
+	
 }
 

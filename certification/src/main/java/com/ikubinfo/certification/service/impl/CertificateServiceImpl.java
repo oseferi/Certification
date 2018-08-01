@@ -59,7 +59,7 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 
 	@Override
 	public ArrayList<Certificate> getAllActive() {
-		return certificateDao.getAll();
+		return certificateDao.getAllActive();
 	}
 
 	@Override

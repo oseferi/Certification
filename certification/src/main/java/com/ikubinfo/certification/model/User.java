@@ -238,5 +238,43 @@ public class User implements Serializable{
 				+ salary + ", email=" + email + ", phoneNumber=" + phoneNumber + ", deleted=" + deleted + ", role="
 				+ role + ", manager=" + manager + "]";
 	}
+	/**
+	 * @param username
+	 * @param password
+	 * @param ssn
+	 * @param name
+	 * @param surname
+	 * @param dateOfBirth
+	 * @param address
+	 * @param salary
+	 * @param email
+	 * @param phoneNumber
+	 * @param role
+	 * @param manager
+	 */
+	public User(String username, String password, String ssn, String name, String surname, Date dateOfBirth,
+			String address, float salary, String email, String phoneNumber, Role role, User manager) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.ssn = ssn;
+		this.name = name;
+		this.surname = surname;
+		this.dateOfBirth = dateOfBirth;
+		this.address = address;
+		this.salary = salary;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.role = role;
+		this.manager = manager;
+	}
+	/**
+	 * 
+	 */
+	public User() {
+		super();
+	}
+	
+	
 	
 }
