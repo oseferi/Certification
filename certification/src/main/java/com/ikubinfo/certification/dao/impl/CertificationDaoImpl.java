@@ -34,7 +34,6 @@ public class CertificationDaoImpl implements CertificationDao {
 	@Override
 	public boolean add(EmployeeCertification certification) {
 		try {
-			//certification.setStatus(new Boolean(null));
 			entityManager.persist(certification);
 			log.info("Certificate: "+certification.getCertificate().getTitle()+" assigned succesfully to employee :"+certification.getUser().getName()+" "+certification.getUser().getSurname());
 			return true;
@@ -93,7 +92,7 @@ public class CertificationDaoImpl implements CertificationDao {
 			}
 			else {
 				log.warn("Certification has already been assigned to employee!");
-				throw new CertificationException(ErrorMessages.DUBLICATE_CERTIFICATION.getMessage());
+				throw new CertificationException(ErrorMessages.DUPLICATE_CERTIFICATION.getMessage());
 			}
 			
 		}catch (NoResultException e) {

@@ -204,7 +204,7 @@ public class ManagerCertificationBean implements Serializable{
 			refreshCertificates();
 		} catch (CertificateExistsException ce) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!","Certificate Already exists!"));
-			log.warn("Certificate Already exists!");
+			log.warn("Certificate already exists!");
 		}
 		catch (DeletedCertificateException dc) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!","Certificate has been previously deleted!"));
@@ -231,22 +231,22 @@ public class ManagerCertificationBean implements Serializable{
 	public String assignCertification() {
 		log.info("assign Certification executed!");
 		try {
-			User newEmployee = userService.findById(userId);
-			this.newCertification.setUser(newEmployee);
-			Certificate newCertificate = certificateService.findById(certificateId);
-			this.newCertification.setCertificate(newCertificate);
+			//User newEmployee = userService.findById(userId);
+			newCertification.setUser(userService.findById(userId));
+			//Certificate newCertificate = certificateService.findById(certificateId);
+			newCertification.setCertificate(certificateService.findById(certificateId));
 			certificationService.add(newCertification);
 			log.info("Certification assigned Succesfully");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification assigned successfully!") );
 			newCertification = new EmployeeCertification();
 			refreshCertifications();
 		}catch(CertificationException e) {
-			if(e.getMessage().equals(ErrorMessages.DUBLICATE_CERTIFICATION.getMessage())) {
+			if(e.getMessage().equals(ErrorMessages.DUPLICATE_CERTIFICATION.getMessage())) {
 				log.info("Certification is already assigned to employee!");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Certification is already assigned to employee!") );
 			}else if(e.getMessage().equals(ErrorMessages.PREVIOUSLY_DELETED_CERTIFICATION.getMessage())) {
 				log.info("Certification has been previously assigned to employee!");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification has been previously assigned to employee but has been deleted!") );
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Certification has been previously assigned to employee but has been deleted!") );
 			}
 			else {
 				log.error(e.getMessage());
@@ -260,7 +260,7 @@ public class ManagerCertificationBean implements Serializable{
 		if(certificationService.remove(certificationService.find(id))) {
 			log.info("Certification unassigned succesfully!");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification was unassgined succesfully from employee!"));
-			refreshCertificates();
+			refreshCertifications();
 		}else {
 			log.info("Certificate could not be unassigned!");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Certification failed to be unassigned from employee!") );
@@ -281,7 +281,8 @@ public class ManagerCertificationBean implements Serializable{
 		employees = userService.getAllActive(user.getUser().getId());
 	}
 	public String edit(EmployeeCertification certification) {
-		return "";
+		System.out.println(certification);
+		return "edit?faces-redirect=true&id="+certification.getId()+"&object=certification";
 	}
 }
 

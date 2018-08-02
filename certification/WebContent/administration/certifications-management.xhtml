@@ -41,6 +41,8 @@
 	                	style="width:150px" placeholder="Enter keyword"/>
 	            </p:outputPanel>
 	        </f:facet>
+	        
+	 	    <p:ajax event="rowSelect" update=":certificationsForm:certificationDetail" oncomplete="PF('certificationDialog').show()" />
 	 
 			<p:column id="table_header_name" filterMatchMode="contains" 
 				filterBy="#{certification.user.name}"  sortBy="#{certification.user.name}">
@@ -62,16 +64,37 @@
 			
 			<p:column id="table_header_date" >
 				<f:facet name="header">Date</f:facet>
-				<h:outputText value="#{certification.dateAssigned}" />
+				<h:outputText value="#{certification.status}" />
 			</p:column>
 			
 			<p:column >
-				<p:commandLink action="managerCertificationBean.edit()" >
+				<p:commandLink action="#{managerCertificationBean.edit(certification)}" >
 					<i class="fa fa-pencil"></i>
+				</p:commandLink>
+				<p:commandLink 
+				action="#{managerCertificationBean.removeCertification(certification.id)}" 
+				update=":certificationsForm:certificationTable :certificationsForm:growl1" >
+					<i class="fa fa-trash"></i>
 				</p:commandLink>
 			</p:column>
 		</p:dataTable>
 		<p:growl id="growl1" showDetail="true" severity="info" sticky="true" />  
+		<p:dialog header="Certification Info" widgetVar="certificationDialog"  showEffect="fade" hideEffect="fade" resizable="false">
+	        <p:outputPanel id="certificationDetail" >
+				<h4><h:outputLabel>Name:</h:outputLabel></h4>
+				<i><h:outputText value="#{managerCertificationBean.certification.user.name}" /></i>
+				<h4><h:outputLabel>Surname:</h:outputLabel></h4>
+				<i><h:outputText value="#{managerCertificationBean.certification.user.surname}" /></i>
+				<h4><h:outputLabel>Certificate Title:</h:outputLabel></h4>
+				<i><h:outputText value="#{managerCertificationBean.certification.certificate.title}" /></i>
+				<h4><h:outputLabel>Certificate Description:</h:outputLabel></h4>
+				<i><h:outputText value="#{managerCertificationBean.certification.certificate.description}" /></i>
+				<h4><h:outputLabel>Date Assigned:</h:outputLabel></h4>
+				<i><h:outputText value="#{managerCertificationBean.certification.dateAssigned}" /></i>
+				<h4><h:outputLabel>Status</h:outputLabel></h4>
+				<i><h:outputText value="#{managerCertificationBean.certification.status}" /></i>
+	        </p:outputPanel>
+    	</p:dialog>
 	</h:form>
 	
 	<h:form id="assignCertificateForm">

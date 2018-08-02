@@ -2,7 +2,6 @@ package com.ikubinfo.certification.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -10,177 +9,173 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import org.apache.log4j.Logger;
 import org.jasypt.util.password.BasicPasswordEncryptor;
-
+import com.ikubinfo.certification.exception.CertificationException;
 import com.ikubinfo.certification.exception.DeletedUserException;
 import com.ikubinfo.certification.exception.EmailExistsException;
+import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.FullNameExistsException;
 import com.ikubinfo.certification.exception.PhoneNumberExistsException;
 import com.ikubinfo.certification.exception.SsnExistsException;
 import com.ikubinfo.certification.exception.UsernameExistsException;
+import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
-import com.ikubinfo.certification.service.RoleService;
+import com.ikubinfo.certification.service.CertificateService;
+import com.ikubinfo.certification.service.CertificationService;
+import com.ikubinfo.certification.service.TechnologyService;
 import com.ikubinfo.certification.service.UserService;
 
-@ManagedBean(name="userManagementBean")
+@ManagedBean(name = "editBean")
 @ViewScoped
-public class UserManagementBean implements Serializable {
-	
-	private static Logger log = Logger.getLogger(UserManagementBean.class);
-	private static final long serialVersionUID = 1L;
+public class EditBean implements Serializable {
 
+	private static final long serialVersionUID = -7649663954102700577L;
+
+	private static Logger log = Logger.getLogger(EditBean.class);
+
+	@ManagedProperty(value = "#{userBean}")
+	UserBean user;
+	@ManagedProperty(value = "#{certificationService}")
+	CertificationService certificationService;
+	@ManagedProperty(value = "#{technologyService}")
+	TechnologyService technologyService;
+	@ManagedProperty(value = "#{certificateService}")
+	CertificateService certificateService;
 	@ManagedProperty(value = "#{userService}")
 	UserService userService;
-	@ManagedProperty(value = "#{userBean}")
-	UserBean userBean;
-	@ManagedProperty(value = "#{roleService}")
-	RoleService roleService;
-	
-	private User employee;
-	private ArrayList<User> employees;
-	private User selectedEmployee;
-	private boolean selectedEmployeeEditable;
-	private boolean selectedEmployeeCredentialsEditable;	
-	private List<User> filteredEmployees;
+
+	private Integer id;
+	private String object;
 	private String newPassword;
-	private Integer id; 
+	private User selectedEmployee;
+	private EmployeeCertification selectedCertificate;
+	private ArrayList<Boolean> statuses;
+	private boolean selectedEmployeeEditable;
+	private boolean selectedEmployeeCredentialsEditable;
 	
-	 @PostConstruct
-	 public void init() {
-		refreshEmployees(); 
-		employee = new User();
-		if(id!=null) {
-			selectEmployee(id); 
+	
+	@PostConstruct
+	public void init() {
+		if(object!=null) {
+			if(object.equals("employee") && id!=null) {
+				selectEmployee(id);
+			}else if(object.equals("certification") && id!=null) {
+				selectCertificate(id);
+				statuses = new ArrayList<Boolean>();
+				setStatusesList();
+			}
 		}
-	 }
-	 
-	 
+	}
+	
+	public UserBean getUser() {
+		return user;
+	}
+
+	public void setUser(UserBean user) {
+		this.user = user;
+	}
+
+	public CertificationService getCertificationService() {
+		return certificationService;
+	}
+
+	public void setCertificationService(CertificationService certificationService) {
+		this.certificationService = certificationService;
+	}
+
+	public TechnologyService getTechnologyService() {
+		return technologyService;
+	}
+
+	public void setTechnologyService(TechnologyService technologyService) {
+		this.technologyService = technologyService;
+	}
+
+	public CertificateService getCertificateService() {
+		return certificateService;
+	}
+
+	public void setCertificateService(CertificateService certificateService) {
+		this.certificateService = certificateService;
+	}
+
 	public UserService getUserService() {
 		return userService;
 	}
+
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	public UserBean getUserBean() {
-		return userBean;
+
+	public Integer getId() {
+		return id;
 	}
-	public void setUserBean(UserBean userBean) {
-		this.userBean = userBean;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public User getEmployee() {
-		return employee;
+
+	public String getObject() {
+		return object;
 	}
-	public void setEmployee(User employee) {
-		this.employee = employee;
+
+	public void setObject(String object) {
+		this.object = object;
 	}
-	public ArrayList<User> getEmployees() {
-		return employees;
+
+	public String getNewPassword() {
+		return newPassword;
 	}
-	public void setEmployees(ArrayList<User> employees) {
-		this.employees = employees;
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
-	
+
 	public User getSelectedEmployee() {
 		return selectedEmployee;
 	}
+
 	public void setSelectedEmployee(User selectedEmployee) {
 		this.selectedEmployee = selectedEmployee;
 	}
 	
-	public List<User> getFilteredEmployees() {
-		return filteredEmployees;
+	public EmployeeCertification getSelectedCertificate() {
+		return selectedCertificate;
 	}
-	public void setFilteredEmployees(List<User> filteredEmployees) {
-		this.filteredEmployees = filteredEmployees;
+
+
+	public void setSelectedCertificate(EmployeeCertification selectedCertificate) {
+		this.selectedCertificate = selectedCertificate;
 	}
-	
-	public RoleService getRoleService() {
-		return roleService;
-	}
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
-	}
-	
+
 	public boolean isSelectedEmployeeEditable() {
 		return selectedEmployeeEditable;
 	}
+
+
 	public void setSelectedEmployeeEditable(boolean selectedEmployeeEditable) {
 		this.selectedEmployeeEditable = selectedEmployeeEditable;
 	}
-	
+
+
 	public boolean isSelectedEmployeeCredentialsEditable() {
 		return selectedEmployeeCredentialsEditable;
 	}
+
+
 	public void setSelectedEmployeeCredentialsEditable(boolean selectedEmployeeCredentialsEditable) {
 		this.selectedEmployeeCredentialsEditable = selectedEmployeeCredentialsEditable;
 	}
-	
-	public String getNewPassword() {
-		return newPassword;
+
+	public ArrayList<Boolean> getStatuses() {
+		return statuses;
 	}
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
+
+	public void setStatuses(ArrayList<Boolean> statuses) {
+		this.statuses = statuses;
 	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	@SuppressWarnings("finally")
-	public String addEmployee() {
-		try {
-			 employee.setManager(userBean.getUser());
-			 employee.setRole(roleService.findById(2));
-			 if(userService.add(employee)) {
-				 log.info("Employee: "+employee.getName()+" was added!");
-				 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Employee Added!", "Employee : "+employee.getName()+" was added succesfully!") );
-			     employee = new User();
-				 refreshEmployees();
-			 }else{
-				log.fatal("Employee: "+employee.getName()+" failed to be added!");
-				FacesContext context = FacesContext.getCurrentInstance();
-			    context.addMessage(null, new FacesMessage("Error!", "Employee : "+employee.getName()+" could not be added! If this problem persists please contact the Administrator") );
-			}
-			
-		}catch (DeletedUserException e) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Employee : "+employee.getName()+" already exists but is deleted!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee : "+employee.getName()+" has been previously deleted!") );
-		}
-		catch (UsernameExistsException u) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Username: "+employee.getUsername()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Username : "+employee.getUsername()+" already belongs to existing Employee!") );
-		}
-		catch (SsnExistsException s) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("SSN: "+employee.getSsn()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "SSN : "+employee.getSsn()+" already belongs to existing Employee!") );
-		}
-		catch (FullNameExistsException f) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Full Name : "+employee.getName()+" "+employee.getSurname()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Full Name : "+employee.getName()+" "+employee.getSurname()+" already belongs to existing Employee!") );
-		}catch (PhoneNumberExistsException pn) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Phone Number : "+employee.getPhoneNumber()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Phone Number : "+employee.getPhoneNumber()+" already belongs to existing Employee!") );
-		}catch (EmailExistsException ex) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Email Address : "+employee.getEmail()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Email Address : "+employee.getEmail()+" already belongs to existing Employee!") );
-		}  
-		
-		finally {
-			return "";
-		}
-		
-	}
-	
+
 	public String updateEmployee(int id) {
 		BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 		User user = userService.findById(id);
@@ -208,7 +203,6 @@ public class UserManagementBean implements Serializable {
 		try {
 			if(userService.update(selectedEmployee)) {
 				disableEditing();
-				refreshEmployees();
 				selectedEmployee = new User();
 				log.info("Employee updated succesfully!");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Employee was updated Succesfully!") );
@@ -251,33 +245,33 @@ public class UserManagementBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Phone Number "+selectedEmployee.getEmail()+" belongs to another employee!") );
 		}
 		return null;
-		}
-	
-	public String removeEmployee(int id) {
-		log.info("removeEmployee Init");
-		if(userService.remove(userService.findById(id))) {
-			refreshEmployees();
-			selectedEmployee = new User();
-			log.info("Employee deleted succesfully!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Employee was deleted Succesfully!") );
-		}else {
-			log.info("Employee could not be deleted!");
-			System.out.println("User could not be deleted!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be deleted!") );
-		}
+	}
+
+	public String updateCertification() {
+			try {
+				certificationService.edit(selectedCertificate);
+				setStatusesList();
+				log.info("Certification updated successfully!");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification updated successfully!") );
+				
+			} catch (CertificationException e) {
+				if(e.getMessage().equals(ErrorMessages.DUPLICATE_CERTIFICATION.getMessage())) {
+					log.info("Certification is already assigned to employee!");
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Certification is already assigned to employee!") );
+				}else if(e.getMessage().equals(ErrorMessages.PREVIOUSLY_DELETED_CERTIFICATION.getMessage())) {
+					log.info("Certification has been previously assigned to employee!");
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification has been previously assigned to employee but has been deleted!") );
+				}
+				else {
+					log.error(e.getMessage());
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "error message:"+e.getMessage()) );
+				}
+			}
+			return "";
 		
-		return null;
-
-		}
+	}
 	
-	public String selectEmployee(int id) {
-		selectedEmployee = userService.findById(id);
-		return "";
-	}
-	public void refreshEmployees() {
-		employees = userService.getAllActive(userBean.getUser().getId());
-	}
-
+	
 	public void enableEditing() {
 		selectedEmployeeEditable = true;
 	}
@@ -290,9 +284,21 @@ public class UserManagementBean implements Serializable {
 	public void enableCredentialsEditing() {
 		selectedEmployeeCredentialsEditable = true;
 	}
-	public String edit() {
-		return "edit?faces-redirect=true&id="+getId();
+	public String selectEmployee(int id) {
+		selectedEmployee = userService.findById(id);
+		return "";
 	}
-	
-	
+	public String selectCertificate(int id) {
+		selectedCertificate = certificationService.find(id);
+		return "";
+	}	
+	public void setStatusesList() {
+		if(selectedCertificate.getStatus()==null) {
+			statuses.add(null);statuses.add(true);statuses.add(false);
+		}else if(selectedCertificate.getStatus()) {
+			statuses.add(true);statuses.add(false);statuses.add(null);
+		}else if(!selectedCertificate.getStatus()) {
+			statuses.add(false);statuses.add(true);statuses.add(null);
+		}
+	}
 }

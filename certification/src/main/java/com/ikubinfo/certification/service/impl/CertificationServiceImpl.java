@@ -29,11 +29,7 @@ public class CertificationServiceImpl implements CertificationService {
 
 	@Override
 	public boolean edit(EmployeeCertification certification) throws CertificationException {
-		if(isValid(certification)) {
 			return certificationDao.edit(certification);
-		}else {
-			return false;
-		}
 	}
 
 	@Override
