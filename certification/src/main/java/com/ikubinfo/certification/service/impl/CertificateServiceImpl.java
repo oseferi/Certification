@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ikubinfo.certification.dao.CertificateDao;
 import com.ikubinfo.certification.exception.CertificateExistsException;
 import com.ikubinfo.certification.exception.DeletedCertificateException;
+import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.service.CertificateService;
 @Service("certificateService")
@@ -25,7 +26,7 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 	CertificateDao certificateDao;
 	
 	@Override
-	public boolean add(Certificate certificate) throws CertificateExistsException, DeletedCertificateException {
+	public boolean add(Certificate certificate) throws GeneralException {
 		if(isValid(certificate)) {
 			return certificateDao.add(certificate);
 		}else {
@@ -39,7 +40,7 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 	}
 
 	@Override
-	public boolean update(Certificate certificate) throws CertificateExistsException, DeletedCertificateException {
+	public boolean update(Certificate certificate) throws GeneralException {
 		if(isValid(certificate)) {
 			return certificateDao.update(certificate);
 		}else {
@@ -63,7 +64,7 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 	}
 
 	@Override
-	public boolean isValid(Certificate certificate) throws CertificateExistsException, DeletedCertificateException {
+	public boolean isValid(Certificate certificate) throws GeneralException {
 		return certificateDao.isValid(certificate);
 	}
 

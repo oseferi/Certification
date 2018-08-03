@@ -17,8 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 @Entity
 @Table(name="employee_certifications",uniqueConstraints=
 @UniqueConstraint(columnNames={"user_id", "certificate_id"})

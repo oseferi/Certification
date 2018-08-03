@@ -6,7 +6,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 <title>User Management Area</title>
@@ -74,11 +75,11 @@
 					<f:param name="id" value="#{employe.id}" />
 					<f:param name="object" value="employee" />
 				</p:button>
-				<!-- p:commandLink value="Details">
-				<p:ajax event="click" update=":employeeForm:employeeDetail" oncomplete="PF('employeeDialog').show()"  listener="#{userManagementBean.selectEmployee(employe.id)}"/>
-				</p:commandLink-->
-				<p:commandLink action="userManagementBean.edit()" >
-					<i class="fa fa-envelope"></i>
+				<h:outputLabel value=" "/>
+				<p:commandLink 
+				action="#{userManagementBean.removeEmployee(employe.id)}" 
+				update=":employeeForm:tableStateDT :employeeForm:growl1" >
+					<i class="fa fa-trash"></i>
 				</p:commandLink>
 			</p:column>
 			
@@ -138,7 +139,9 @@
 	                	rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"/>
 	              	<h:inputText id="Employee_Email_Editable" value="#{userManagementBean.selectedEmployee.email}"
 	              		 rendered="#{userManagementBean.selectedEmployeeEditable}" required="true"
-	              		 maxlength="200"/>
+	              		 maxlength="200">
+	              		<f:validateRegex pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
+	              	</h:inputText>
 	 				<p:message for="Employee_Email_Editable"   />
 	 				
 	 				<h:outputText value="Telephone:" 
@@ -211,7 +214,6 @@
     	</h:form>
     	<h:form id="addForm">
     	<p:dialog header="New Employee" widgetVar="newEmployeeDialog" showEffect="fade" hideEffect="fade" resizable="false">
-		   	<p:growl id="growl" showDetail="true" severity="info" sticky="true" />  
 	        <p:outputPanel id="newEmployee" style="text-align:center;">
 	                <h:outputText value="Name:" />
 	                <h:inputText id="Employee_Name" value="#{userManagementBean.employee.name}" required="true"
@@ -227,6 +229,25 @@
 	                <h:inputText id="Employee_SSN" value="#{userManagementBean.employee.ssn}" required="true"
 	                maxlength="50"/>
 	                <p:message for="Employee_SSN"   />
+	                
+	                <h:outputText  value="Email" />
+	                <h:inputText id="Employee_Email" value="#{userManagementBean.employee.email}" required="true"
+	                maxlength="50">
+	                <f:validateRegex pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
+	                </h:inputText>
+	                <p:message for="Employee_Email"   />
+	                
+	                <h:outputText  value="Phone Number" />
+	                <h:inputText id="Employee_Phone"  value="#{userManagementBean.employee.phoneNumber}" required="true"
+	                maxlength="20">
+	                </h:inputText>
+	                <p:message for="Employee_Phone" />
+	                
+	                <h:outputText  value="Salary" />
+	                <h:inputText id="Employee_Salary"  value="#{userManagementBean.employee.salary}" required="true"
+	                maxlength="20">
+	                </h:inputText>
+	                <p:message for="Employee_Salary" />
 	                
 	                <h:outputText  value="Date of Birth" />
 	                <p:calendar id="Employee_BirthDay" value="#{userManagementBean.employee.dateOfBirth}" required="true"/>
@@ -251,7 +272,7 @@
 	                <p:message for="Employee_Password"/>	
 	                                
 		           	<p:commandButton id="Add_Button" type="submit" 
-			           	update="growl newEmployee :employeeForm:tableStateDT " 
+			           	update=":employeeForm:growl1 newEmployee :employeeForm:tableStateDT " 
 			           	oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newEmployeeDialog').hide()"
 			           	value="Add Employee" 
 			           	action="#{userManagementBean.addEmployee()}" >
@@ -269,12 +290,12 @@
 	</h:form>
 	<h:form id="form2"></h:form>
 	<h:outputScript>
-	document.getElementById("employeeForm:tableStateDT:table_header_name:filter").style["display"]="none";
-	document.getElementById("employeeForm:tableStateDT:table_header_surname:filter").style["display"]="none";
-	document.getElementById("employeeForm:tableStateDT:table_header_address:filter").style["display"]="none";
-	document.getElementById("employeeForm:tableStateDT:table_header_birthday:filter").style["display"]="none";
-	document.getElementById("employeeForm:tableStateDT:table_header_email:filter").style["display"]="none";	
-	document.getElementById("employeeForm:tableStateDT").getElementsByTagName("div")[0].className=""
+		document.getElementById("employeeForm:tableStateDT:table_header_name:filter").style["display"]="none";
+		document.getElementById("employeeForm:tableStateDT:table_header_surname:filter").style["display"]="none";
+		document.getElementById("employeeForm:tableStateDT:table_header_address:filter").style["display"]="none";
+		document.getElementById("employeeForm:tableStateDT:table_header_birthday:filter").style["display"]="none";
+		document.getElementById("employeeForm:tableStateDT:table_header_email:filter").style["display"]="none";	
+		document.getElementById("employeeForm:tableStateDT").getElementsByTagName("div")[0].className=""
 	</h:outputScript>
 	
 </h:body>

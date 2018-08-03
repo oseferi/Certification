@@ -20,6 +20,23 @@
 	<p:commandButton value="Certificates"  onclick="PF('certificatesDialog').show()" />	
 	<p:commandButton value="Assign Certification"  onclick="PF('assignCertificationDialog').show()" />	
 	
+	<p:inputText id="search" value="#{managerCertificationBean.query}">
+	</p:inputText>
+	
+	 <p:selectOneMenu 
+				id="employeeFilter"  
+				value="#{managerCertificationBean.userId}" 
+				lazy="true" style="width:125px">
+		            <f:selectItem itemLabel="Select One" itemValue="0" />
+		            <f:selectItems var="employee"
+			            value="#{managerCertificationBean.employees}"
+			            itemLabel="#{employee.name} #{employee.surname}"
+			            itemValue="#{employee.id}" />
+		        </p:selectOneMenu>
+	 <p:commandButton action="#{managerCertificationBean.filter()}" value="search" update="certificationTable">
+	 </p:commandButton>      
+	<p:commandButton action="#{managerCertificationBean.refreshCertifications()}" value="clear" update="certificationTable">
+	 </p:commandButton>        
 	<p:dataTable id="certificationTable" var="certification" value="#{managerCertificationBean.certifications}"
 				 widgetVar="certificationsTable" multiViewState="true"
                  rows="10" paginator="true" 
@@ -31,7 +48,6 @@
                  selection="#{managerCertificationBean.certification}" 
                  rowKey="#{certification}"
                  emptyMessage="No employees found with given criteria" 
-                 filteredValue="#{managerCertificationBean.filteredCertifications}"
                  >
                   
 	 		<f:facet name="header">
@@ -71,6 +87,7 @@
 				<p:commandLink action="#{managerCertificationBean.edit(certification)}" >
 					<i class="fa fa-pencil"></i>
 				</p:commandLink>
+				<h:outputLabel value=" "/>
 				<p:commandLink 
 				action="#{managerCertificationBean.removeCertification(certification.id)}" 
 				update=":certificationsForm:certificationTable :certificationsForm:growl1" >

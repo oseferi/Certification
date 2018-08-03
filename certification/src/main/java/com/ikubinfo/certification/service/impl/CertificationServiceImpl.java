@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ikubinfo.certification.dao.CertificationDao;
 import com.ikubinfo.certification.exception.CertificationException;
+import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
@@ -19,7 +20,7 @@ public class CertificationServiceImpl implements CertificationService {
 	CertificationDao certificationDao;
 
 	@Override
-	public boolean add(EmployeeCertification certification) throws CertificationException {
+	public boolean add(EmployeeCertification certification) throws GeneralException {
 		if(isValid(certification)) {
 			return certificationDao.add(certification);
 		}else {
@@ -28,7 +29,7 @@ public class CertificationServiceImpl implements CertificationService {
 	}
 
 	@Override
-	public boolean edit(EmployeeCertification certification) throws CertificationException {
+	public boolean edit(EmployeeCertification certification) throws GeneralException {
 			return certificationDao.edit(certification);
 	}
 
@@ -38,7 +39,7 @@ public class CertificationServiceImpl implements CertificationService {
 	}
 
 	@Override
-	public boolean isValid(EmployeeCertification certification) throws CertificationException {
+	public boolean isValid(EmployeeCertification certification) throws GeneralException {
 		return certificationDao.isValid(certification);
 	}
 

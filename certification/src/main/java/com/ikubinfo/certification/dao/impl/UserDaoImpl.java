@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ikubinfo.certification.dao.UserDao;
 import com.ikubinfo.certification.exception.DeletedUserException;
 import com.ikubinfo.certification.exception.EmailExistsException;
+import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.FullNameExistsException;
+import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.exception.PhoneNumberExistsException;
 import com.ikubinfo.certification.exception.SsnExistsException;
 import com.ikubinfo.certification.exception.UsernameExistsException;
@@ -136,7 +138,7 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("null")
 	@Override
-	public boolean isValidUsername(User userToBeValidated) throws DeletedUserException, UsernameExistsException {
+	public boolean isValidUsername(User userToBeValidated) throws GeneralException {
 		try {
 			User user;
 			user= (User)entityManager
@@ -145,11 +147,11 @@ public class UserDaoImpl implements UserDao {
 			.getSingleResult();
 			if(user.isDeleted()) {
 				log.warn("Username belongs to previously deleted User!");
-				throw new DeletedUserException();
+				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
 			}
 			else {
-				log.warn("Username belongs to active User!");
-				throw new UsernameExistsException();
+				log.warn("Username belongs to active User: "+user.getName()+" "+user.getSurname()+"!");
+				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_USERNAME.getMessage());
 			}
 			
 		}catch (NoResultException e) {
@@ -159,7 +161,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean isValidSsn(User userToBeValidated) throws DeletedUserException, SsnExistsException {
+	public boolean isValidSsn(User userToBeValidated) throws GeneralException {
 			try{
 				User user= (User)entityManager
 				.createQuery("Select user From User user Where user.ssn=:ssn ",User.class)
@@ -167,11 +169,11 @@ public class UserDaoImpl implements UserDao {
 				.getSingleResult();
 				if(user.isDeleted()) {
 					log.warn("SSN belongs to previously deleted User: "+user.getUsername()+"!");
-					throw new DeletedUserException();
+					throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
 				}
 				else {
 					log.warn("SSN belongs to active User: "+user.getUsername()+"!");
-					throw new SsnExistsException();
+					throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_SSN.getMessage());
 				}
 				
 			}catch (NoResultException e) {
@@ -181,7 +183,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean isValidFullName(User userToBeValidated) throws DeletedUserException, FullNameExistsException {
+	public boolean isValidFullName(User userToBeValidated) throws GeneralException {
 
 		try{
 			User user= (User)entityManager
@@ -192,11 +194,11 @@ public class UserDaoImpl implements UserDao {
 			
 			if(user.isDeleted()) {
 				log.warn("Full Name belongs to previously deleted User"+user.getUsername()+"!");
-				throw new DeletedUserException();
+				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
 			}
 			else {
 				log.warn("Full Name belongs to active User"+user.getUsername()+"!");
-				throw new FullNameExistsException();
+				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_FULL_NAME.getMessage());
 			}
 			
 		}catch (NoResultException e) {
@@ -207,7 +209,7 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public boolean isValidPhoneNumber(User userToBeValidated) throws DeletedUserException, PhoneNumberExistsException {
+	public boolean isValidPhoneNumber(User userToBeValidated) throws GeneralException {
 
 		try{
 			User user= (User)entityManager
@@ -217,11 +219,11 @@ public class UserDaoImpl implements UserDao {
 			
 			if(user.isDeleted()) {
 				log.warn("Phone Number belongs to previously deleted User"+user.getUsername()+"!");
-				throw new DeletedUserException();
+				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
 			}
 			else {
 				log.warn("Phone Number belongs to active User"+user.getUsername()+"!");
-				throw new PhoneNumberExistsException();
+				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_PHONE.getMessage());
 			}
 			
 		}catch (NoResultException e) {
@@ -232,7 +234,7 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public boolean isValidEmail(User userToBeValidated) throws DeletedUserException, EmailExistsException {
+	public boolean isValidEmail(User userToBeValidated) throws GeneralException {
 
 		try{
 			User user= (User)entityManager
@@ -242,11 +244,11 @@ public class UserDaoImpl implements UserDao {
 
 			if(user.isDeleted()) {
 				log.warn("Email Address belongs to previously deleted User"+user.getUsername()+"!");
-				throw new DeletedUserException();
+				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
 			}
 			else {
 				log.warn("Email Address belongs to active User"+user.getUsername()+"!");
-				throw new EmailExistsException();
+				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_EMAIL.getMessage());
 			}
 		}catch (NoResultException e) {
 			log.info("Email Address "+userToBeValidated.getEmail()+" is Valid");

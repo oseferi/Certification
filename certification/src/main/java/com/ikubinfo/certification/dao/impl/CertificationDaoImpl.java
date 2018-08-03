@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ikubinfo.certification.dao.CertificationDao;
 import com.ikubinfo.certification.exception.CertificationException;
 import com.ikubinfo.certification.exception.ErrorMessages;
+import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
@@ -78,7 +79,7 @@ public class CertificationDaoImpl implements CertificationDao {
 	}
 
 	@Override
-	public boolean isValid(EmployeeCertification certificationToBeValidated) throws CertificationException {
+	public boolean isValid(EmployeeCertification certificationToBeValidated) throws GeneralException {
 		try {
 			EmployeeCertification certification;
 			certification= (EmployeeCertification)entityManager
@@ -87,12 +88,12 @@ public class CertificationDaoImpl implements CertificationDao {
 			.setParameter("certificate", certificationToBeValidated.getCertificate())
 			.getSingleResult();
 			if(certification.isDeleted()) {
-				log.warn("Certification has been previously assigned to employee but has been deleted!");
-				throw new CertificationException(ErrorMessages.PREVIOUSLY_DELETED_CERTIFICATION.getMessage());
+				log.warn(ErrorMessages.CERTIFICATION_PREVIOUSLY_DELETED.getMessage());
+				throw new GeneralException(ErrorMessages.CERTIFICATION_PREVIOUSLY_DELETED.getMessage());
 			}
 			else {
-				log.warn("Certification has already been assigned to employee!");
-				throw new CertificationException(ErrorMessages.DUPLICATE_CERTIFICATION.getMessage());
+				log.warn(ErrorMessages.CERTIFICATION_DUPLICATE.getMessage());
+				throw new GeneralException(ErrorMessages.CERTIFICATION_DUPLICATE.getMessage());
 			}
 			
 		}catch (NoResultException e) {

@@ -16,9 +16,12 @@ import org.jasypt.util.password.BasicPasswordEncryptor;
 
 import com.ikubinfo.certification.exception.DeletedUserException;
 import com.ikubinfo.certification.exception.EmailExistsException;
+import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.FullNameExistsException;
+import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.exception.PhoneNumberExistsException;
 import com.ikubinfo.certification.exception.SsnExistsException;
+import com.ikubinfo.certification.exception.SuccessMessages;
 import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.RoleService;
@@ -136,43 +139,17 @@ public class UserManagementBean implements Serializable {
 			 employee.setManager(userBean.getUser());
 			 employee.setRole(roleService.findById(2));
 			 if(userService.add(employee)) {
-				 log.info("Employee: "+employee.getName()+" was added!");
-				 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Employee Added!", "Employee : "+employee.getName()+" was added succesfully!") );
+				 addMessage(new FacesMessage("Employee Added!", SuccessMessages.EMPLOYEE_ADDED.getMessage()+"Employee: "
+						 					+employee.getName()+" "+employee.getSurname()) );
 			     employee = new User();
 				 refreshEmployees();
 			 }else{
-				log.fatal("Employee: "+employee.getName()+" failed to be added!");
-				FacesContext context = FacesContext.getCurrentInstance();
-			    context.addMessage(null, new FacesMessage("Error!", "Employee : "+employee.getName()+" could not be added! If this problem persists please contact the Administrator") );
+				addMessage(new FacesMessage("Error!", "Employee : "+employee.getName()+" could not be added!"
+											+ " If this problem persists please contact the Administrator"));
 			}
 			
-		}catch (DeletedUserException e) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Employee : "+employee.getName()+" already exists but is deleted!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee : "+employee.getName()+" has been previously deleted!") );
-		}
-		catch (UsernameExistsException u) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Username: "+employee.getUsername()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Username : "+employee.getUsername()+" already belongs to existing Employee!") );
-		}
-		catch (SsnExistsException s) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("SSN: "+employee.getSsn()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "SSN : "+employee.getSsn()+" already belongs to existing Employee!") );
-		}
-		catch (FullNameExistsException f) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Full Name : "+employee.getName()+" "+employee.getSurname()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Full Name : "+employee.getName()+" "+employee.getSurname()+" already belongs to existing Employee!") );
-		}catch (PhoneNumberExistsException pn) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Phone Number : "+employee.getPhoneNumber()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Phone Number : "+employee.getPhoneNumber()+" already belongs to existing Employee!") );
-		}catch (EmailExistsException ex) {
-			log.error("Employee: "+employee.getName()+" failed to be added!");
-			log.info("Email Address : "+employee.getEmail()+" already belongs to existing Employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Email Address : "+employee.getEmail()+" already belongs to existing Employee!") );
+		}catch (GeneralException ge) {
+			exceptionHandler(ge);
 		}  
 		
 		finally {
@@ -187,22 +164,19 @@ public class UserManagementBean implements Serializable {
 		if(newPassword!=null && newPassword!="") {
 			if(passwordEncryptor.checkPassword(newPassword, user.getPassword())) {
 				log.warn("New password is the same as the old one");
-				log.info("Password was not updated");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "The new password is the same as the old one.Please enter a valid password!"));
+				new FacesMessage("Error!", "The new password is the same as the old one.Please enter a valid password!");
 			    newPassword="";
 			    return null;
 			}else {
 				selectedEmployee.setPassword(passwordEncryptor.encryptPassword(newPassword));
 				log.info("Password was updated succesfully");
-				System.out.println("Password was updated succesfully");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "The password was updated succesfully!"));
 			    newPassword="";
 			}
 		}
 		if(selectedEmployee.equals(user)) {
 			disableEditing();
-			log.info("No changes have been made to employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Info!", "No changes have been made to employee :"+selectedEmployee.getName()+" "+selectedEmployee.getSurname()) );
+			addMessage(new FacesMessage("Info!", SuccessMessages.EMPLOYEE_NO_CHANGE.getMessage()));
 		    return null;
 		}
 		try {
@@ -210,64 +184,31 @@ public class UserManagementBean implements Serializable {
 				disableEditing();
 				refreshEmployees();
 				selectedEmployee = new User();
-				log.info("Employee updated succesfully!");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Employee was updated Succesfully!") );
+				addMessage(new FacesMessage(getSuccess(), SuccessMessages.EMPLOYEE_UPDATED.getMessage()) );
 			}
 			else {
 				disableEditing();
-				log.fatal("Employee failed to be updated!!");
 				log.info("Unknown error[Returns False]");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!! If the problem persists please contact the Administrator.") );
+				addMessage(new FacesMessage("Error!", "Employee failed to be updated!! "
+											+ "If the problem persists please contact the Administrator.") );
 			}
-		} catch (DeletedUserException e) {
+		}catch (GeneralException ge) {
 			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Username/SSN/Full Name conflicts with a deleted employee");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Username/SSN/Full Name conflicts with a deleted employee. If the problem persists please contact the Administrator.") );
-		} catch (UsernameExistsException e) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Username "+selectedEmployee.getUsername()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Username "+selectedEmployee.getUsername()+" belongs to another employee!") );
-		} catch (SsnExistsException e) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("SSN "+selectedEmployee.getSsn()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!SSN "+selectedEmployee.getSsn()+" belongs to another employee!") );
-		} catch (FullNameExistsException e) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Full Name "+selectedEmployee.getName()+" "+selectedEmployee.getSurname()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Full Name "+selectedEmployee.getName()+" "+selectedEmployee.getSurname()+" belongs to another employee!") );
-		} catch (PhoneNumberExistsException ph) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Phone Number "+selectedEmployee.getPhoneNumber()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Phone Number "+selectedEmployee.getPhoneNumber()+" belongs to another employee!") );
-		} catch (EmailExistsException ex) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Phone Number "+selectedEmployee.getPhoneNumber()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Phone Number "+selectedEmployee.getEmail()+" belongs to another employee!") );
-		}
+			log.warn("Employee failed to be updated!!"); 
+			exceptionHandler(ge);
+		} 
 		return null;
 		}
 	
 	public String removeEmployee(int id) {
-		log.info("removeEmployee Init");
 		if(userService.remove(userService.findById(id))) {
 			refreshEmployees();
 			selectedEmployee = new User();
-			log.info("Employee deleted succesfully!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Employee was deleted Succesfully!") );
-		}else {
-			log.info("Employee could not be deleted!");
-			System.out.println("User could not be deleted!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be deleted!") );
-		}
-		
+			addMessage(new FacesMessage(getSuccess(), SuccessMessages.EMPLOYEE_DELETED.getMessage()));
+			}else {
+				addMessage( new FacesMessage(getError(), ErrorMessages.EMPLOYEE_DELETE_FAIL.getMessage()) );
+			}
 		return null;
-
 		}
 	
 	public String selectEmployee(int id) {
@@ -293,6 +234,32 @@ public class UserManagementBean implements Serializable {
 	public String edit() {
 		return "edit?faces-redirect=true&id="+getId();
 	}
-	
+	private void exceptionHandler(GeneralException exception) {
+		if(exception!=null) {
+			addMessage(new FacesMessage(getError(),exception.getMessage()));
+		}
+		
+	}
+	private void addMessage(FacesMessage fm) {
+		FacesContext.getCurrentInstance().addMessage(null, fm );
+		String severity = fm.getSummary();
+		switch (severity) {
+		case "Error!":
+			log.warn(fm.getDetail());
+			break;
+		case "Success!":
+			log.info(fm.getDetail());
+			break;
+		default:
+			log.info(fm.getDetail());
+			break;
+		}
+	}
+	private String getSuccess() {
+		return "Success!";
+	}
+	private String getError() {
+		return "Error!";
+	}
 	
 }

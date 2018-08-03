@@ -14,6 +14,7 @@ import com.ikubinfo.certification.dao.impl.UserDaoImpl;
 import com.ikubinfo.certification.exception.DeletedUserException;
 import com.ikubinfo.certification.exception.EmailExistsException;
 import com.ikubinfo.certification.exception.FullNameExistsException;
+import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.exception.PhoneNumberExistsException;
 import com.ikubinfo.certification.exception.SsnExistsException;
 import com.ikubinfo.certification.exception.UsernameExistsException;
@@ -32,8 +33,8 @@ public class UserServiceImpl implements UserService, Serializable {
 	private UserDao userDao;
 	
 	@Override
-	public boolean add(User user) throws DeletedUserException, UsernameExistsException, SsnExistsException, FullNameExistsException, PhoneNumberExistsException, EmailExistsException   {
-		if(isValidUsername(user) && isValidSsn(user) && isValidFullName(user) && isValidPhoneNumber(user) && isValidEmail(user)) {
+	public boolean add(User user) throws GeneralException   {
+		if(validateUser(user)) {
 				BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 				String encryptedPassword = passwordEncryptor.encryptPassword(user.getPassword());
 				user.setPassword(encryptedPassword);
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService, Serializable {
 	}
 
 	@Override
-	public boolean update(User userToBeUpdated) throws DeletedUserException, UsernameExistsException, SsnExistsException, FullNameExistsException, PhoneNumberExistsException, EmailExistsException  {
+	public boolean update(User userToBeUpdated) throws GeneralException  {
 		User user = findById(userToBeUpdated.getId());
 		log.info("User "+user.getName() +" "+ user.getSurname());
 		log.info("User to be validated "+userToBeUpdated.getName()+" "+userToBeUpdated.getSurname());
@@ -99,32 +100,32 @@ public class UserServiceImpl implements UserService, Serializable {
 	}
 
 	@Override
-	public boolean isValidUsername(User user) throws DeletedUserException, UsernameExistsException{
+	public boolean isValidUsername(User user) throws GeneralException{
 		return userDao.isValidUsername(user);
 	}
 
 	@Override
-	public boolean isValidSsn(User user) throws DeletedUserException, SsnExistsException {
+	public boolean isValidSsn(User user) throws GeneralException {
 		return userDao.isValidSsn(user);
 	}
 
 	@Override
-	public boolean isValidFullName(User user) throws DeletedUserException, FullNameExistsException {
+	public boolean isValidFullName(User user) throws GeneralException {
 		return userDao.isValidFullName(user);
 	}
 
 	@Override
-	public boolean isValidPhoneNumber(User userToBeValidated) throws DeletedUserException, PhoneNumberExistsException {
+	public boolean isValidPhoneNumber(User userToBeValidated) throws GeneralException {
 		return userDao.isValidPhoneNumber(userToBeValidated);
 	}
 
 	@Override
-	public boolean isValidEmail(User userToBeValidated) throws DeletedUserException, EmailExistsException {
+	public boolean isValidEmail(User userToBeValidated) throws GeneralException {
 		return userDao.isValidEmail(userToBeValidated);
 	}
 	
 	
-	
-
-	
+	private boolean validateUser(User user) throws GeneralException {
+		return isValidUsername(user) && isValidSsn(user) && isValidFullName(user) && isValidPhoneNumber(user) && isValidEmail(user);
+	}
 }

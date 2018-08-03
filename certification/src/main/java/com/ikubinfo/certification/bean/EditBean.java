@@ -16,8 +16,10 @@ import com.ikubinfo.certification.exception.DeletedUserException;
 import com.ikubinfo.certification.exception.EmailExistsException;
 import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.FullNameExistsException;
+import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.exception.PhoneNumberExistsException;
 import com.ikubinfo.certification.exception.SsnExistsException;
+import com.ikubinfo.certification.exception.SuccessMessages;
 import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
@@ -181,69 +183,40 @@ public class EditBean implements Serializable {
 		User user = userService.findById(id);
 		if(newPassword!=null && newPassword!="") {
 			if(passwordEncryptor.checkPassword(newPassword, user.getPassword())) {
-				log.warn("New password is the same as the old one");
-				log.info("Password was not updated");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "The new password is the same as the old one.Please enter a valid password!"));
+				addMessage(new FacesMessage(getError(), 
+						   ErrorMessages.EMPLOYEE_SAME_PASSWORD.getMessage()));
 			    newPassword="";
 			    return null;
 			}else {
 				selectedEmployee.setPassword(passwordEncryptor.encryptPassword(newPassword));
-				log.info("Password was updated succesfully");
-				System.out.println("Password was updated succesfully");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "The password was updated succesfully!"));
+				addMessage( new FacesMessage(getSuccess(), 
+							SuccessMessages.EMPLOYEE_PASSWORD_UPDATED.getMessage()));
 			    newPassword="";
 			}
 		}
 		if(selectedEmployee.equals(user)) {
 			disableEditing();
-			log.info("No changes have been made to employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Info!", "No changes have been made to employee :"+selectedEmployee.getName()+" "+selectedEmployee.getSurname()) );
+			addMessage( new FacesMessage("Info!", 
+						SuccessMessages.EMPLOYEE_NO_CHANGE.getMessage()));
 		    return null;
 		}
 		try {
 			if(userService.update(selectedEmployee)) {
 				disableEditing();
 				selectedEmployee = new User();
-				log.info("Employee updated succesfully!");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Employee was updated Succesfully!") );
+				addMessage( new FacesMessage(getSuccess(), 
+							SuccessMessages.EMPLOYEE_UPDATED.getMessage()) );
 			}
 			else {
 				disableEditing();
-				log.fatal("Employee failed to be updated!!");
-				log.info("Unknown error[Returns False]");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!! If the problem persists please contact the Administrator.") );
+				addMessage( new FacesMessage(getError(),
+							ErrorMessages.EMPLOYEE_UPDATE_FAIL.getMessage()+" If the problem persists please contact the Administrator.") );
 			}
-		} catch (DeletedUserException e) {
+		} catch (GeneralException e) {
 			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Username/SSN/Full Name conflicts with a deleted employee");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Username/SSN/Full Name conflicts with a deleted employee. If the problem persists please contact the Administrator.") );
-		} catch (UsernameExistsException e) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Username "+selectedEmployee.getUsername()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Username "+selectedEmployee.getUsername()+" belongs to another employee!") );
-		} catch (SsnExistsException e) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("SSN "+selectedEmployee.getSsn()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!SSN "+selectedEmployee.getSsn()+" belongs to another employee!") );
-		} catch (FullNameExistsException e) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Full Name "+selectedEmployee.getName()+" "+selectedEmployee.getSurname()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Full Name "+selectedEmployee.getName()+" "+selectedEmployee.getSurname()+" belongs to another employee!") );
-		} catch (PhoneNumberExistsException ph) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Phone Number "+selectedEmployee.getPhoneNumber()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Phone Number "+selectedEmployee.getPhoneNumber()+" belongs to another employee!") );
-		} catch (EmailExistsException ex) {
-			disableEditing();
-			log.warn("Employee failed to be updated!!");
-			log.info("Phone Number "+selectedEmployee.getPhoneNumber()+" belongs to another employee!");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Employee failed to be updated!!Phone Number "+selectedEmployee.getEmail()+" belongs to another employee!") );
-		}
+			log.warn(ErrorMessages.EMPLOYEE_UPDATE_FAIL.getMessage());
+			exceptionHandler(e);
+		} 
 		return null;
 	}
 
@@ -251,21 +224,11 @@ public class EditBean implements Serializable {
 			try {
 				certificationService.edit(selectedCertificate);
 				setStatusesList();
-				log.info("Certification updated successfully!");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification updated successfully!") );
+				addMessage( new FacesMessage(getSuccess(),
+							SuccessMessages.CERTIFICATION_UPDATED.getMessage()) );
 				
-			} catch (CertificationException e) {
-				if(e.getMessage().equals(ErrorMessages.DUPLICATE_CERTIFICATION.getMessage())) {
-					log.info("Certification is already assigned to employee!");
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "Certification is already assigned to employee!") );
-				}else if(e.getMessage().equals(ErrorMessages.PREVIOUSLY_DELETED_CERTIFICATION.getMessage())) {
-					log.info("Certification has been previously assigned to employee!");
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Success!", "Certification has been previously assigned to employee but has been deleted!") );
-				}
-				else {
-					log.error(e.getMessage());
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error!", "error message:"+e.getMessage()) );
-				}
+			} catch (GeneralException e) {
+				exceptionHandler(e);
 			}
 			return "";
 		
@@ -300,5 +263,32 @@ public class EditBean implements Serializable {
 		}else if(!selectedCertificate.getStatus()) {
 			statuses.add(false);statuses.add(true);statuses.add(null);
 		}
+	}
+	private void exceptionHandler(GeneralException exception) {
+		if(exception!=null) {
+			addMessage(new FacesMessage(getError(),exception.getMessage()));
+		}
+		
+	}
+	private void addMessage(FacesMessage fm) {
+		FacesContext.getCurrentInstance().addMessage(null, fm );
+		String severity = fm.getSummary();
+		switch (severity) {
+		case "Error!":
+			log.warn(fm.getDetail());
+			break;
+		case "Success!":
+			log.info(fm.getDetail());
+			break;
+		default:
+			log.info(fm.getDetail());
+			break;
+		}
+	}
+	private String getSuccess() {
+		return "Success!";
+	}
+	private String getError() {
+		return "Error!";
 	}
 }

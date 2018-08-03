@@ -1,29 +1,30 @@
 package com.ikubinfo.certification.exception;
 
 public enum ErrorMessages {
-	DUPLICATE_CERTIFICATION ("Certification is already assigned to this employee!",0),
-	PREVIOUSLY_DELETED_CERTIFICATION("Certification has been previously assigned to this employee, but has been soft deleted!",1),
-	DUPLICATE_EMPLOYEE_USERNAME("Username already belongs to another existing Employee!",2),
-	DUPLICATE_EMPLOYEE_EMAIL("Email Address already belongs to another existing Employee!",3),
-	DUPLICATE_EMPLOYEE_FULL_NAME("Full Name already belongs to another existing Employee!",4),
-	DUPLICATE_EMPLOYEE_PHONE("Phone Number already belongs to another existing Employee!",5),
-	DUPLICATE_EMPLOYEE_SSN("SSN already belongs to another existing Employee!",6),
-	PREVIOUSLY_DELETED_EMPLOYEE("Employee already exists, but has been soft deleted!",7),
-	DUPLICATE_CERTIFICATE("Certificate already exists!",8),
-	PREVIOUSLY_DELETED_CERTIFICATE("Certificate already exists, but has been soft deleted!",9);
+	CERTIFICATION_DUPLICATE ("Certification is already assigned to this employee!"),
+	CERTIFICATION_PREVIOUSLY_DELETED("Certification has been previously assigned to this employee, but has been soft deleted!"),
+	CERTIFICATE_UNASSIGN_FAIL("Certification failed to be unassgined!"),
+	EMPLOYEE_DUPLICATE_USERNAME("Username already belongs to another active Employee!"),
+	EMPLOYEE_DUPLICATE_EMAIL("Email Address already belongs to another active Employee!"),
+	EMPLOYEE_DUPLICATE_FULL_NAME("Full Name already belongs to another active Employee!"),
+	EMPLOYEE_DUPLICATE_PHONE("Phone Number already belongs to another active Employee!"),
+	EMPLOYEE_DUPLICATE_SSN("SSN already belongs to another active Employee!"),
+	EMPLOYEE_PREVIOUSLY_DELETED("Employee already exists, but has been soft deleted!"),
+	EMPLOYEE_DELETE_FAIL("Employee failed to be deleted!"),
+	EMPLOYEE_UPDATE_FAIL("Employee failed to be updated!"),
+	EMPLOYEE_SAME_PASSWORD("The new password is the same as the old one!"),
+	EMPLOYEE_UPDATE_PASSWORD_FAIL("Password failed to be updated!"),
+	CERTIFICATE_DELETE_FAIL("Certificate failed to be deleted!"),
+	CERTIFICATE_DUPLICATE("Certificate already exists!"),
+	CERTIFICATE_PREVIOUSLY_DELETED("Certificate already exists, but has been soft deleted!");
 	
 	private String message;
-	private int errorCode;
 	
 	public String getMessage() {
 		return message;
 	}
 	
-	public int errorCode() {
-		return errorCode;
-	}
-	private ErrorMessages(String message, int errorCode) {
+	private ErrorMessages(String message) {
 		this.message = message;
-		this.errorCode = errorCode;
 	}
 }
