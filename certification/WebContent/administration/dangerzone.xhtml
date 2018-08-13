@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+<h:head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Danger Zone</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet"
+		href="../resources/vendors/iconfonts/mdi/css/materialdesignicons.min.css" />
+	<link rel="stylesheet"
+		href="../resources/vendors/css/vendor.bundle.base.css" />
+	<!-- endinject -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="../resources/css/style.css" />
+	<!-- endinject -->
+	<link rel="shortcut icon" href="../resources/images/favicon.png" />
+	<style type="text/css">
+.ui-growl {
+	top: 75px;
+}
+
+.ui-growl-item-container {
+	background-image: -o-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -moz-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.24, #9c57ff
+		), color-stop(0.62, #9c57ff));
+	background-image: -webkit-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -ms-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	/* This last line is all you need for modern browsers */
+	background-image: linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight {
+	background-image: linear-gradient(to bottom, #a25cff, #9c57ff)
+		!important;
+	background-color: #9c57ff !important;
+}
+</style>
+</h:head>
+<h:body>
+	<div class="container-scroller">
+		<!-- partial:partials/_navbar.html -->
+		<ui:include src="../resources/partials/_navbar.xhtml" />
+		<!-- partial -->
+		<div class="container-fluid page-body-wrapper">
+			<!-- partial:partials/_sidebar.html -->
+			<ui:include src="../resources/partials/_sidebar.xhtml" />
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="page-header">
+						<h3 class="page-title">
+							<span class="page-title-icon bg-danger text-white mr-2"> <i
+								class="mdi mdi-home"></i>
+							</span> Danger Zone
+						</h3>
+						<nav aria-label="breadcrumb">
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page"><span></span>Home
+								<i
+								class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+							</li>
+						</ul>
+						</nav>
+					</div>
+					<div class="row">
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs nav-justified">
+							<li class="nav-item"><a class="nav-link active"
+								data-toggle="tab" href="#panel1" role="tab">Employees</a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#panel2" role="tab">Certificates</a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#panel3" role="tab">Certifications</a></li>
+						</ul>
+						<!-- Tab panels -->
+						<div class="tab-content card">
+							<!--Panel 1-->
+							<div class="tab-pane fade in show active" id="panel1"
+								role="tabpanel">
+								<br />
+								<h:form id="formEmployee">
+									<p:growl id="growlEmployee" showDetail="true" severity="info"
+										sticky="true" />
+									<p:dataTable id="employees" var="employe"
+										value="#{dangerZoneBean.employees}" widgetVar="employeesTable"
+										multiViewState="true" rows="10" paginator="true"
+										paginatorPosition="bottom"
+										paginatorTemplate=" {PreviousPageLink} 
+				                 			{PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+										rowsPerPageTemplate="5,10,15" selectionMode="single"
+										selection="#{dangerZoneBean.employee}" rowKey="#{employe}"
+										class="table"
+										emptyMessage="No employees found with given criteria">
+
+										<p:column id="table_header_name" style="width:13%">
+											<f:facet name="header">Name</f:facet>
+											<h:outputText value="#{employe.name}" />
+										</p:column>
+
+										<p:column id="table_header_surname" style="width:13%">
+											<f:facet name="header">Surname</f:facet>
+											<h:outputText value="#{employe.surname}" />
+										</p:column>
+
+										<p:column id="table_header_address">
+											<f:facet name="header">Address</f:facet>
+											<h:outputText
+												value="#{(fn:length(employe.address)>20) ?
+							            						 fn:substring(employe.address,0,20) 
+							            						 : employe.address} 
+																#{(fn:length(employe.address)>20) ? '...' : ''}" />
+										</p:column>
+
+										<p:column id="table_header_birthday" style="width:13%">
+											<f:facet name="header">Birth Day</f:facet>
+											<h:outputText value="#{employe.dateOfBirth}">
+												<f:convertDateTime pattern="dd-MM-yyyy" />
+											</h:outputText>
+										</p:column>
+
+										<p:column id="table_header_email">
+											<f:facet name="header">Email Address</f:facet>
+											<h:outputText
+												value="#{(fn:length(employe.email)>30) ?
+							            						 fn:substring(employe.email,0,30) 
+							            						 : employe.email} 
+																#{(fn:length(employe.email)>30) ? '...' : ''}" />
+										</p:column>
+
+										<p:column style="width:6%">
+											<p:commandLink update=":formEmployee:employees :formEmployee:growlEmployee"
+												action="#{dangerZoneBean.restoreEmployee(employe.id)}">
+												<i class="fa fa-pencil"></i>
+											</p:commandLink>
+											<h:outputLabel value=" " />
+											<p:commandLink update=":formEmployee:employees :formEmployee:growlEmployee"
+												action="#{dangerZoneBean.removeEmployee(employe.id)}">
+												<i class="fa fa-trash"></i>
+											</p:commandLink>
+										</p:column>
+
+									</p:dataTable>
+								</h:form>
+							</div>
+							<!--/.Panel 1-->
+							<!--Panel 2-->
+							<div class="tab-pane fade" id="panel2" role="tabpanel">
+								<br />
+								<p:dataTable id="certificates" var="certificate"
+									value="#{dangerZoneBean.certificates}" multiViewState="true"
+									rows="10" paginator="true" class="table"
+									paginatorPosition="bottom">
+									<p:column headerText="Title">
+										<h:outputText value="#{certificate.title}" />
+									</p:column>
+									<p:column headerText="Description">
+
+										<h:outputText id="certificateDescription"
+											value="#{(fn:length(certificate.description)>20) ?
+							            						 fn:substring(certificate.description,0,20) 
+							            						 : certificate.description} 
+																#{(fn:length(certificate.description)>20) ? '...' : ''}">
+										</h:outputText>
+									</p:column>
+									<p:column headerText="Technology">
+										<h:outputText value="#{certificate.technology.title}" />
+									</p:column>
+									<p:column style="width:5%;text-align: center">
+										<p:commandLink
+											action="#{managerCertificationBean.removeCertificate(certificate.id)}">
+											<i class="fa fa-trash"></i>
+										</p:commandLink>
+									</p:column>
+									<p:rowExpansion>
+										<h4>Description</h4>
+										<h:outputText value="#{certificate.description}" />
+									</p:rowExpansion>
+								</p:dataTable>
+							</div>
+							<!--/.Panel 2-->
+							<!--Panel 3-->
+							<div class="tab-pane fade" id="panel3" role="tabpanel">
+								<br />
+
+								<p:dataTable id="certificationTable" var="certification"
+									value="#{dangerZoneBean.certifications}"
+									widgetVar="certificationsTable" multiViewState="true" rows="10"
+									paginator="true" paginatorPosition="bottom"
+									paginatorTemplate=" {PreviousPageLink} 
+				                 			{PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="5,10,15" selectionMode="single"
+									selection="#{managerCertificationBean.certification}"
+									rowKey="#{certification}"
+									emptyMessage="No employees found with given criteria"
+									class="table">
+
+									<p:column id="table_header_name">
+										<f:facet name="header">Name</f:facet>
+										<h:outputText value="#{certification.user.name}" />
+									</p:column>
+
+									<p:column id="table_header_surname">
+										<f:facet name="header">Surname</f:facet>
+										<h:outputText value="#{certification.user.surname}" />
+									</p:column>
+
+									<p:column id="table_header_address">
+										<f:facet name="header">Certificate</f:facet>
+										<h:outputText value="#{certification.certificate.title}" />
+									</p:column>
+
+									<p:column id="table_header_date">
+										<f:facet name="header">Date</f:facet>
+										<h:outputText value="#{certification.dateAssigned}">
+											<f:convertDateTime pattern="dd-MM-yyyy" />
+										</h:outputText>
+									</p:column>
+									<p:column id="table_header_status">
+										<f:facet name="header">Status</f:facet>
+										<h:outputLabel
+											value="#{certification.status != null ? (certification.status == true ? 'Passed' : 'Failed' ) : 'On Progress'}"
+											class="badge #{certification.status != null ? (certification.status == true ? 'badge-success' : 'badge-danger' ) : 'badge-warning'}" />
+									</p:column>
+
+									<p:column style="width:10%">
+										<p:commandLink
+											action="#{managerCertificationBean.edit(certification)}">
+											<i class="fa fa-pencil"></i>
+										</p:commandLink>
+										<h:outputLabel value=" " />
+										<p:commandLink
+											action="#{managerCertificationBean.removeCertification(certification.id)}">
+											<i class="fa fa-trash"></i>
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
+							</div>
+							<!--/.Panel 3-->
+						</div>
+					</div>
+				</div>
+				<!-- content-wrapper ends -->
+				<!-- partial:partials/_footer.html -->
+				<ui:include src="../resources/partials/_footer.xhtml" />
+				<!-- partial -->
+			</div>
+			<!-- main-panel ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+
+	<!-- plugins:js -->
+	<script src="../resources/vendors/js/vendor.bundle.base.js"></script>
+	<script src="../resources/vendors/js/vendor.bundle.addons.js"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<script src="../resources/js/off-canvas.js"></script>
+	<script src="../resources/js/misc.js"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script src="../resources/js/dashboard.js"></script>
+	<!-- End custom js for this page-->
+</h:body>
+
+</html>

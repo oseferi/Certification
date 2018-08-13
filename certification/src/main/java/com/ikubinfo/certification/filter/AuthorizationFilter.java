@@ -91,6 +91,10 @@ public class AuthorizationFilter implements Filter {
 				}else {
 					httpServletResponse.sendError(401,"Unauthorized Access!Please log in to access this resource.");
 				}
+			}else {
+				if(uri.contains("error")) {
+					chain.doFilter(servletRequest, servletResponse);
+				}
 			}
 		}
 

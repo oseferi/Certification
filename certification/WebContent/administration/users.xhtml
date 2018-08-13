@@ -1,0 +1,604 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+<h:head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>User Management</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet"
+		href="../resources/vendors/iconfonts/mdi/css/materialdesignicons.min.css" />
+	<link rel="stylesheet"
+		href="../resources/vendors/css/vendor.bundle.base.css" />
+	<!-- endinject -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="../resources/css/style.css" />
+	<!-- endinject -->
+	<link rel="shortcut icon" href="../resources/images/favicon.png" />
+	<style type="text/css">
+.ui-growl {
+	top: 75px;
+}
+
+.ui-growl-item-container {
+	background-image: -o-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -moz-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.24, #9c57ff
+		), color-stop(0.62, #9c57ff));
+	background-image: -webkit-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -ms-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	/* This last line is all you need for modern browsers */
+	background-image: linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight {
+	background-image: linear-gradient(to bottom, #a25cff, #9c57ff)
+		!important;
+	background-color: #9c57ff !important;
+}
+
+.ui-widget-content .ui-inputfield {
+	width: 100%;
+}
+</style>
+</h:head>
+<h:body>
+	<div class="container-scroller">
+		<!-- partial:partials/_navbar.html -->
+		<ui:include src="../resources/partials/_navbar.xhtml" />
+		<!-- partial -->
+		<div class="container-fluid page-body-wrapper">
+			<!-- partial:partials/_sidebar.html -->
+			<ui:include src="../resources/partials/_sidebar.xhtml" />
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="page-header">
+						<h3 class="page-title">
+							<span class="page-title-icon bg-gradient-primary text-white mr-2">
+								<i class="mdi mdi-home"></i>
+							</span> User Management
+						</h3>
+						<nav aria-label="breadcrumb">
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><a href="index.xhtml"> <span></span>Home
+							</a></li>
+							<li class="breadcrumb-item active" aria-current="page"><span></span>Employees
+								<i
+								class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+							</li>
+						</ul>
+						</nav>
+					</div>
+					<div class="row">
+						<!-- C O N T E N T -->
+						<div class="col-lg-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+
+									<h:form id="employeeForm">
+										<div class="border-bottom">
+											<h1 class="font-weight-normal text-primary mb-3">Employees</h1>
+										</div>
+
+										<p:growl id="growl1" showDetail="true" severity="info"
+											sticky="true" />
+
+										<!-- - - - - - - - - 
+										 D A T A T A B L E 
+										 - - - - - - - - - -->
+
+										<p:dataTable id="tableStateDT" var="employe"
+											value="#{userManagementBean.employees}"
+											widgetVar="employeesTable" multiViewState="true" rows="10"
+											paginator="true" paginatorPosition="bottom"
+											paginatorTemplate="{PreviousPageLink} 
+                 							{PageLinks} {NextPageLink}  {RowsPerPageDropdown}"
+											rowsPerPageTemplate="5,10,15" selectionMode="single"
+											selection="#{userManagementBean.selectedEmployee}"
+											rowKey="#{employe}" class="table"
+											emptyMessage="No employees found with given criteria">
+
+											<p:ajax event="rowSelect"
+												update=":employeeForm:employeeDetail"
+												oncomplete="PF('employeeDialog').show()" />
+
+											<p:column id="table_header_name" style="width:13%">
+												<f:facet name="header">Name</f:facet>
+												<h:outputText value="#{employe.name}" />
+											</p:column>
+
+											<p:column id="table_header_surname" style="width:13%">
+												<f:facet name="header">Surname</f:facet>
+												<h:outputText value="#{employe.surname}" />
+											</p:column>
+
+											<p:column id="table_header_address">
+												<f:facet name="header">Address</f:facet>
+												<h:outputText
+													value="#{(fn:length(employe.address)>20) ?
+							            						 fn:substring(employe.address,0,20) 
+							            						 : employe.address} 
+																#{(fn:length(employe.address)>20) ? '...' : ''}" />
+											</p:column>
+
+											<p:column id="table_header_birthday" style="width:13%">
+												<f:facet name="header">Birth Day</f:facet>
+												<h:outputText value="#{employe.dateOfBirth}">
+													<f:convertDateTime pattern="dd-MM-yyyy" />
+												</h:outputText>
+											</p:column>
+
+											<p:column id="table_header_email">
+												<f:facet name="header">Email Address</f:facet>
+												<h:outputText
+													value="#{(fn:length(employe.email)>30) ?
+							            						 fn:substring(employe.email,0,30) 
+							            						 : employe.email} 
+																#{(fn:length(employe.email)>30) ? '...' : ''}" />
+											</p:column>
+
+											<p:column style="width:6%">
+												<p:commandLink
+													action="#{userManagementBean.edit(employe.id)}">
+													<i class="fa fa-pencil"></i>
+												</p:commandLink>
+												<h:outputLabel value=" " />
+												<p:commandLink
+													action="#{userManagementBean.removeEmployee(employe.id)}"
+													update=":employeeForm:tableStateDT :employeeForm:growl1">
+													<i class="fa fa-trash"></i>
+												</p:commandLink>
+											</p:column>
+
+										</p:dataTable>
+										<h:outputText value="&lt;br/&gt;" escape="false" />
+										<div class="text-right">
+											<p:commandButton icon="fa fa-plus"
+												class="btn btn-outline-primary btn-rounded btn-icon btn-sm "
+												onclick="PF('newEmployeeDialog').show()">
+											</p:commandButton>
+										</div>
+
+										<!-- - - - - - - - - - -  
+										 E D I T  E M P L O Y E 
+										 - - - - - - - - - - -->
+
+										<p:dialog header="Employee Info" widgetVar="employeeDialog"
+											showEffect="fade" hideEffect="fade" resizable="false"
+											height="450">
+											<p:outputPanel id="employeeDetail" style="text-align:center;">
+
+												<table class="table table-hover">
+													<tr>
+														<td colspan="2">
+															<h4>
+																<h:outputLabel>Full Name</h:outputLabel>
+															</h4>
+															<div class="form-inline">
+																<h:inputText id="Employee_Name_Editable"
+																	value="#{userManagementBean.selectedEmployee.name}"
+																	required="true" style="width:43%;margin-right:3.5%"
+																	label="Name" requiredMessage="Name is required"
+																	maxlength="200"
+																	disabled="#{not userManagementBean.selectedEmployeeEditable}"
+																	class="form-control form-control-sm" />
+
+																<h:inputText id="Employee_Surname_Editable"
+																	value="#{userManagementBean.selectedEmployee.surname}"
+																	required="true" style="width:50%;margin-left:3.5%"
+																	label="Surname" requiredMessage="Surname is required"
+																	class="form-control form-control-sm" maxlength="200"
+																	disabled="#{not userManagementBean.selectedEmployeeEditable}" />
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>SSN</h:outputLabel>
+															</h4> <h:inputText id="Employee_SSN_Editable"
+																value="#{userManagementBean.selectedEmployee.ssn}"
+																disabled="#{not userManagementBean.selectedEmployeeEditable}"
+																required="true" maxlength="50"
+																label="Social Security Number"
+																requiredMessage="Social Security Number is required"
+																class="form-control form-control-sm" />
+														</td>
+														<td>
+															<h4>
+																<h:outputLabel>Date of Birth</h:outputLabel>
+															</h4> <p:calendar id="Employee_BirthDay_Editable"
+																value="#{userManagementBean.selectedEmployee.dateOfBirth}"
+																disabled="#{not userManagementBean.selectedEmployeeEditable}"
+																required="true" class="form-control form-control-sm"
+																label="Birth Day"
+																requiredMessage="Birth Day is required" />
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>Salary</h:outputLabel>
+															</h4> <p:inputNumber id="Employee_Salary_Editable"
+																minValue="0" maxValue="1000000" thousandSeparator=","
+																decimalSeparator="." decimalPlaces="2" symbol=" ALL"
+																symbolPosition="s"
+																value="#{userManagementBean.selectedEmployee.salary}"
+																disabled="#{not userManagementBean.selectedEmployeeEditable}"
+																required="true" class="form-control form-control-sm"
+																label="Salary" requiredMessage="Salary is required" />
+
+														</td>
+														<td>
+															<h4>
+																<h:outputLabel>Telephone</h:outputLabel>
+															</h4> <p:inputNumber id="Employee_Phone_Number_Editable"
+																minValue="355660000000" maxValue="355699999999"
+																thousandSeparator="" decimalSeparator=""
+																decimalPlaces="0"
+																value="#{userManagementBean.selectedEmployee.phoneNumber}"
+																disabled="#{not userManagementBean.selectedEmployeeEditable}"
+																required="true" maxlength="200"
+																class="form-control form-control-sm"
+																label="Phone Number"
+																requiredMessage="Phone Number is required" />
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															<h4>
+																<h:outputLabel>Email</h:outputLabel>
+															</h4> <h:inputText id="Employee_Email_Editable"
+																pt:type="email"
+																value="#{userManagementBean.selectedEmployee.email}"
+																disabled="#{not userManagementBean.selectedEmployeeEditable}"
+																required="true" maxlength="200"
+																class="form-control form-control-sm" label="Email"
+																requiredMessage="Email is required" />
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															<h4>
+																<h:outputLabel>Address</h:outputLabel>
+															</h4> <p:inputTextarea id="Employee_Address_Editable"
+																rows="10" cols="30" counter="display" maxlength="500"
+																counterTemplate="{0} characters remaining."
+																autoResize="false" class="form-control form-control-sm"
+																value="#{userManagementBean.selectedEmployee.address}"
+																disabled="#{not userManagementBean.selectedEmployeeEditable}"
+																required="true" /> <h:outputText id="display"
+																rendered="#{userManagementBean.selectedEmployeeEditable}"
+																label="Address" requiredMessage="Address is required" />
+
+														</td>
+													</tr>
+												</table>
+	
+												<p:outputPanel id="employeeCredentials"
+													rendered="#{(not userManagementBean.selectedEmployeeEditable) and (userManagementBean.selectedEmployeeCredentialsEditable)}">
+													<hr/>
+													<h:outputLabel value="CREDENTIALS"
+														class="badge badge-success" />
+													<table class="table">
+														<tr>
+															<td>
+																<h4>
+																	<h:outputLabel>User Name</h:outputLabel>
+																</h4> <h:inputText id="Employee_Username" label="Username"
+																	value="${userManagementBean.selectedEmployee.username}"
+																	disabled="true" class="form-control form-control-sm" />
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<h4>
+																	<h:outputLabel>New Password</h:outputLabel>
+																</h4> <p:password id="Employee_Password" label="New Password"
+																	value="#{userManagementBean.newPassword}"
+																	feedback="true" class="form-control form-control-sm"
+																	validationMessage="Please provide a valid password"
+																	match="Employee_Password_Repeat" />
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<h4>
+																	<h:outputLabel>Repeat Password*</h:outputLabel>
+																</h4> <p:password id="Employee_Password_Repeat"
+																	label="Repeat Password"
+																	value="#{userManagementBean.newPassword}"
+																	class="form-control form-control-sm" />
+															</td>
+														</tr>
+													</table>
+
+												</p:outputPanel>
+
+												<p:messages closable="true" severity="error">
+													<p:autoUpdate />
+												</p:messages>
+												<div class="row">
+													<div class="col-md-3 text-right ">
+														<p:commandLink class="btn btn-outline-primary btn-rounded"
+															update="employeeDetail"
+															rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"
+															action="#{userManagementBean.enableEditing()}">
+													    EDIT
+													    <i class="fa fa-edit"></i>
+														</p:commandLink>
+
+													</div>
+													<p:commandLink id="save_button" type="submit"
+														icon="fa fa-check"
+														class="btn btn-outline-success btn-rounded"
+														value="Save"
+														update=":employeeForm:growl1 tableStateDT employeeDetail"
+														oncomplete="if (args &amp;&amp; !args.validationFailed) PF('employeeDialog').hide()"
+														rendered="#{userManagementBean.selectedEmployeeEditable or userManagementBean.selectedEmployeeCredentialsEditable}"
+														action="#{userManagementBean.updateEmployee(userManagementBean.selectedEmployee.id)}">
+
+														<p:confirm header="Confirmation" message="Save Employee?"
+															icon="ui-icon-alert" />
+
+													</p:commandLink>
+													<p:commandLink id="cancel_button" type="submit"
+														icon="fa fa-times "
+														class="btn btn-outline-danger btn-rounded"
+														update="employeeDetail" value="Cancel"
+														rendered="#{userManagementBean.selectedEmployeeEditable or userManagementBean.selectedEmployeeCredentialsEditable}"
+														action="#{userManagementBean.disableEditing()}"
+														process="@this">
+													</p:commandLink>
+
+
+
+													<div class="col-md-6 offset-md-3 text-center  ">
+														<p:commandLink class="btn btn-inverse-warning btn-fw"
+															rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"
+															update="employeeDetail"
+															action="#{userManagementBean.enableCredentialsEditing()}">
+														Edit Credentials 	
+														<i class="fa fa-key"></i>
+														</p:commandLink>
+													</div>
+												</div>
+
+
+												<p:confirmDialog global="true" showEffect="fade"
+													hideEffect="fade">
+													<p:commandButton value="Yes" type="button"
+														styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+													<p:commandButton value="No" type="button"
+														styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+												</p:confirmDialog>
+												<hr />
+											</p:outputPanel>
+										</p:dialog>
+									</h:form>
+
+									<!-- - - - - - - - - -  
+									 A D D  E M P L O Y E 
+									 - - - - - - - - - - -->
+
+									<h:form id="addForm">
+										<p:dialog header="New Employee" widgetVar="newEmployeeDialog"
+											width="800" height="450" showEffect="fade" hideEffect="fade"
+											resizable="false">
+
+											<h:outputLabel value="Personal Details"
+												class="badge badge-success" />
+											<p:outputPanel id="newEmployee" style="">
+												<table class="table">
+													<tr>
+														<td colspan="2">
+															<h4>
+																<h:outputLabel>Full Name</h:outputLabel>
+															</h4>
+															<div class="form-inline">
+																<h:inputText id="Employee_Name" pt:placeholder="NAME"
+																	value="#{userManagementBean.employee.name}"
+																	required="true" style="width:46%;margin-right:3.5%"
+																	label="Name" requiredMessage="Name is required"
+																	maxlength="200" class="form-control form-control-sm" />
+
+																<h:inputText id="Employee_Surname"
+																	pt:placeholder="SURNAME"
+																	value="#{userManagementBean.employee.surname}"
+																	required="true" style="width:50%;" label="Surname"
+																	requiredMessage="Surname is required"
+																	class="form-control form-control-sm" maxlength="200" />
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>SSN</h:outputLabel>
+															</h4> <h:inputText id="Employee_SSN"
+																value="#{userManagementBean.employee.ssn}"
+																required="true" maxlength="50"
+																label="Social Security Number"
+																requiredMessage="Social Security Number is required"
+																class="form-control form-control-sm" />
+														</td>
+														<td>
+															<h4>
+																<h:outputLabel>Date of Birth</h:outputLabel>
+															</h4> <p:calendar id="Employee_BirthDay"
+																value="#{userManagementBean.employee.dateOfBirth}"
+																required="true" class="form-control form-control-sm"
+																label="Birth Day"
+																requiredMessage="Birth Day is required" />
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>Salary</h:outputLabel>
+															</h4> <p:inputNumber id="Employee_Salary" minValue="0"
+																maxValue="1000000" thousandSeparator=","
+																decimalSeparator="." decimalPlaces="2" symbol=" ALL"
+																symbolPosition="s"
+																value="#{userManagementBean.employee.salary}"
+																required="true" class="form-control form-control-sm"
+																label="Salary" requiredMessage="Salary is required" />
+
+														</td>
+														<td rowspan="2">
+															<h4>
+																<h:outputLabel>Address</h:outputLabel>
+															</h4> <p:inputTextarea id="Employee_Address" rows="7"
+																counter="display" maxlength="500"
+																counterTemplate="{0} characters remaining."
+																autoResize="false" class="form-control form-control-sm"
+																value="#{userManagementBean.employee.address}"
+																required="true" label="Address"
+																requiredMessage="Address is required" /> <h:outputText
+																id="display" class="text-primary" />
+
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>Telephone</h:outputLabel>
+															</h4> <p:inputText id="Employee_Phone_Number" pt:type="number"
+																pt:placeholder="Ex. 355675623752" pt:min="355660000000"
+																pt:max="355699999999" thousandSeparator=""
+																decimalSeparator="" decimalPlaces="0"
+																value="#{userManagementBean.employee.phoneNumber}"
+																required="true" maxlength="200"
+																class="form-control form-control-sm"
+																label="Phone Number"
+																validationMessage="Please provide a valid number"
+																requiredMessage="Phone Number is required" /> <p:keyFilter
+																for="Employee_Phone_Number" mask="num" />
+														</td>
+													</tr>
+												</table>
+
+												<h3>
+													<h:outputLabel value="Credentials"
+														class="badge badge-danger" />
+												</h3>
+												<table class="table">
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>Email</h:outputLabel>
+															</h4> <h:inputText id="Employee_Email_Editable"
+																pt:type="email"
+																value="#{userManagementBean.employee.email}"
+																required="true" maxlength="200"
+																class="form-control form-control-sm" label="Email"
+																requiredMessage="Email is required">
+																<f:validateRegex
+																	pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
+															</h:inputText>
+														</td>
+														<td>
+															<h4>
+																<h:outputLabel>Username</h:outputLabel>
+															</h4> <h:inputText id="Employee_Username" label="Username"
+																value="#{userManagementBean.employee.username}"
+																class="form-control form-control-sm" required="true"
+																requiredMessage="Username is required" />
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>New Password</h:outputLabel>
+															</h4> <p:password id="Employee_Password" label="New Password"
+																value="#{userManagementBean.employee.password}"
+																feedback="true" class="form-control form-control-sm"
+																match="Employee_Password_Repeat" required="true"
+																requiredMessage="New Password is required" />
+														</td>
+														<td>
+															<h4>
+																<h:outputLabel>Repeat Password*</h:outputLabel>
+															</h4> <p:password id="Employee_Password_Repeat"
+																label="Repeat Password"
+																value="#{userManagementBean.employee.password}"
+																class="form-control form-control-sm" required="true"
+																requiredMessage="Password repeat is required" />
+														</td>
+													</tr>
+												</table>
+												<p:messages closable="true" severity="error">
+													<p:autoUpdate />
+												</p:messages>
+
+												<h:outputText value="&lt;br/&gt;" escape="false" />
+
+												<div class="text-center">
+													<p:commandLink id="Add_Button" type="submit"
+														update=":employeeForm:growl1 newEmployee :employeeForm:tableStateDT "
+														oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newEmployeeDialog').hide()"
+														value="Save"
+														class="btn btn-outline-info btn-rounded btn-md"
+														action="#{userManagementBean.addEmployee()}">
+														<p:confirm header="Confirmation" message="Are you sure?"
+															icon="ui-icon-alert" />
+													</p:commandLink>
+												</div>
+												<hr />
+											</p:outputPanel>
+
+											<p:confirmDialog global="true" showEffect="fade"
+												hideEffect="fade">
+												<p:commandButton value="Yes" type="button"
+													styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+												<p:commandButton value="No" type="button"
+													styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+											</p:confirmDialog>
+										</p:dialog>
+									</h:form>
+									<h:form id="form2"></h:form>
+								</div>
+							</div>
+						</div>
+						<!-- /C O N T E N T -->
+					</div>
+				</div>
+				<!-- content-wrapper ends -->
+				<!-- partial:partials/_footer.html -->
+				<ui:include src="../resources/partials/_footer.xhtml" />
+				<!-- partial -->
+			</div>
+			<!-- main-panel ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+
+	<!-- plugins:js -->
+	<script src="../resources/vendors/js/vendor.bundle.base.js"></script>
+	<script src="../resources/vendors/js/vendor.bundle.addons.js"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<script src="../resources/js/off-canvas.js"></script>
+	<script src="../resources/js/misc.js"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script src="../resources/js/dashboard.js"></script>
+	<!-- End custom js for this page-->
+</h:body>
+
+</html>

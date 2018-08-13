@@ -2,28 +2,19 @@ package com.ikubinfo.certification.dao.impl;
 
 
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-
 import org.apache.log4j.Logger;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
 import com.ikubinfo.certification.dao.CertificateDao;
-import com.ikubinfo.certification.exception.CertificateExistsException;
-import com.ikubinfo.certification.exception.DeletedCertificateException;
 import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.model.EmployeeCertification;
-
-import net.bytebuddy.asm.Advice.Return;
 
 @Repository(value="CertificateDao")
 @Scope("singleton")
@@ -66,6 +57,18 @@ public class CertificateDaoImpl implements CertificateDao{
 			}
 	}
 
+	@Override
+	public boolean removePermanently(Certificate certificate) {
+		try {
+			entityManager.remove(certificate);
+			log.info("Certificate: "+certificate.getTitle()+" was removed permanently!");
+			return true;
+		}catch (Exception e) {
+			log.info("Certificate : "+certificate.getTitle()+" failed to be removed permanently! Error message :"+e.getMessage());
+			return false;	
+		}
+	}
+	
 	@Transactional
 	@Override
 	public boolean update(Certificate certificate) {
@@ -103,7 +106,7 @@ public class CertificateDaoImpl implements CertificateDao{
 	public ArrayList<Certificate> getAll() {
 		try {
 			return (ArrayList<Certificate>) entityManager
-					.createQuery("Select certificate from Certificate certificate")
+					.createQuery("Select certificate from Certificate certificate Where certificate.deleted=1")
 					.getResultList();
 				
 		} catch (Exception e) {
@@ -117,7 +120,22 @@ public class CertificateDaoImpl implements CertificateDao{
 	public ArrayList<Certificate> getAllActive() { 
 		try {
 			return (ArrayList<Certificate>) entityManager
-					.createQuery("Select certificate from Certificate certificate Where deleted=0")
+					.createQuery("Select certificate from Certificate certificate Where certificate.deleted=0")
+					.getResultList();
+				
+		} catch (Exception e) {
+			log.info("Certificates cannot be found! Error message :"+e.getMessage());
+			return null;
+		}
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Certificate> getAllDisabled() {
+		try {
+			return (ArrayList<Certificate>) entityManager
+					.createQuery("Select certificate from Certificate certificate Where certificate.deleted=1")
 					.getResultList();
 				
 		} catch (Exception e) {
@@ -150,32 +168,56 @@ public class CertificateDaoImpl implements CertificateDao{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public boolean canBeDeleted(Integer certificateId) {
-		/*List<Object> results = entityManager.
-								createNativeQuery(	"SELECT *"+ 
-													"FROM certification.employee_certifications as ec"+
-													"INNER JOIN certification.certificates as c"+
-													"ON ec.certificate_id = c.id"+
-													"WHERE C.id=:id")
-								.setParameter("id", certificateId)
-								.getResultList();
-		if(results.isEmpty()) {
-			return true;
-		}else {
-			return false;
-		}*/
+	@Override
+	public boolean canBeDeleted(Integer certificateId) throws GeneralException {
+		try{
+			ArrayList<EmployeeCertification> results = (ArrayList<EmployeeCertification>) entityManager
+											.createQuery("Select ec from EmployeeCertification ec Where ec.certificate.id=:id and ec.deleted=0")
+											.setParameter("id", certificateId)
+											.getResultList();
+				if(results.isEmpty()) {
+					return true;
+				}else {
+					log.info(ErrorMessages.CERTIFICATE_FORBID_DELETE.getMessage());
+					throw new GeneralException(ErrorMessages.CERTIFICATE_FORBID_DELETE.getMessage());	
+				}
+			}catch(NoResultException e) {
+				return true;
+			}
+		
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean canBeDeletedPermanently(Integer certificateId) throws GeneralException {
 		try{
 			ArrayList<EmployeeCertification> results = (ArrayList<EmployeeCertification>) entityManager
 											.createQuery("Select ec from EmployeeCertification ec Where ec.certificate.id=:id")
 											.setParameter("id", certificateId)
 											.getResultList();
-			return false;
+				if(results.isEmpty()) {
+					return true;
+				}else {
+					log.info(ErrorMessages.CERTIFICATE_FORBID_DELETE.getMessage());
+					throw new GeneralException(ErrorMessages.CERTIFICATE_FORBID_DELETE.getMessage());	
+				}
 			}catch(NoResultException e) {
-				log.info("Certificate cannot be deleted!");
 				return true;
 			}
 		
 	}
+
+	@Override
+	public int getTotalRows() {
+		return ((Number)entityManager.createQuery("select count(c) from Certificate c")
+                .getSingleResult()).intValue();
+	}
+
+	@Override
+	public int getTotalDeletedRows() {
+		return ((Number)entityManager.createQuery("select count(c) from Certificate c where c.deleted=1")
+                .getSingleResult()).intValue();
+	}
 	
 	
+
 }

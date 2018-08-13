@@ -16,6 +16,10 @@
     <param-name>primefaces.FONT_AWESOME</param-name>
     <param-value>true</param-value>
 </context-param>
+<context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+</context-param>
   <listener>
     <listener-class>
 		org.springframework.web.context.ContextLoaderListener
@@ -35,5 +39,25 @@
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
-         
+  
+  <error-page>
+	  <error-code>404</error-code>
+	  <location>/error404.xhtml?faces-redirect=true</location>
+   </error-page>
+   <error-page>
+	  <error-code>403</error-code>
+	  <location>/error403.xhtml?faces-redirect=true</location>
+   </error-page>
+   <error-page>
+	  <error-code>401</error-code>
+	  <location>/error401.xhtml?faces-redirect=true</location>
+   </error-page>
+   <error-page>
+	  <error-code>500</error-code>
+	  <location>/error500.xhtml?faces-redirect=true</location>
+   </error-page>
+   <error-page>
+   	<exception-type>org.springframework.beans.factory.BeanCreationException</exception-type>
+  	<location>/error500.xhtml?faces-redirect=true</location>
+   </error-page>
 </web-app>

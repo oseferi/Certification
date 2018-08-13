@@ -16,6 +16,8 @@
 
 <h:body>
 <h:form id="certificationsForm">
+    <p:growl id="growl1" showDetail="true" severity="info" sticky="true" />  
+    
     <p:commandButton value="Add new Certificate"  onclick="PF('newCertificateDialog').show()" />	
 	<p:commandButton value="Certificates"  onclick="PF('certificatesDialog').show()" />	
 	<p:commandButton value="Assign Certification"  onclick="PF('assignCertificationDialog').show()" />	
@@ -50,37 +52,34 @@
                  emptyMessage="No employees found with given criteria" 
                  >
                   
-	 		<f:facet name="header">
+	 		<!--f:facet name="header">
 	            <p:outputPanel>
 	                <h:outputText value="Search all fields:" />
 	                <p:inputText id="globalFilter" onkeyup="PF('certificationsTable').filter()" 
 	                	style="width:150px" placeholder="Enter keyword"/>
 	            </p:outputPanel>
-	        </f:facet>
+	        </f:facet-->
 	        
 	 	    <p:ajax event="rowSelect" update=":certificationsForm:certificationDetail" oncomplete="PF('certificationDialog').show()" />
 	 
-			<p:column id="table_header_name" filterMatchMode="contains" 
-				filterBy="#{certification.user.name}"  sortBy="#{certification.user.name}">
+			<p:column id="table_header_name">
 				<f:facet name="header" >Name</f:facet>
 				<h:outputText value="#{certification.user.name}" />
 			</p:column>
 			
-			<p:column id="table_header_surname" filterMatchMode="contains"  
-				filterBy="#{certification.user.surname}" sortBy="#{certification.user.surname}">
+			<p:column id="table_header_surname">
 				<f:facet name="header">Surname</f:facet>
 				<h:outputText value="#{certification.user.surname}" />
 			</p:column>
 			
-			<p:column id="table_header_address" filterMatchMode="contains" 
-				filterBy="#{certification.certificate.title}" sortBy="#{certification.certificate.title}">
+			<p:column id="table_header_address">
 				<f:facet name="header">Certificate</f:facet>
 				<h:outputText value="#{certification.certificate.title}" />
 			</p:column>
 			
 			<p:column id="table_header_date" >
 				<f:facet name="header">Date</f:facet>
-				<h:outputText value="#{certification.status}" />
+				<h:outputText value="#{certification.dateAssigned}" />
 			</p:column>
 			
 			<p:column >
@@ -95,7 +94,6 @@
 				</p:commandLink>
 			</p:column>
 		</p:dataTable>
-		<p:growl id="growl1" showDetail="true" severity="info" sticky="true" />  
 		<p:dialog header="Certification Info" widgetVar="certificationDialog"  showEffect="fade" hideEffect="fade" resizable="false">
 	        <p:outputPanel id="certificationDetail" >
 				<h4><h:outputLabel>Name:</h:outputLabel></h4>
@@ -151,7 +149,7 @@
     	</p:dialog>
 	</h:form>
 	
-	<h:form id="certificatesForm">
+	<h:form id="allCertificatesForm">
       <p:dialog header="All certificates" id="allcertificates" widgetVar="certificatesDialog"  
       			showEffect="fade" hideEffect="fade" resizable="false">
 	    <p:dataTable id="certificates" 
@@ -168,15 +166,21 @@
 	        </p:column>
 	        <p:column style="width:32px;text-align: center">
 	             <p:commandButton 
-	             update=":certificatesForm:certificates :certificationsForm:growl1"  
+	             update=":allCertificatesForm:certificates :certificationsForm:growl1"  
 	             icon="ui-icon-trash" 
 	             title="Remove" 
 	             action="#{managerCertificationBean.removeCertificate(certificate.id)}">
 	            </p:commandButton>
+	            <p:commandLink 
+				action="#{managerCertificationBean.removeCertificate(certificate.id)}" 
+				update=":allCertificatesForm:certificates :certificationsForm:growl1" >
+					<i class="fa fa-trash"></i>
+				</p:commandLink>
 	        </p:column>
 	    </p:dataTable>
 	   </p:dialog>
-	  
+	  </h:form>
+	  <h:form id="newCertificateForm">
     	<p:dialog header="New Certificate" widgetVar="newCertificateDialog">
     		<p:outputPanel id="newCertificateDetails">
 				<p:inputText id="new_certificate_title" 
@@ -205,7 +209,7 @@
 		        <p:commandButton action="#{managerCertificationBean.addCertificate()}" 
 		        type="submit"
 		        oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('newCertificateDialog').hide();PF('certificatesDialog').show()}"
-		        update=":certificatesForm:certificates :certificationsForm:growl1 "
+		        update=":allCertificatesForm:certificates :certificationsForm:growl1 "
 		        value="Add Certificate">
 		        </p:commandButton>			
     		</p:outputPanel>

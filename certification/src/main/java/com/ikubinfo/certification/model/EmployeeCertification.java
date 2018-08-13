@@ -144,6 +144,11 @@ public class EmployeeCertification implements Serializable{
 		this.status = status;
 		this.score = score;
 	}
+	@Override
+	public String toString() {
+		return "EmployeeCertification [id=" + id + ", user=" + user + ", certificate=" + certificate + ", dateAssigned="
+				+ dateAssigned + ", status=" + status + ", score=" + score + ", deleted=" + deleted + "]";
+	}
 	
 	
 	

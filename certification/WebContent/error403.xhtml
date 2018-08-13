@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Error 403</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="#{request.contextPath}/resources/vendors/iconfonts/mdi/css/materialdesignicons.min.css"/>
+  <link rel="stylesheet" href="#{request.contextPath}/resources/vendors/css/vendor.bundle.base.css"/>
+  <!-- endinject -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="#{request.contextPath}/resources/css/style.css"/>
+  <!-- endinject -->
+  <link rel="shortcut icon" href="#{request.contextPath}/resources/images/favicon.png" />
+</h:head>
+<h:body>
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center text-center error-page bg-danger">
+        <div class="row flex-grow">
+          <div class="col-lg-7 mx-auto text-white">
+            <div class="row align-items-center d-flex flex-row">
+              <div class="col-lg-6 text-lg-right pr-lg-4">
+                <h1 class="display-1 mb-0">403</h1>
+              </div>
+              <div class="col-lg-6 error-page-divider text-lg-left pl-lg-4">
+                <h2>Forbidden!</h2>
+                <h3 class="font-weight-light">You don't have sufficient permission to access the resources.</h3>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-12 text-center mt-xl-2">
+                <a class="text-white font-weight-medium" href="#{request.contextPath}/login.xhtml">Back to home</a>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-12 mt-xl-2">
+                <p class="text-white font-weight-medium text-center">Copyright &copy; 2018  All rights reserved.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="#{request.contextPath}/resources/vendors/js/vendor.bundle.base.js"></script>
+  <script src="#{request.contextPath}/resources/vendors/js/vendor.bundle.addons.js"></script>
+  <!-- endinject -->
+  <!-- inject:js -->
+  <script src="#{request.contextPath}/resources/js/off-canvas.js"></script>
+  <script src="#{request.contextPath}/resources/js/misc.js"></script>
+  <!-- endinject -->  	
+</h:body>
+</html>

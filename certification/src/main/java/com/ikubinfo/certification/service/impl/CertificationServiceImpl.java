@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikubinfo.certification.dao.CertificationDao;
-import com.ikubinfo.certification.exception.CertificationException;
+import com.ikubinfo.certification.dao.UserDao;
 import com.ikubinfo.certification.exception.GeneralException;
-import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.CertificationService;
@@ -56,6 +55,43 @@ public class CertificationServiceImpl implements CertificationService {
 	@Override
 	public ArrayList<EmployeeCertification> getAllActive(User manager) {
 		return certificationDao.getAllActive(manager);
+	}
+	
+
+	@Override
+	public ArrayList<EmployeeCertification> getAllDisabled(User manager) {
+		return certificationDao.getAllDisabled(manager);
+	}
+
+	@Override
+	public ArrayList<EmployeeCertification> filter(String searchQuery, User user) {
+		return certificationDao.filter(searchQuery, user);
+	}
+
+	@Override
+	public ArrayList<EmployeeCertification> filterByTitle(String title, User manager) {
+		return certificationDao.filterByTitle(title, manager) ;
+	}
+
+	@Override
+	public ArrayList<EmployeeCertification> filterByEmployee(int employeeId, User manager) {
+		return certificationDao.filterByEmployee(employeeId, manager) ;
+
+	}
+
+	@Override
+	public ArrayList<EmployeeCertification> filterByTitleAndEmployee(String title, int employeeId, User manager) {
+		return certificationDao.filterByTitleAndEmployee(title, employeeId, manager);
+	}
+
+	@Override
+	public int getTotalRows() {
+		return certificationDao.getTotalRows();
+	}
+
+	@Override
+	public int getTotalDeletedRows() {
+		return certificationDao.getTotalDeletedRows();
 	}
 	
 	

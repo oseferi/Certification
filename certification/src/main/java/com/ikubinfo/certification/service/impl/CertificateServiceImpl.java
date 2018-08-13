@@ -3,24 +3,17 @@ package com.ikubinfo.certification.service.impl;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
-import org.hibernate.engine.jdbc.spi.ResultSetReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikubinfo.certification.dao.CertificateDao;
-import com.ikubinfo.certification.exception.CertificateExistsException;
-import com.ikubinfo.certification.exception.DeletedCertificateException;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.service.CertificateService;
 @Service("certificateService")
 public class CertificateServiceImpl implements CertificateService,Serializable{
 	
-
 	private static final long serialVersionUID = 599322609617517947L;
-
-	private static Logger log = Logger.getLogger(CertificateServiceImpl.class);
 	
 	@Autowired
 	CertificateDao certificateDao;
@@ -35,8 +28,21 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 	}
 
 	@Override
-	public boolean remove(Certificate certificate) {
-		return certificateDao.remove(certificate);
+	public boolean remove(Certificate certificate) throws GeneralException {
+		if(canBeDeleted(certificate.getId())) {
+				return certificateDao.remove(certificate);
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean removePermanently(Certificate certificate) throws GeneralException {
+		if(canBeDeletedPermanently(certificate.getId())) {
+			return certificateDao.removePermanently(certificate);
+		}else {
+			return false;
+		}
 	}
 
 	@Override
@@ -62,11 +68,38 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 	public ArrayList<Certificate> getAllActive() {
 		return certificateDao.getAllActive();
 	}
+	
+
+	@Override
+	public ArrayList<Certificate> getAllDisabled() {
+		return certificateDao.getAllDisabled();
+	}
 
 	@Override
 	public boolean isValid(Certificate certificate) throws GeneralException {
 		return certificateDao.isValid(certificate);
 	}
 
+	@Override
+	public boolean canBeDeleted(Integer certificateId) throws GeneralException {
+		return certificateDao.canBeDeleted(certificateId);
+	}
+
+	@Override
+	public boolean canBeDeletedPermanently(Integer certificateId) throws GeneralException {
+		return certificateDao.canBeDeletedPermanently(certificateId);
+	}
+
+	@Override
+	public int getTotalRows() {
+		return certificateDao.getTotalRows();
+	}
+
+	@Override
+	public int getTotalDeletedRows() {
+		return certificateDao.getTotalDeletedRows();
+	}
+
+	
 	
 }

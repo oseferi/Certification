@@ -5,9 +5,6 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import org.jasypt.util.password.BasicPasswordEncryptor;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import com.ikubinfo.certification.model.User;
 
 @ManagedBean(name="userBean")

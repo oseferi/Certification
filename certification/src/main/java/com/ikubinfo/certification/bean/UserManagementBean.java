@@ -13,16 +13,11 @@ import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.primefaces.event.FlowEvent;
 
-import com.ikubinfo.certification.exception.DeletedUserException;
-import com.ikubinfo.certification.exception.EmailExistsException;
 import com.ikubinfo.certification.exception.ErrorMessages;
-import com.ikubinfo.certification.exception.FullNameExistsException;
 import com.ikubinfo.certification.exception.GeneralException;
-import com.ikubinfo.certification.exception.PhoneNumberExistsException;
-import com.ikubinfo.certification.exception.SsnExistsException;
 import com.ikubinfo.certification.exception.SuccessMessages;
-import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.RoleService;
 import com.ikubinfo.certification.service.UserService;
@@ -54,11 +49,11 @@ public class UserManagementBean implements Serializable {
 	 public void init() {
 		refreshEmployees(); 
 		employee = new User();
-		if(id!=null) {
+		selectedEmployee = new User();
+		/*if(id!=null) {
 			selectEmployee(id); 
-		}
+		}*/
 	 }
-	 
 	 
 	public UserService getUserService() {
 		return userService;
@@ -201,13 +196,17 @@ public class UserManagementBean implements Serializable {
 		}
 	
 	public String removeEmployee(int id) {
-		if(userService.remove(userService.findById(id))) {
-			refreshEmployees();
-			selectedEmployee = new User();
-			addMessage(new FacesMessage(getSuccess(), SuccessMessages.EMPLOYEE_DELETED.getMessage()));
-			}else {
-				addMessage( new FacesMessage(getError(), ErrorMessages.EMPLOYEE_DELETE_FAIL.getMessage()) );
-			}
+		try {
+			if(userService.remove(userService.findById(id))) {
+				refreshEmployees();
+				selectedEmployee = new User();
+				addMessage(new FacesMessage(getSuccess(), SuccessMessages.EMPLOYEE_DELETED.getMessage()));
+				}else {
+					addMessage( new FacesMessage(getError(), ErrorMessages.EMPLOYEE_DELETE_FAIL.getMessage()) );
+				}
+		} catch (GeneralException e) {
+			exceptionHandler(e);
+		}
 		return null;
 		}
 	
@@ -231,9 +230,12 @@ public class UserManagementBean implements Serializable {
 	public void enableCredentialsEditing() {
 		selectedEmployeeCredentialsEditable = true;
 	}
-	public String edit() {
-		return "edit?faces-redirect=true&id="+getId();
+	
+	public String edit(int id) {
+		
+		return "edit?faces-redirect=true&id="+id+"&object=employee";
 	}
+	
 	private void exceptionHandler(GeneralException exception) {
 		if(exception!=null) {
 			addMessage(new FacesMessage(getError(),exception.getMessage()));
@@ -261,5 +263,9 @@ public class UserManagementBean implements Serializable {
 	private String getError() {
 		return "Error!";
 	}
+	
+	  public String onFlowProcess(FlowEvent event) {
+	       return event.getNewStep();
+	    }
 	
 }

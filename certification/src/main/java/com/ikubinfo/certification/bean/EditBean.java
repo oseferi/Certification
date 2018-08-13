@@ -9,18 +9,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
 import org.apache.log4j.Logger;
 import org.jasypt.util.password.BasicPasswordEncryptor;
-import com.ikubinfo.certification.exception.CertificationException;
-import com.ikubinfo.certification.exception.DeletedUserException;
-import com.ikubinfo.certification.exception.EmailExistsException;
+import org.primefaces.PrimeFaces;
+import org.primefaces.context.RequestContext;
+
 import com.ikubinfo.certification.exception.ErrorMessages;
-import com.ikubinfo.certification.exception.FullNameExistsException;
 import com.ikubinfo.certification.exception.GeneralException;
-import com.ikubinfo.certification.exception.PhoneNumberExistsException;
-import com.ikubinfo.certification.exception.SsnExistsException;
 import com.ikubinfo.certification.exception.SuccessMessages;
-import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.CertificateService;
@@ -55,18 +52,26 @@ public class EditBean implements Serializable {
 	private ArrayList<Boolean> statuses;
 	private boolean selectedEmployeeEditable;
 	private boolean selectedEmployeeCredentialsEditable;
+	private boolean selectedCertificationEditable;
 	
 	
 	@PostConstruct
 	public void init() {
-		if(object!=null) {
-			if(object.equals("employee") && id!=null) {
-				selectEmployee(id);
-			}else if(object.equals("certification") && id!=null) {
-				selectCertificate(id);
-				statuses = new ArrayList<Boolean>();
-				setStatusesList();
+		try {
+			if(object!=null) {
+				if(object.equals("employee") && id!=null) {
+					selectEmployee(id);
+				}else if(object.equals("certification") && id!=null) {
+					selectCertificate(id);
+					statuses = new ArrayList<Boolean>();
+					setStatusesList();
+				}
 			}
+		}catch(NullPointerException x) {
+			//x.printStackTrace();
+			log.warn("An error occured.There will be nothing displayed in the front-end");
+			selectedEmployee = null;
+			selectedCertificate= null;
 		}
 	}
 	
@@ -146,7 +151,6 @@ public class EditBean implements Serializable {
 		return selectedCertificate;
 	}
 
-
 	public void setSelectedCertificate(EmployeeCertification selectedCertificate) {
 		this.selectedCertificate = selectedCertificate;
 	}
@@ -168,6 +172,14 @@ public class EditBean implements Serializable {
 
 	public void setSelectedEmployeeCredentialsEditable(boolean selectedEmployeeCredentialsEditable) {
 		this.selectedEmployeeCredentialsEditable = selectedEmployeeCredentialsEditable;
+	}
+	
+	public boolean isSelectedCertificationEditable() {
+		return selectedCertificationEditable;
+	}
+
+	public void setSelectedCertificationEditable(boolean selectedCertificationEditable) {
+		this.selectedCertificationEditable = selectedCertificationEditable;
 	}
 
 	public ArrayList<Boolean> getStatuses() {
@@ -191,7 +203,8 @@ public class EditBean implements Serializable {
 				selectedEmployee.setPassword(passwordEncryptor.encryptPassword(newPassword));
 				addMessage( new FacesMessage(getSuccess(), 
 							SuccessMessages.EMPLOYEE_PASSWORD_UPDATED.getMessage()));
-			    newPassword="";
+				newPassword="";
+				return null;
 			}
 		}
 		if(selectedEmployee.equals(user)) {
@@ -224,6 +237,7 @@ public class EditBean implements Serializable {
 			try {
 				certificationService.edit(selectedCertificate);
 				setStatusesList();
+				disableCertificationEditing();
 				addMessage( new FacesMessage(getSuccess(),
 							SuccessMessages.CERTIFICATION_UPDATED.getMessage()) );
 				
@@ -240,6 +254,7 @@ public class EditBean implements Serializable {
 	}
 	
 	public void disableEditing() {
+		selectEmployee(id);
 		selectedEmployeeEditable = false;
 		selectedEmployeeCredentialsEditable = false;
 	}
@@ -247,12 +262,43 @@ public class EditBean implements Serializable {
 	public void enableCredentialsEditing() {
 		selectedEmployeeCredentialsEditable = true;
 	}
+	
+	public void enableCertificationEditing() {
+		selectedCertificationEditable = true;
+	}
+	
+	public void disableCertificationEditing() {
+		selectedCertificationEditable = false;
+	}
 	public String selectEmployee(int id) {
-		selectedEmployee = userService.findById(id);
-		return "";
+		try {
+			User temporalUser = userService.findById(id);
+			if(temporalUser.getRole().getTitle() != null) {
+				if(!temporalUser.getRole().getTitle().equals("Manager"))
+					selectedEmployee = temporalUser;
+				
+				else {
+					selectedEmployee = null;
+				}
+			}else {
+				selectedEmployee = null;
+			}
+			return "";
+		} catch (Exception e) {
+			selectedEmployee = null;
+			System.out.println("Below the error message for selectEmployee");
+			e.printStackTrace();
+			return "";
+		}
 	}
 	public String selectCertificate(int id) {
-		selectedCertificate = certificationService.find(id);
+		try{
+			selectedCertificate = certificationService.find(id);
+		}catch (NullPointerException e) {
+			System.out.println("Below the null pointer error message for selectCertificate");
+			selectedCertificate = null;
+			e.printStackTrace();
+		}
 		return "";
 	}	
 	public void setStatusesList() {

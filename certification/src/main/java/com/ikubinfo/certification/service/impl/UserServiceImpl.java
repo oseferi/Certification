@@ -4,23 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
-import org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikubinfo.certification.dao.UserDao;
-import com.ikubinfo.certification.dao.impl.UserDaoImpl;
-import com.ikubinfo.certification.exception.DeletedUserException;
-import com.ikubinfo.certification.exception.EmailExistsException;
-import com.ikubinfo.certification.exception.FullNameExistsException;
 import com.ikubinfo.certification.exception.GeneralException;
-import com.ikubinfo.certification.exception.PhoneNumberExistsException;
-import com.ikubinfo.certification.exception.SsnExistsException;
-import com.ikubinfo.certification.exception.UsernameExistsException;
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.UserService;
-import com.mysql.jdbc.log.Log;
 
 @Service("userService")
 public class UserServiceImpl implements UserService, Serializable {
@@ -45,8 +36,21 @@ public class UserServiceImpl implements UserService, Serializable {
 	}
 
 	@Override
-	public boolean remove(User user) {
-		return userDao.remove(user);
+	public boolean remove(User user) throws GeneralException {
+		if(canBeDeleted(user.getId())) {
+			return userDao.remove(user);
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean removePermanently(User user) throws GeneralException {
+		if(canBeDeletedPermanently(user.getId())) {
+			return userDao.removePermanently(user);
+		}else {
+			return false;
+		}
 	}
 
 	@Override
@@ -83,6 +87,12 @@ public class UserServiceImpl implements UserService, Serializable {
 		}
 		return userDao.update(userToBeUpdated);
 	}
+	
+
+	@Override
+	public boolean restore(User user) {
+		return userDao.restore(user);
+	}
 
 	@Override
 	public User findById(int id) {
@@ -92,6 +102,11 @@ public class UserServiceImpl implements UserService, Serializable {
 	@Override
 	public ArrayList<User> getAllActive(int id) {
 		return userDao.getAllActive(id);
+	}
+	
+	@Override
+	public ArrayList<User> getAllDisabled(int id) {
+		return userDao.getAllDisabled(id);
 	}
 
 	@Override
@@ -124,8 +139,30 @@ public class UserServiceImpl implements UserService, Serializable {
 		return userDao.isValidEmail(userToBeValidated);
 	}
 	
-	
+	@Override
+	public boolean canBeDeleted(Integer userId) throws GeneralException {
+		return userDao.canBeDeleted(userId);
+	}
+
+	@Override
+	public boolean canBeDeletedPermanently(Integer userId) throws GeneralException {
+		return userDao.canBeDeletedPermanently(userId);
+	}
+
 	private boolean validateUser(User user) throws GeneralException {
 		return isValidUsername(user) && isValidSsn(user) && isValidFullName(user) && isValidPhoneNumber(user) && isValidEmail(user);
 	}
+
+	@Override
+	public int getTotalRows() {
+		return userDao.getTotalRows();
+	}
+
+	@Override
+	public int getTotalDeletedRows() {
+		return userDao.getTotalDeletedRows();
+	}
+	
+	
+	
 }

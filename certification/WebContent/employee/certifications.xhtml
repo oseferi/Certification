@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:head></h:head>
+<h:body>
+	<h:form id="logout">	
+	<h:commandButton value="Log Out" action="${loginBean.logOut()}"></h:commandButton> 
+	</h:form>
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+	
+		<p:dataTable id="certificationsTable" var="certification"
+			value="#{userCertificationBean.certifications}" editable="true" style="margin-bottom:20px">
+			<f:facet name="header">
+				<p:inputText id="search" value="#{userCertificationBean.query}">
+					<p:ajax listener="#{userCertificationBean.filter}" update="certificationsTable" event="keyup" />
+				</p:inputText>
+			<p:commandButton action="#{userCertificationBean.clear()}" value="clear" update="certificationsTable search">
+			 </p:commandButton>
+	       </f:facet>
+			
+			<p:ajax event="rowEdit" listener="#{userCertificationBean.editRow}"
+				update=":form:msgs" />
+	
+			<p:column headerText="Full Name">
+				<p:cellEditor>			
+					<f:facet name="output">
+						<h:outputText value="#{certification.user.name} " />
+						<h:outputText value="#{certification.user.surname}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:outputText value="#{certification.user.name} " />
+						<h:outputText value="#{certification.user.surname}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+	
+			<p:column headerText="Certificate">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{certification.certificate.title}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:outputText value="#{certification.certificate.title}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Date Assigned">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{certification.dateAssigned}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:outputText value="#{certification.dateAssigned}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Status">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{certification.status != null ? (certification.status == true ? 'Passed' : (certification.status == null ? 'Undone' : 'Failed' )) : 'Undone'}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu id="certificationStatus"
+							value="#{userCertificationBean.status}"
+							lazy="true" style="width:125px" >
+			            <f:selectItem 
+				            itemLabel="Undone"
+				            itemValue=""/>
+				         <f:selectItem 
+				            itemLabel="Passed"
+				            itemValue="true"/>
+				          <f:selectItem 
+				            itemLabel="Failed"
+				            itemValue="false"/>
+			        </p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+	
+			<p:column headerText="Score">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{certification.score}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText pt:type="number" value="#{certification.score}"/>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+				
+	
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

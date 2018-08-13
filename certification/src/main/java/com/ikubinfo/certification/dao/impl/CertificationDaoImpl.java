@@ -7,17 +7,14 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ikubinfo.certification.dao.CertificationDao;
-import com.ikubinfo.certification.exception.CertificationException;
 import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.GeneralException;
-import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
 
@@ -38,7 +35,7 @@ public class CertificationDaoImpl implements CertificationDao {
 			entityManager.persist(certification);
 			log.info("Certificate: "+certification.getCertificate().getTitle()+" assigned succesfully to employee :"+certification.getUser().getName()+" "+certification.getUser().getSurname());
 			return true;
-		} catch (Exception e) {
+		} catch (NoResultException e) {
 			log.warn("Error while assign certification to employee! "+certification.getUser().getName()+" "+certification.getUser().getSurname()+" .Error message: "+e.getMessage());
 			return false;
 		}
@@ -52,7 +49,7 @@ public class CertificationDaoImpl implements CertificationDao {
 			entityManager.merge(certification);
 			log.info("Certificate: "+certification.getCertificate().getTitle()+" updated succesfully for employee :"+certification.getUser().getName()+" "+certification.getUser().getSurname());
 			return true;
-		} catch (Exception e) {
+		} catch (NoResultException e) {
 			log.warn("Error while updating certification for employee! "+certification.getUser().getName()+" "+certification.getUser().getSurname()+" .Error message: "+e.getMessage());
 			return false;
 		}
@@ -71,11 +68,23 @@ public class CertificationDaoImpl implements CertificationDao {
 			log.info("Certification: "+certification.getCertificate().getTitle()+" was removed succesfully for employee: "+certification.getUser().getName()+" "+certification.getUser().getSurname());
 			return true;			
 			
-		} catch (Exception e) {
+		} catch (NoResultException e) {
 			log.warn("Error while removing certification for employee! "+certification.getUser().getName()+" "+certification.getUser().getSurname()+" .Error message: "+e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 			}
+	}
+	
+	@Override
+	public boolean removePermanently(EmployeeCertification certification) {
+		try {
+			entityManager.remove(certification);
+			log.info("Certification: "+certification.getCertificate().getTitle()+" was removed succesfully for employee: "+certification.getUser().getName()+" "+certification.getUser().getSurname());
+			return true;
+		} catch (NoResultException e) {
+			log.warn("Error while removing certification for employee! "+certification.getUser().getName()+" "+certification.getUser().getSurname()+" .Error message: "+e.getMessage());
+			return false;
+		}
 	}
 
 	@Override
@@ -88,8 +97,9 @@ public class CertificationDaoImpl implements CertificationDao {
 			.setParameter("certificate", certificationToBeValidated.getCertificate())
 			.getSingleResult();
 			if(certification.isDeleted()) {
-				log.warn(ErrorMessages.CERTIFICATION_PREVIOUSLY_DELETED.getMessage());
-				throw new GeneralException(ErrorMessages.CERTIFICATION_PREVIOUSLY_DELETED.getMessage());
+				//log.warn(ErrorMessages.CERTIFICATION_PREVIOUSLY_DELETED.getMessage());
+				//throw new GeneralException(ErrorMessages.CERTIFICATION_PREVIOUSLY_DELETED.getMessage());
+				return true;
 			}
 			else {
 				log.warn(ErrorMessages.CERTIFICATION_DUPLICATE.getMessage());
@@ -107,11 +117,27 @@ public class CertificationDaoImpl implements CertificationDao {
 	public ArrayList<EmployeeCertification> getAllActive(User manager) {
 		try {
 			return (ArrayList<EmployeeCertification>) entityManager
-					.createQuery("SELECT ec FROM EmployeeCertification ec WHERE ec.user.manager=:manager AND deleted=0")
+					.createQuery("SELECT ec FROM EmployeeCertification ec WHERE ec.user.manager=:manager AND ec.deleted=0")
 					.setParameter("manager", manager)
 					.getResultList();
 				
-		} catch (Exception e) {
+		} catch (NoResultException e) {
+			log.info("Certificatons cannot be found! Error message :"+e.getMessage());
+			return null;
+		}
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<EmployeeCertification> getAllDisabled(User manager) {
+		try {
+			return (ArrayList<EmployeeCertification>) entityManager
+					.createQuery("SELECT ec FROM EmployeeCertification ec WHERE ec.user.manager=:manager AND ec.deleted=1")
+					.setParameter("manager", manager)
+					.getResultList();
+				
+		} catch (NoResultException e) {
 			log.info("Certificatons cannot be found! Error message :"+e.getMessage());
 			return null;
 		}
@@ -132,7 +158,7 @@ public class CertificationDaoImpl implements CertificationDao {
 				log.warn("Certification : "+employeeCertification.getCertificate().getTitle()+" for employee "+employeeCertification.getUser().getUsername()+" is deleted!");
 				return null;
 			}
-		} catch (Exception e) {
+		} catch (NoResultException e) {
 			log.warn("Certification cannot be found! Error message :"+e.getMessage());
 			return null;
 		}
@@ -147,12 +173,93 @@ public class CertificationDaoImpl implements CertificationDao {
 					.setParameter("user", user)
 					.getResultList();
 				
-		} catch (Exception e) {
+		} catch (NoResultException e) {
+			log.info("Certificatons cannot be found! Error message :"+e.getMessage());
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<EmployeeCertification> filter(String searchQuery,User user) {
+		try {
+			return (ArrayList<EmployeeCertification>) entityManager
+					.createQuery("SELECT ec FROM EmployeeCertification ec WHERE  ec.user=:user AND deleted=0 AND (ec.certificate.title LIKE :query OR ec.certificate.description LIKE :query)")
+					.setParameter("user", user)
+					.setParameter("query","%"+searchQuery+"%")
+					.getResultList();
+				
+		} catch (NoResultException e) {
 			log.info("Certificatons cannot be found! Error message :"+e.getMessage());
 			return null;
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<EmployeeCertification> filterByTitle(String title, User manager) {
+		try {
+			return (ArrayList<EmployeeCertification>) entityManager
+					.createQuery("SELECT ec FROM EmployeeCertification ec WHERE  ec.user.manager=:manager AND deleted=0 AND (ec.certificate.title LIKE :title OR ec.certificate.description LIKE :title)")
+					.setParameter("manager", manager)
+					.setParameter("title","%"+title+"%")
+					.getResultList();
+				
+		} catch (NoResultException e) {
+			log.info("Certificatons cannot be found! Error message :"+e.getMessage());
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<EmployeeCertification> filterByEmployee(int employeeId, User manager) {
+		try {
+			return (ArrayList<EmployeeCertification>) entityManager
+					.createQuery("SELECT ec FROM EmployeeCertification ec WHERE  ec.user.manager=:manager AND deleted=0 AND ec.user.id = :employeeId")
+					.setParameter("manager", manager)
+					.setParameter("employeeId",employeeId)
+					.getResultList();
+				
+		} catch (NoResultException e) {
+			log.info("Certificatons cannot be found! Error message :"+e.getMessage());
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<EmployeeCertification> filterByTitleAndEmployee(String title, int employeeId, User manager) {
+		try {
+			return (ArrayList<EmployeeCertification>) entityManager
+					.createQuery("SELECT ec "
+								+ "FROM EmployeeCertification ec "
+								+ "WHERE  ec.user.manager=:manager "
+								+ "AND deleted=0 "
+								+ "AND ec.user.id = :employeeId "
+								+ "AND (ec.certificate.title LIKE :title OR ec.certificate.description LIKE :title)")
+					.setParameter("manager", manager)
+					.setParameter("employeeId",employeeId)
+					.setParameter("title","%"+title+"%")
+					.getResultList();
+				
+		} catch (NoResultException e) {
+			log.info("Certificatons cannot be found! Error message :"+e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public int getTotalRows() {
+		return ((Number)entityManager.createQuery("select count(ec) from EmployeeCertification ec")
+                .getSingleResult()).intValue();
+	}
+
+	@Override
+	public int getTotalDeletedRows() {
+		return ((Number)entityManager.createQuery("select count(ec) from EmployeeCertification ec where ec.deleted=1")
+                .getSingleResult()).intValue();
+	}
 	
 	
 	

@@ -9,14 +9,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.criteria.CriteriaBuilder.Case;
 
 import org.apache.log4j.Logger;
-import org.hibernate.query.criteria.internal.predicate.IsEmptyPredicate;
 
-import com.ikubinfo.certification.exception.CertificateExistsException;
-import com.ikubinfo.certification.exception.CertificationException;
-import com.ikubinfo.certification.exception.DeletedCertificateException;
 import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.exception.SuccessMessages;
@@ -221,11 +216,15 @@ public class ManagerCertificationBean implements Serializable{
 	}
 	
 	public String removeCertificate(int id) {
-		if(certificateService.remove(certificateService.findById(id))) {
-			addMessage(new FacesMessage(getSuccess(), SuccessMessages.CERTIFICATE_DELETED.getMessage()));
-			refreshCertificates();
-		}else {
-			addMessage( new FacesMessage(getError(), ErrorMessages.CERTIFICATE_DELETE_FAIL.getMessage()) );
+		try {
+			if(certificateService.remove(certificateService.findById(id))) {
+				addMessage(new FacesMessage(getSuccess(), SuccessMessages.CERTIFICATE_DELETED.getMessage()));
+				refreshCertificates();
+			}else {
+				addMessage( new FacesMessage(getError(), ErrorMessages.CERTIFICATE_DELETE_FAIL.getMessage()) );
+			}
+		} catch (GeneralException e) {
+			exceptionHandler(e);
 		}
 		return null;
 	}
@@ -239,6 +238,8 @@ public class ManagerCertificationBean implements Serializable{
 			addMessage(new FacesMessage(getSuccess(), SuccessMessages.CERTIFICATION_ASSIGNED.getMessage()) );
 			newCertification = new EmployeeCertification();
 			refreshCertifications();
+			userId = 0;
+			certificateId = 0;
 		}catch(GeneralException e) {
 			exceptionHandler(e);
 		}
@@ -251,7 +252,7 @@ public class ManagerCertificationBean implements Serializable{
 			refreshCertifications();
 		}else {
 			log.info("Certificate could not be unassigned!");
-			addMessage(new FacesMessage(getError(), ErrorMessages.CERTIFICATE_UNASSIGN_FAIL.getMessage()) );
+			addMessage(new FacesMessage(getError(), ErrorMessages.CERTIFICATION_UNASSIGN_FAIL.getMessage()) );
 		}
 		return null;
 		
@@ -270,7 +271,6 @@ public class ManagerCertificationBean implements Serializable{
 		employees = userService.getAllActive(user.getUser().getId());
 	}
 	public String edit(EmployeeCertification certification) {
-		System.out.println(certification);
 		return "edit?faces-redirect=true&id="+certification.getId()+"&object=certification";
 	}
 	private void exceptionHandler(GeneralException exception) {
@@ -315,35 +315,40 @@ public class ManagerCertificationBean implements Serializable{
 		}
 		return null;
 	}
+	
 	private void filterByDescription() {
-		filteredCertifications = new ArrayList<EmployeeCertification>();
+		/*filteredCertifications = new ArrayList<EmployeeCertification>();
 		for(EmployeeCertification ec : certifications) {
 			if(ec.getCertificate().getDescription().toLowerCase().contains(query.toLowerCase())) {
 				filteredCertifications.add(ec);
 			}
 		}
-		certifications = filteredCertifications;
+		certifications = filteredCertifications;*/
+		certifications = certificationService.filterByTitle(query, user.getUser());
 	}
 	
 	private void filterByEmployee() {
-		filteredCertifications = new ArrayList<EmployeeCertification>();
+		/*filteredCertifications = new ArrayList<EmployeeCertification>();
 		for(EmployeeCertification ec : certifications2) {
 			if(ec.getUser().getId()==userId) {
 				filteredCertifications.add(ec);
 			}
 		}
-		certifications = filteredCertifications;
+		certifications = filteredCertifications;*/
+		certifications = certificationService.filterByEmployee(userId, user.getUser());
 	}
 	
 	private void filterByQueryAndUser() {
-		filteredCertifications = new ArrayList<EmployeeCertification>();
+		/*filteredCertifications = new ArrayList<EmployeeCertification>();
 		for(EmployeeCertification ec : certifications2) {
 			if( ec.getCertificate().getDescription().toLowerCase().contains(query.toLowerCase())
 					&& ec.getUser().getId()==userId) {
 				filteredCertifications.add(ec);
 			}
 		}
-		certifications = filteredCertifications;
+		certifications = filteredCertifications;*/
+		
+		certifications = certificationService.filterByTitleAndEmployee(query, userId, user.getUser());
 	}
 }
 
