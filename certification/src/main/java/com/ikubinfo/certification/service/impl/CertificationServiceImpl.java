@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikubinfo.certification.dao.CertificationDao;
-import com.ikubinfo.certification.dao.UserDao;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
@@ -30,6 +29,17 @@ public class CertificationServiceImpl implements CertificationService {
 	@Override
 	public boolean edit(EmployeeCertification certification) throws GeneralException {
 			return certificationDao.edit(certification);
+	}
+
+	
+	@Override
+	public boolean removePermanently(EmployeeCertification certification) {
+		return certificationDao.removePermanently(certification);
+	}
+
+	@Override
+	public boolean restore(EmployeeCertification certification) {
+		return certificationDao.restore(certification);
 	}
 
 	@Override
@@ -85,13 +95,13 @@ public class CertificationServiceImpl implements CertificationService {
 	}
 
 	@Override
-	public int getTotalRows() {
-		return certificationDao.getTotalRows();
+	public int getTotalRows(int managerId) {
+		return certificationDao.getTotalRows(managerId);
 	}
 
 	@Override
-	public int getTotalDeletedRows() {
-		return certificationDao.getTotalDeletedRows();
+	public int getTotalDeletedRows(int managerId) {
+		return certificationDao.getTotalDeletedRows(managerId);
 	}
 	
 	

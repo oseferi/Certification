@@ -10,6 +10,7 @@ public interface CertificateService {
 	public boolean remove(Certificate certificate) throws GeneralException;
 	boolean removePermanently(Certificate certificate)throws GeneralException;
 	public boolean update(Certificate certificate) throws GeneralException;
+	public boolean restore(Certificate certificate);
 	
 	public Certificate findById(int id);
 	public ArrayList<Certificate> getAll();

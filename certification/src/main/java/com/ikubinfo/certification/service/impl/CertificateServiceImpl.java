@@ -53,6 +53,11 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 			return false;	
 		}
 	}
+	
+	@Override
+	public boolean restore(Certificate certificate) {
+		return certificateDao.restore(certificate);
+	}
 
 	@Override
 	public Certificate findById(int id) {

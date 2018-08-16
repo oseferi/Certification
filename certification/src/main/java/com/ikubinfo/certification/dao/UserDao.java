@@ -27,6 +27,6 @@ public interface UserDao {
 	public boolean canBeDeleted(Integer userId) throws GeneralException;
 	public boolean canBeDeletedPermanently(Integer userId) throws GeneralException;
 	
-	public int getTotalRows() ;
-	public int getTotalDeletedRows();
+	public int getTotalRows(int managerId) ;
+	public int getTotalDeletedRows(int managerId);
 }

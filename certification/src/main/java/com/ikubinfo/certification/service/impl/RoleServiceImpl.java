@@ -19,20 +19,6 @@ public class RoleServiceImpl implements RoleService, Serializable {
 	@Autowired
 	RoleDao roleDao;
 	
-	@Override
-	public boolean add(Role role) throws ConstraintViolationException{
-		return roleDao.add(role);
-	}
-
-	@Override
-	public boolean remove(Role role) {
-		return roleDao.remove(role);
-	}
-
-	@Override
-	public boolean update(Role role) {
-		return roleDao.update(role);
-	}
 
 	@Override
 	public Role findById(int id) {

@@ -21,27 +21,6 @@ public class RoleDaoImpl implements RoleDao {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	public RoleDaoImpl() {
-
-	}
-
-	@Override
-	public boolean add(Role role) {
-		return false;
-	}
-
-	@Override
-	public boolean remove(Role role) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(Role role) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public Role findById(int id) {
 		try {

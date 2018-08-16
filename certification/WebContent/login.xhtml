@@ -33,7 +33,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
               <div class="brand-logo">
-                <img src="resources/images/logo.svg"/>
+                <!-- img src="resources/images/logo.svg"/-->
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
@@ -42,13 +42,15 @@
                 <div class="form-group">
                   <p:inputText  value="#{loginBean.username}"  label="UserName" 
                   class="form-control form-control-lg" pt:placeholder="Username"
+                  maxLength="30"
                   required="true" id="User_Name" ></p:inputText>
 					<p:message for="User_Name"   />
                 </div>
                 <div class="form-group">
                   <p:password value="#{loginBean.password}" label="Password"
                   class="form-control form-control-lg" pt:placeholder="Password"
-                  required ="true" id="Password" inline="true" />
+                  required ="true" id="Password" inline="true"
+                  maxLength="30" />
 					<p:message for="Password" styleClass="exampleInputPassword1" />
                 </div>
                 <div class="mt-3">

@@ -18,9 +18,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="employee_certifications",uniqueConstraints=
-@UniqueConstraint(columnNames={"user_id", "certificate_id"})
-)
+@Table(name="employee_certifications")
 public class EmployeeCertification implements Serializable{
 
 	private static final long serialVersionUID = 8621206485256765828L;

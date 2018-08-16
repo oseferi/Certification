@@ -50,9 +50,8 @@
 </h:head>
 <h:body>
 	<f:metadata>
-		<f:viewParam name="id" value="#{editBean.id}" />
-		<f:viewParam name="object" value="#{editBean.object}" />
-		<f:event type="preRenderView" listener="#{editBean.init}" />
+		<f:viewParam name="id" value="#{userManagementBean.id}" />
+		<f:event type="preRenderView" listener="#{userManagementBean.init}" />
 	</f:metadata>
 
 	<div class="container-scroller">
@@ -71,26 +70,20 @@
 								<i class="mdi mdi-pencil"></i>
 							</span>
 							<h:outputText
-								value="#{(not empty editBean.selectedEmployee) ? 
-             						'Modify an Employee' :
-             						((not empty editBean.selectedCertificate) ? 
-             								'Modify a Certification' : 
-             								'There is nothing to show') }" />
+								value="#{(not empty userManagementBean.selectedEmployee) ? 'Modify an Employee' :'There is nothing to show'}" />
 
 
 							<h:outputText value="&lt;br/&gt;" escape="false" />
 							<h:outputText value="&lt;br/&gt;" escape="false" />
 							<h:outputText style="font-size:1.3em"
-								rendered="#{(empty editBean.selectedEmployee) and (empty editBean.selectedCertificate)}"
+								rendered="#{(empty userManagementBean.selectedEmployee)}"
 								value="Please check the url query parameters" />
 						</h3>
 						<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item active" aria-current="page"><p:link
-									rendered="#{(not empty editBean.selectedEmployee) or (not empty editBean.selectedCertificate)}"
-									value="#{(not empty editBean.selectedEmployee) ? 'Employees' :((not empty editBean.selectedCertificate) ? 'Certifications' : '') }"
-									outcome="#{(not empty editBean.selectedEmployee) ? 'users' :((not empty editBean.selectedCertificate) ? 'certifications' : '') }">
-								</p:link></li>
+							<li class="breadcrumb-item active" aria-current="page">
+								<a href="users.xhtml">Employees</a>
+							</li>
 							<li class="breadcrumb-item active" aria-current="page"><span></span>Edit
 								<i
 								class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
@@ -100,23 +93,13 @@
 					</div>
 
 					<div class="row">
-						<h:form id="confirmDialogForm">
-				          	<p:confirmDialog global="true" showEffect="fade"
-											hideEffect="fade">
-											<p:commandButton value="Yes" type="button"
-												styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
-												update="employeeDetail" />
-											<p:commandButton value="No" type="button"
-												styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-							</p:confirmDialog>
-			          	</h:form>
 						
 						<!--********************
 			          	E M P L O Y E E  F O R M 
 			          	******************** -->
 			          	
 						<h:form id="employeeForm" style="width:100%"
-							rendered="#{not empty editBean.selectedEmployee}">
+							rendered="#{not empty userManagementBean.selectedEmployee}">
 							<p:growl id="growl1" showDetail="true" severity="info"
 								sticky="true" />
 							<div class="col-md-8 offset-md-2 grid-margin stretch-card">
@@ -137,19 +120,17 @@
 														</h4>
 														<div class="form-inline">
 															<h:inputText id="Employee_Name_Editable"
-																value="#{editBean.selectedEmployee.name}"
+																value="#{userManagementBean.selectedEmployee.name}"
 																required="true" style="width:43%;margin-right:3.5%"
 																label="Name" requiredMessage="Name is required"
 																maxlength="200"
-																disabled="#{not editBean.selectedEmployeeEditable}"
 																class="form-control form-control-sm" />
 
 															<h:inputText id="Employee_Surname_Editable"
-																value="#{editBean.selectedEmployee.surname}"
+																value="#{userManagementBean.selectedEmployee.surname}"
 																required="true" style="width:50%;margin-left:3.5%"
 																label="Surname" requiredMessage="Surname is required"
-																class="form-control form-control-sm" maxlength="200"
-																disabled="#{not editBean.selectedEmployeeEditable}" />
+																class="form-control form-control-sm" maxlength="200" />
 														</div>
 													</td>
 												</tr>
@@ -158,8 +139,7 @@
 														<h4>
 															<h:outputLabel>SSN</h:outputLabel>
 														</h4> <h:inputText id="Employee_SSN_Editable"
-															value="#{editBean.selectedEmployee.ssn}"
-															disabled="#{not editBean.selectedEmployeeEditable}"
+															value="#{userManagementBean.selectedEmployee.ssn}"
 															required="true" maxlength="50" label="Social Security Number"
 															requiredMessage="Social Security Number is required"
 															class="form-control form-control-sm" />
@@ -168,8 +148,8 @@
 														<h4>
 															<h:outputLabel>Date of Birth</h:outputLabel>
 														</h4> <p:calendar id="Employee_BirthDay_Editable"
-															value="#{editBean.selectedEmployee.dateOfBirth}"
-															disabled="#{not editBean.selectedEmployeeEditable}"
+															value="#{userManagementBean.selectedEmployee.dateOfBirth}"
+															disabled="#{not userManagementBean.selectedEmployeeEditable}"
 															required="true" class="form-control form-control-sm" 
 															label="Birth Day" requiredMessage="Birth Day is required"/>
 													</td>
@@ -182,8 +162,7 @@
 															minValue="0" maxValue="1000000" thousandSeparator="," 
 															decimalSeparator="." decimalPlaces="2"
 															symbol=" ALL" symbolPosition="s" 
-															value="#{editBean.selectedEmployee.salary}"
-															disabled="#{not editBean.selectedEmployeeEditable}"
+															value="#{userManagementBean.selectedEmployee.salary}"
 															required="true" class="form-control form-control-sm"
 															label="Salary" requiredMessage="Salary is required" />
 
@@ -194,8 +173,7 @@
 														</h4> <p:inputNumber id="Employee_Phone_Number_Editable"
 															minValue="355660000000" maxValue="355699999999" thousandSeparator="" 
 															decimalSeparator="" decimalPlaces="0"
-															value="#{editBean.selectedEmployee.phoneNumber}"
-															disabled="#{not editBean.selectedEmployeeEditable}"
+															value="#{userManagementBean.selectedEmployee.phoneNumber}"
 															required="true" maxlength="200"
 															class="form-control form-control-sm" 
 															label="Phone Number" requiredMessage="Phone Number is required"/>
@@ -208,8 +186,7 @@
 														</h4> <h:inputText 
 															id="Employee_Email_Editable"
 															pt:type="email"
-															value="#{editBean.selectedEmployee.email}"
-															disabled="#{not editBean.selectedEmployeeEditable}"
+															value="#{userManagementBean.selectedEmployee.email}"
 															required="true" maxlength="200"
 															class="form-control form-control-sm" 
 															label="Email" requiredMessage="Email is required"/>
@@ -223,10 +200,8 @@
 															cols="30" counter="display" maxlength="500"
 															counterTemplate="{0} characters remaining."
 															autoResize="false" class="form-control form-control-sm"
-															value="#{editBean.selectedEmployee.address}"
-															disabled="#{not editBean.selectedEmployeeEditable}"
+															value="#{userManagementBean.selectedEmployee.address}"
 															required="true" /> <h:outputText id="display"
-															rendered="#{editBean.selectedEmployeeEditable}"
 															label="Address" requiredMessage="Address is required" />
 
 													</td>
@@ -236,53 +211,33 @@
 												<p:autoUpdate />
 											</p:messages>
 											<div class="row">
-												<div class="col-md-3 text-right ">
-													<p:commandLink class="btn btn-outline-primary btn-rounded"
-														rendered="#{(not editBean.selectedEmployeeEditable)}"
-														update="employeeDetail"
-														action="#{editBean.enableEditing()}">
-													    EDIT
-													    <i class="fa fa-edit"></i>
-													</p:commandLink>
 													<p:commandButton type="submit" icon="fa fa-check"
 														class="btn btn-gradient-success btn-rounded btn-icon "
-														rendered="#{editBean.selectedEmployeeEditable}"
-														update="growl1 employeeDetail"
-														action="#{editBean.updateEmployee(editBean.selectedEmployee.id)}">
-
-														<p:confirm header="Confirmation" message="Save Employee?"
-															icon="ui-icon-alert" />
+														update="growl1 employeeDetail" oncomplete="setTimeout( &quot; location.href = 'users.xhtml'; &quot; ,1500);"
+														action="#{userManagementBean.updateEmployee(userManagementBean.selectedEmployee.id)}">
 
 													</p:commandButton>
 													<p:commandButton 
-														type="submit" icon="fa fa-times"
+														icon="fa fa-times"
 														class="btn btn-gradient-danger btn-rounded btn-icon"
-														rendered="#{editBean.selectedEmployeeEditable}"
-														update="employeeDetail" process="@this"
-														action="#{editBean.disableEditing()}" >
+														oncomplete="setTimeout( &quot; location.href = 'users.xhtml'; &quot; ,200);">
 													</p:commandButton>
-
-													
-												</div>
-												<div class="col-md-6 offset-md-3 text-center  ">
-													<p:commandLink class="btn btn-inverse-warning btn-fw"
-														onclick="PF('changeCredentialsDialog').show()"
-														rendered="#{(not editBean.selectedEmployeeEditable)}">
-														Edit Credentials 	
-														<i class="fa fa-key"></i>
-													</p:commandLink>
-												</div>
 											</div>
 										</p:outputPanel>
-
+										<p:commandLink class="btn btn-primary btn-fw btn-sm" style="position: fixed;top: 200px;right: 0px;"
+														onclick="PF('changeCredentialsDialog').show()"
+														rendered="#{(not userManagementBean.selectedEmployeeEditable)}">
+														Reset Password 	
+														<i class="fa fa-key"></i>
+										</p:commandLink>
 									</div>
 								</div>
 							</div>
-
+						
 						</h:form>
 
 						<h:form id="credentialsForm"
-						rendered="#{not empty editBean.selectedEmployee}">
+						rendered="#{not empty userManagementBean.selectedEmployee}">
 							<p:dialog widgetVar="changeCredentialsDialog" showEffect="fade"
 								hideEffect="fade" resizable="false" style="text-align:center">
 
@@ -296,7 +251,7 @@
 													<h:outputLabel>User Name</h:outputLabel>
 												</h4> <h:inputText id="Employee_Username"
 													label="Username"
-													value="${editBean.selectedEmployee.username}"
+													value="${userManagementBean.selectedEmployee.username}"
 													disabled="true" class="form-control form-control-sm" />
 											</td>
 										</tr>
@@ -307,7 +262,7 @@
 												</h4> <p:password 
 													id="Employee_Password"
 													label="New Password" 
-													value="#{editBean.newPassword}" feedback="true"
+													value="#{userManagementBean.newPassword}" feedback="true"
 													class="form-control form-control-sm"
 													match="Employee_Password_Repeat" />
 											</td>
@@ -318,7 +273,7 @@
 													<h:outputLabel>Repeat Password*</h:outputLabel>
 												</h4> <p:password id="Employee_Password_Repeat"
 													label="Repeat Password" 
-													value="#{editBean.newPassword}" 
+													value="#{userManagementBean.newPassword}" 
 													class="form-control form-control-sm" />
 											</td>
 										</tr>
@@ -326,17 +281,16 @@
 									<p:commandLink id="saveCredentials" type="submit"
 										class="btn btn-gradient-success btn-rounded btn-icon "
 										update=":employeeForm:growl1 :employeeForm:employeeDetail changeCredentials"
-										action="#{editBean.updateEmployee(editBean.selectedEmployee.id)}" style="padding-top: 5%;"
-										oncomplete="if (args &amp;&amp; !args.validationFailed)  PF('changeCredentialsDialog').hide()">
+										action="#{userManagementBean.updateEmployee(userManagementBean.selectedEmployee.id)}" style="padding-top: 5%;"
+										oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('changeCredentialsDialog').hide();}">
 											<i class="fa fa-check" ></i>
-											<p:confirm header="Confirmation" message="Save Employee?"
-												icon="ui-icon-alert" />
-												
 									</p:commandLink>
+									
 									<p:commandLink
 										 type="submit" icon="fa fa-times " style="padding-top: 5%;"
 										class="btn btn-gradient-danger btn-rounded btn-icon "
-										update="@form" action="#{editBean.disableEditing()}"
+										update="@form" action="#{userManagementBean.disableEditing()}"
+										oncomplete="PF('changeCredentialsDialog').hide()"
 										immediate="true">
 											<i class="fa fa-times"></i>
 									</p:commandLink>
@@ -344,130 +298,6 @@
 									<p:messages severity="error" closable="true" />
 								</p:outputPanel>
 							</p:dialog>
-						</h:form>
-
-
-						<h:form id="certificationsForm"
-							rendered="#{not empty editBean.selectedCertificate}"
-							style="width:100%">
-							<p:growl id="growl2" showDetail="true" severity="info"
-								sticky="true" />
-							<div class="col-md-8 offset-md-2 grid-margin stretch-card">
-								<div class="card">
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-3">
-												<h:outputLabel value="Certification Details"
-													class="badge badge-info" />
-											</div>
-										</div>
-
-										<p:outputPanel id="certificationDetail">
-											<table class="table table-hover">
-												<tr>
-													<td>
-														<h4>
-															<h:outputLabel>Full Name</h:outputLabel>
-														</h4>
-													</td>
-													<td><p:inputText disabled="true"
-															style="text-align:center"
-															value="${editBean.selectedCertificate.user.name} ${editBean.selectedCertificate.user.surname}"
-															class="form-control form-control-sm" /></td>
-												</tr>
-												<tr>
-													<td>
-														<h4>
-															<h:outputLabel>Certificate Title</h:outputLabel>
-														</h4>
-													</td>
-													<td><h:inputText disabled="true"
-															style="text-align:center"
-															value="${editBean.selectedCertificate.certificate.title}"
-															class="form-control form-control-sm" /></td>
-												</tr>
-												<tr>
-													<td>
-														<h4>
-															<h:outputLabel>Date Assigned</h:outputLabel>
-														</h4>
-													</td>
-													<td><i><h:inputText disabled="true"
-																style="text-align:center"
-																value="${editBean.selectedCertificate.dateAssigned}"
-																class="form-control form-control-sm">
-																<f:convertDateTime pattern="dd-MM-yyyy" />
-															</h:inputText></i></td>
-												</tr>
-												<tr>
-													<td>
-														<h4>
-															<h:outputLabel>Status</h:outputLabel>
-														</h4>
-													</td>
-													<td><p:selectOneMenu id="certificationStatus"
-															value="#{editBean.selectedCertificate.status}"
-															lazy="true" style="width:100%"
-															rendered="#{editBean.selectedCertificationEditable}"
-															class="form-control form-control-sm">
-															<f:selectItems var="status" value="#{editBean.statuses}"
-																itemLabel="#{status != null ? (status == true ? 'Passed' : 'Failed' ) : 'On Progress'}"
-																itemValue="#{status}" />
-														</p:selectOneMenu>
-														<div class="text-center">
-															<h:outputLabel
-																rendered="#{not editBean.selectedCertificationEditable}"
-																value="#{editBean.selectedCertificate.status != null ? (editBean.selectedCertificate.status == true ? 'Passed' : 'Failed' ) : 'On Progress'}"
-																class="badge #{editBean.selectedCertificate.status != null ? (editBean.selectedCertificate.status == true ? 'badge-success' : 'badge-danger' ) : 'badge-warning'}" />
-														</div></td>
-												</tr>
-												<tr>
-													<td>
-														<h4>
-															<h:outputLabel>Score</h:outputLabel>
-														</h4>
-													</td>
-													<td><p:inputNumber minValue="0" maxValue="1000"
-															id="certificationScore"
-															value="#{editBean.selectedCertificate.score}"
-															disabled="#{not editBean.selectedCertificationEditable}"
-															class="form-control form-control-sm" /></td>
-												</tr>
-											</table>
-											<div class="text-right">
-												<p:commandLink
-													id="editCertification"
-													class="btn btn-outline-primary btn-rounded btn-sm"
-													action="#{editBean.enableCertificationEditing()}"
-													rendered="#{not editBean.selectedCertificationEditable}"
-													update="certificationsForm:certificationDetail">
-							 						Edit<i class="fa fa-edit"></i>
-												</p:commandLink>
-
-												<p:commandButton id="saveCertification"
-													type="submit" icon="fa fa-check"
-													class="btn btn-gradient-success btn-rounded btn-icon "
-													action="#{editBean.updateCertification()}"
-													rendered="#{editBean.selectedCertificationEditable}"
-													update="certificationsForm:growl2 certificationsForm:certificationDetail">
-													<p:confirm header="Confirmation" message="Cancel Editing?"
-													icon="ui-icon-alert" />
-												</p:commandButton>
-
-												<p:commandButton id="cancelCertification"
-													type="submit" icon="fa fa-times "
-													class="btn btn-gradient-danger btn-rounded btn-icon"
-													rendered="#{editBean.selectedCertificationEditable}"
-													action="#{editBean.disableCertificationEditing()}"
-													update="certificationsForm:certificationDetail">
-												</p:commandButton>
-											</div>
-											<p:messages severity="error" closable="true" />
-										</p:outputPanel>
-
-									</div>
-								</div>
-							</div>
 						</h:form>
 					</div>
 				</div>

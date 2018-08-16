@@ -15,6 +15,7 @@ import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.model.EmployeeCertification;
+import com.ikubinfo.certification.utility.MessageUtility;
 
 @Repository(value="CertificateDao")
 @Scope("singleton")
@@ -56,12 +57,14 @@ public class CertificateDaoImpl implements CertificateDao{
 			return false;		
 			}
 	}
-
+	
+	@Transactional
 	@Override
 	public boolean removePermanently(Certificate certificate) {
 		try {
-			entityManager.remove(certificate);
-			log.info("Certificate: "+certificate.getTitle()+" was removed permanently!");
+			Certificate certificateToBeDeleted = findById(certificate.getId());
+			entityManager.remove(certificateToBeDeleted);
+			log.info("Certificate : "+certificate.getTitle()+" was removed permanently!");
 			return true;
 		}catch (Exception e) {
 			log.info("Certificate : "+certificate.getTitle()+" failed to be removed permanently! Error message :"+e.getMessage());
@@ -79,22 +82,39 @@ public class CertificateDaoImpl implements CertificateDao{
 		}
 		catch(Exception e){
 			log.error("Certificate: "+certificate.getTitle()+" failed to be updated! Error message :"+e.getMessage());
-			//e.printStackTrace();
 			return false;
 		}
+	}
+	
+	
+	@Transactional
+	@Override
+	public boolean restore(Certificate certificate) {
+		try {
+			entityManager.
+			 createQuery("update Certificate set deleted=0 where id=:id")
+			.setParameter("id",certificate.getId())
+			.executeUpdate();
+			log.info("Certificate: "+certificate.getTitle()+" was removed restored!");
+			return true;			
+			
+		} catch (Exception e) {
+			log.info("Certificate : "+certificate.getTitle()+" failed to be restored! Error message :"+e.getMessage());
+			return false;		
+			}
 	}
 
 	@Override
 	public Certificate findById(int id) {
 		try {
 			Certificate certificate =  entityManager.find(Certificate.class, id);
-			if(!certificate.isDeleted()) {
+			//if(!certificate.isDeleted()) {
 				return certificate;
-			}
-			else {
-				log.warn("Certificate: "+certificate.getTitle()+" is deleted!");
-				return null;
-			}
+			//}
+			//else {
+			//	log.warn("Certificate: "+certificate.getTitle()+" is deleted!");
+			//	return null;
+			//}
 		} catch (Exception e) {
 			log.warn("Certificate cannot be found! Error message :"+e.getMessage());
 			return null;
@@ -153,12 +173,12 @@ public class CertificateDaoImpl implements CertificateDao{
 			.setParameter("title", certificateToBeValidated.getTitle())
 			.getSingleResult();
 			if(certificate.isDeleted()) {
-				log.warn(ErrorMessages.CERTIFICATE_PREVIOUSLY_DELETED.getMessage());
-				throw new GeneralException(ErrorMessages.CERTIFICATE_PREVIOUSLY_DELETED.getMessage());
+				log.warn(MessageUtility.getMessage("CERTIFICATE_PREVIOUSLY_DELETED"));
+				throw new GeneralException(MessageUtility.getMessage("CERTIFICATE_PREVIOUSLY_DELETED"));
 			}
 			else {
-				log.warn(ErrorMessages.CERTIFICATE_DUPLICATE.getMessage());
-				throw new GeneralException(ErrorMessages.CERTIFICATE_DUPLICATE.getMessage());
+				log.warn(MessageUtility.getMessage("CERTIFICATE_DUPLICATE"));
+				throw new GeneralException(MessageUtility.getMessage("CERTIFICATE_DUPLICATE"));
 			}
 			
 		}catch (NoResultException e) {
@@ -178,8 +198,8 @@ public class CertificateDaoImpl implements CertificateDao{
 				if(results.isEmpty()) {
 					return true;
 				}else {
-					log.info(ErrorMessages.CERTIFICATE_FORBID_DELETE.getMessage());
-					throw new GeneralException(ErrorMessages.CERTIFICATE_FORBID_DELETE.getMessage());	
+					log.info(MessageUtility.getMessage("CERTIFICATE_FORBID_DELETE"));
+					throw new GeneralException(MessageUtility.getMessage("CERTIFICATE_FORBID_DELETE"));	
 				}
 			}catch(NoResultException e) {
 				return true;
@@ -197,8 +217,8 @@ public class CertificateDaoImpl implements CertificateDao{
 				if(results.isEmpty()) {
 					return true;
 				}else {
-					log.info(ErrorMessages.CERTIFICATE_FORBID_DELETE.getMessage());
-					throw new GeneralException(ErrorMessages.CERTIFICATE_FORBID_DELETE.getMessage());	
+					log.info(MessageUtility.getMessage("CERTIFICATE_FORBID_DELETE"));
+					throw new GeneralException(MessageUtility.getMessage("CERTIFICATE_FORBID_DELETE"));	
 				}
 			}catch(NoResultException e) {
 				return true;

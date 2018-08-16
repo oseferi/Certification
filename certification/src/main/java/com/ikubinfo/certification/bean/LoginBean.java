@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.UserService;
+import com.ikubinfo.certification.utility.MessageUtility;
 
 @ManagedBean(name="loginBean")
 @RequestScoped
@@ -37,23 +38,20 @@ public class LoginBean implements Serializable {
 			if(user!=null) {
 				String role = user.getRole().getTitle();
 				if(role.equals("Manager")) {
-					//System.out.println("Manager Successfully logged in");
 					log.info("Manager Successfully logged in!");
 					userBean.setUser(user);
 					return "administration/index?faces-redirect=true";
 				}
 				else if (role.equals("Employee")) {
-					//System.out.println("Employee Successfully logged in");
 					log.info("Employee Successfully logged in!");
 					userBean.setUser(user);
 					return "employee/index?faces-redirect=true";
 				}
 				else {
-					//System.out.println("Unknown role type");
 					log.error("Unknown role type!");
 					validCredentials = false;
 			        FacesContext context = FacesContext.getCurrentInstance();
-			        context.addMessage(null, new FacesMessage("Error", "Wrong username or password!") );
+			        context.addMessage(null, new FacesMessage("Error", MessageUtility.getMessage("WRONG_CREDENTIALS")) );
 				    return "";
 				    
 				}
@@ -61,14 +59,12 @@ public class LoginBean implements Serializable {
 			else {
 				log.warn("User failed to log in!");
 				log.info("User is null!");
-				//System.out.println("User failed to log in! (User is null)");
 		        FacesContext context = FacesContext.getCurrentInstance();
-		        context.addMessage(null, new FacesMessage("Error", "Wrong username or password!") );
+		        context.addMessage(null, new FacesMessage("Error", MessageUtility.getMessage("WRONG_CREDENTIALS")) );
 			    return "";
 			}
 		}
 		else {
-			//System.out.println("One of the credentials is empty!");
 			log.warn("One of the credentials is empty!");
 			return null;
 		}
@@ -76,7 +72,6 @@ public class LoginBean implements Serializable {
 	
 	public String logOut() {
 		userBean.logOut();
-		//System.out.println("User Logged out!");
 		log.info("User Logged out!");
 		return "/login.xhtml?faces-redirect=true";
 	}
@@ -121,7 +116,4 @@ public class LoginBean implements Serializable {
 		this.userBean = userBean;
 	}
 	
-	public LoginBean() {
-		
-	}
 }

@@ -154,13 +154,13 @@ public class UserServiceImpl implements UserService, Serializable {
 	}
 
 	@Override
-	public int getTotalRows() {
-		return userDao.getTotalRows();
+	public int getTotalRows(int managerId) {
+		return userDao.getTotalRows(managerId);
 	}
 
 	@Override
-	public int getTotalDeletedRows() {
-		return userDao.getTotalDeletedRows();
+	public int getTotalDeletedRows(int managerId) {
+		return userDao.getTotalDeletedRows(managerId);
 	}
 	
 	

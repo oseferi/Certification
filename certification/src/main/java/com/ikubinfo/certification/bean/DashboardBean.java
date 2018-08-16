@@ -12,9 +12,9 @@ import com.ikubinfo.certification.service.CertificateService;
 import com.ikubinfo.certification.service.CertificationService;
 import com.ikubinfo.certification.service.UserService;
 
-@ManagedBean(name = "informationBean")
+@ManagedBean(name = "dashboardBean")
 @RequestScoped
-public class InformationBean implements Serializable{
+public class DashboardBean implements Serializable{
 
 	
 	private static final long serialVersionUID = -597743384576998368L;
@@ -28,6 +28,9 @@ public class InformationBean implements Serializable{
 	@ManagedProperty(value="#{certificateService}")
 	CertificateService certificateService;
 	
+	@ManagedProperty(value = "#{userBean}")
+	UserBean userBean;
+	
 	private int numberOfEmployees;
 	private int numberOfCertifications;
 	private int numberOfDeletedRows;
@@ -35,11 +38,11 @@ public class InformationBean implements Serializable{
 	@PostConstruct
 	public void init() {
 		try {
-			numberOfEmployees = userService.getTotalRows();
-			numberOfCertifications = certificationService.getTotalRows();
-			numberOfDeletedRows = userService.getTotalDeletedRows() + 
+			numberOfEmployees = userService.getTotalRows(userBean.getUser().getId());
+			numberOfCertifications = certificationService.getTotalRows(userBean.getUser().getId());
+			numberOfDeletedRows = userService.getTotalDeletedRows(userBean.getUser().getId()) + 
 									certificateService.getTotalDeletedRows() + 
-										certificationService.getTotalDeletedRows();
+										certificationService.getTotalDeletedRows(userBean.getUser().getId());
 					
 		} catch (Exception e) {
 			numberOfEmployees = 0;
@@ -96,6 +99,15 @@ public class InformationBean implements Serializable{
 	public void setNumberOfDeletedRows(int numberOfDeletedRows) {
 		this.numberOfDeletedRows = numberOfDeletedRows;
 	}
+
+	public UserBean getUserBean() {
+		return userBean;
+	}
+
+	public void setUserBean(UserBean userBean) {
+		this.userBean = userBean;
+	}
+	
 	
 	
 }

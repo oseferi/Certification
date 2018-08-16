@@ -17,6 +17,7 @@ import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.exception.SuccessMessages;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.service.CertificationService;
+import com.ikubinfo.certification.utility.MessageUtility;
 
 @ManagedBean(name = "userCertificationBean")
 @ViewScoped
@@ -93,7 +94,7 @@ public class UserCertificationBean implements Serializable{
 		certification1.setStatus(convertStatus(status));
 		try {
 			certificationService.edit(certification1);
-			addMessage(new FacesMessage(getSuccess(),SuccessMessages.CERTIFICATION_UPDATED.getMessage()));
+			addMessage(new FacesMessage(getSuccess(),MessageUtility.getMessage("CERTIFICATION_UPDATED")));
 		} catch (GeneralException e) {
 			exceptionHandler(e);
 		}finally {
@@ -138,11 +139,6 @@ public class UserCertificationBean implements Serializable{
 		if(query!=null ) {
 			System.out.println("Query for \""+query+"\"");
 			if(!query.equals("")){
-				/*for(EmployeeCertification ec : backUpCertifications) {
-					if(ec.getCertificate().getDescription().toLowerCase().contains(query.toLowerCase()) 
-							|| ec.getCertificate().getTitle().toLowerCase().contains(query.toLowerCase())) {
-						filteredCertifications.add(ec);
-					}*/
 				filteredCertifications = certificationService.filter(query, user.getUser());
 			}else {
 				refreshCertifications();

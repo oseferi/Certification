@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.Certificate;
+import com.ikubinfo.certification.model.User;
 
 public interface CertificateDao {
 	
@@ -11,6 +12,8 @@ public interface CertificateDao {
 	public boolean remove(Certificate certificate);
 	public boolean removePermanently(Certificate certificate);
 	public boolean update(Certificate certificate);
+	public boolean restore(Certificate certificate);
+	
 	
 	public Certificate findById(int id);
 	public ArrayList<Certificate> getAll();

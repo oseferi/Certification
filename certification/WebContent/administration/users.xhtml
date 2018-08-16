@@ -51,6 +51,39 @@
 .ui-widget-content .ui-inputfield {
 	width: 100%;
 }
+
+.badge {
+	width: 100px;
+}
+
+.ui-state-default {
+	background-image: -ms-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
+		to(#ffffff)) !important;
+	background-image: -webkit-linear-gradient(top, #ffffff, #ffffff)
+		!important;
+	background-image: -o-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: -moz-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-repeat: repeat-x;
+}
+
+.ui-datatable-odd {
+	background-color: #ffffff !important;
+}
+
+.ui-datatable {
+	border: 0px !important;
+}
+
+.ui-datatable-tablewrapper {
+	border: 1px solid #dddddd;
+}
+
+.ui-widget-header {
+	border: 0px;
+	background: #ffffff;
+}
 </style>
 </h:head>
 <h:body>
@@ -88,9 +121,19 @@
 								<div class="card-body">
 
 									<h:form id="employeeForm">
-										<div class="border-bottom">
-											<h1 class="font-weight-normal text-primary mb-3">Employees</h1>
+										<div class="row">
+											<div class="col-md-4">
+												<h1 class="font-weight-normal text-primary mb-3">Employees</h1>
+											</div>
+											<div class="col-md-4 offset-md-4 text-right">
+												<p:commandButton icon="fa fa-plus"
+													class="btn btn-outline-primary btn-rounded btn-icon btn-sm "
+													onclick="PF('newEmployeeDialog').show()">
+												</p:commandButton>
+											</div>
+
 										</div>
+										<hr />
 
 										<p:growl id="growl1" showDetail="true" severity="info"
 											sticky="true" />
@@ -104,27 +147,24 @@
 											widgetVar="employeesTable" multiViewState="true" rows="10"
 											paginator="true" paginatorPosition="bottom"
 											paginatorTemplate="{PreviousPageLink} 
-                 							{PageLinks} {NextPageLink}  {RowsPerPageDropdown}"
-											rowsPerPageTemplate="5,10,15" selectionMode="single"
-											selection="#{userManagementBean.selectedEmployee}"
+                 							{PageLinks} {NextPageLink} "
 											rowKey="#{employe}" class="table"
 											emptyMessage="No employees found with given criteria">
 
-											<p:ajax event="rowSelect"
-												update=":employeeForm:employeeDetail"
-												oncomplete="PF('employeeDialog').show()" />
-
-											<p:column id="table_header_name" style="width:13%">
+											<p:column id="table_header_name"
+												style="height:40px;width:13%;border-right: 0px;">
 												<f:facet name="header">Name</f:facet>
 												<h:outputText value="#{employe.name}" />
 											</p:column>
 
-											<p:column id="table_header_surname" style="width:13%">
+											<p:column id="table_header_surname"
+												style="width:13%;border-left: 0px;border-right: 0px;">
 												<f:facet name="header">Surname</f:facet>
 												<h:outputText value="#{employe.surname}" />
 											</p:column>
 
-											<p:column id="table_header_address">
+											<p:column id="table_header_address"
+												style="width:20%;border-left: 0px;border-right: 0px;">
 												<f:facet name="header">Address</f:facet>
 												<h:outputText
 													value="#{(fn:length(employe.address)>20) ?
@@ -133,14 +173,16 @@
 																#{(fn:length(employe.address)>20) ? '...' : ''}" />
 											</p:column>
 
-											<p:column id="table_header_birthday" style="width:13%">
+											<p:column id="table_header_birthday"
+												style="width:13%;border-left: 0px;border-right: 0px;">
 												<f:facet name="header">Birth Day</f:facet>
 												<h:outputText value="#{employe.dateOfBirth}">
 													<f:convertDateTime pattern="dd-MM-yyyy" />
 												</h:outputText>
 											</p:column>
 
-											<p:column id="table_header_email">
+											<p:column id="table_header_email"
+												style="border-left: 0px;border-right: 0px;">
 												<f:facet name="header">Email Address</f:facet>
 												<h:outputText
 													value="#{(fn:length(employe.email)>30) ?
@@ -149,7 +191,14 @@
 																#{(fn:length(employe.email)>30) ? '...' : ''}" />
 											</p:column>
 
-											<p:column style="width:6%">
+											<p:column
+												style="width:8%;border-left: 0px;">
+												<p:commandLink
+													action="#{userManagementBean.selectEmployee(employe.id)}"
+													update=":employeeForm:employeeDetail"
+													oncomplete="PF('employeeDialog').show()">
+													<i class="fa fa-eye"></i>
+												</p:commandLink>
 												<p:commandLink
 													action="#{userManagementBean.edit(employe.id)}">
 													<i class="fa fa-pencil"></i>
@@ -160,16 +209,12 @@
 													update=":employeeForm:tableStateDT :employeeForm:growl1">
 													<i class="fa fa-trash"></i>
 												</p:commandLink>
+
 											</p:column>
 
 										</p:dataTable>
 										<h:outputText value="&lt;br/&gt;" escape="false" />
-										<div class="text-right">
-											<p:commandButton icon="fa fa-plus"
-												class="btn btn-outline-primary btn-rounded btn-icon btn-sm "
-												onclick="PF('newEmployeeDialog').show()">
-											</p:commandButton>
-										</div>
+
 
 										<!-- - - - - - - - - - -  
 										 E D I T  E M P L O Y E 
@@ -177,7 +222,7 @@
 
 										<p:dialog header="Employee Info" widgetVar="employeeDialog"
 											showEffect="fade" hideEffect="fade" resizable="false"
-											height="450">
+											autoresize="false" height="450">
 											<p:outputPanel id="employeeDetail" style="text-align:center;">
 
 												<table class="table table-hover">
@@ -191,7 +236,7 @@
 																	value="#{userManagementBean.selectedEmployee.name}"
 																	required="true" style="width:43%;margin-right:3.5%"
 																	label="Name" requiredMessage="Name is required"
-																	maxlength="200"
+																	maxlength="25"
 																	disabled="#{not userManagementBean.selectedEmployeeEditable}"
 																	class="form-control form-control-sm" />
 
@@ -199,7 +244,7 @@
 																	value="#{userManagementBean.selectedEmployee.surname}"
 																	required="true" style="width:50%;margin-left:3.5%"
 																	label="Surname" requiredMessage="Surname is required"
-																	class="form-control form-control-sm" maxlength="200"
+																	class="form-control form-control-sm" maxlength="25"
 																	disabled="#{not userManagementBean.selectedEmployeeEditable}" />
 															</div>
 														</td>
@@ -211,7 +256,7 @@
 															</h4> <h:inputText id="Employee_SSN_Editable"
 																value="#{userManagementBean.selectedEmployee.ssn}"
 																disabled="#{not userManagementBean.selectedEmployeeEditable}"
-																required="true" maxlength="50"
+																required="true" maxlength="25"
 																label="Social Security Number"
 																requiredMessage="Social Security Number is required"
 																class="form-control form-control-sm" />
@@ -250,10 +295,14 @@
 																decimalPlaces="0"
 																value="#{userManagementBean.selectedEmployee.phoneNumber}"
 																disabled="#{not userManagementBean.selectedEmployeeEditable}"
-																required="true" maxlength="200"
+																required="true" maxlength="12"
 																class="form-control form-control-sm"
 																label="Phone Number"
-																requiredMessage="Phone Number is required" />
+																validatorMessage="Please enter the number in the appropriate format Ex. 355675623752"
+																requiredMessage="Phone Number is required">
+																<f:validateLongRange minimum="355660000000"
+																	maximum="355699999999" />
+															</p:inputNumber>
 														</td>
 													</tr>
 													<tr>
@@ -264,9 +313,13 @@
 																pt:type="email"
 																value="#{userManagementBean.selectedEmployee.email}"
 																disabled="#{not userManagementBean.selectedEmployeeEditable}"
-																required="true" maxlength="200"
+																required="true" maxlength="100"
 																class="form-control form-control-sm" label="Email"
-																requiredMessage="Email is required" />
+																validatorMessage="Please provide the email in an appropriate format"
+																requiredMessage="Email is required">
+																<f:validateRegex
+																	pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
+															</h:inputText>
 														</td>
 													</tr>
 													<tr>
@@ -286,10 +339,10 @@
 														</td>
 													</tr>
 												</table>
-	
+
 												<p:outputPanel id="employeeCredentials"
 													rendered="#{(not userManagementBean.selectedEmployeeEditable) and (userManagementBean.selectedEmployeeCredentialsEditable)}">
-													<hr/>
+													<hr />
 													<h:outputLabel value="CREDENTIALS"
 														class="badge badge-success" />
 													<table class="table">
@@ -331,7 +384,7 @@
 													<p:autoUpdate />
 												</p:messages>
 												<div class="row">
-													<div class="col-md-3 text-right ">
+													<div class="col-md-3 text-center ">
 														<p:commandLink class="btn btn-outline-primary btn-rounded"
 															update="employeeDetail"
 															rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"
@@ -343,15 +396,11 @@
 													</div>
 													<p:commandLink id="save_button" type="submit"
 														icon="fa fa-check"
-														class="btn btn-outline-success btn-rounded"
-														value="Save"
+														class="btn btn-outline-primary btn-rounded" value="Save"
 														update=":employeeForm:growl1 tableStateDT employeeDetail"
 														oncomplete="if (args &amp;&amp; !args.validationFailed) PF('employeeDialog').hide()"
 														rendered="#{userManagementBean.selectedEmployeeEditable or userManagementBean.selectedEmployeeCredentialsEditable}"
 														action="#{userManagementBean.updateEmployee(userManagementBean.selectedEmployee.id)}">
-
-														<p:confirm header="Confirmation" message="Save Employee?"
-															icon="ui-icon-alert" />
 
 													</p:commandLink>
 													<p:commandLink id="cancel_button" type="submit"
@@ -365,12 +414,12 @@
 
 
 
-													<div class="col-md-6 offset-md-3 text-center  ">
-														<p:commandLink class="btn btn-inverse-warning btn-fw"
+													<div class="col-md-6 offset-md-2 text-center  ">
+														<p:commandLink class="btn btn-inverse-primary btn-fw"
 															rendered="#{(not userManagementBean.selectedEmployeeEditable) and (not userManagementBean.selectedEmployeeCredentialsEditable)}"
 															update="employeeDetail"
 															action="#{userManagementBean.enableCredentialsEditing()}">
-														Edit Credentials 	
+														Reset Password	
 														<i class="fa fa-key"></i>
 														</p:commandLink>
 													</div>
@@ -412,14 +461,14 @@
 																	value="#{userManagementBean.employee.name}"
 																	required="true" style="width:46%;margin-right:3.5%"
 																	label="Name" requiredMessage="Name is required"
-																	maxlength="200" class="form-control form-control-sm" />
+																	maxlength="25" class="form-control form-control-sm" />
 
 																<h:inputText id="Employee_Surname"
 																	pt:placeholder="SURNAME"
 																	value="#{userManagementBean.employee.surname}"
 																	required="true" style="width:50%;" label="Surname"
 																	requiredMessage="Surname is required"
-																	class="form-control form-control-sm" maxlength="200" />
+																	class="form-control form-control-sm" maxlength="25" />
 															</div>
 														</td>
 													</tr>
@@ -429,7 +478,7 @@
 																<h:outputLabel>SSN</h:outputLabel>
 															</h4> <h:inputText id="Employee_SSN"
 																value="#{userManagementBean.employee.ssn}"
-																required="true" maxlength="50"
+																required="true" maxlength="25"
 																label="Social Security Number"
 																requiredMessage="Social Security Number is required"
 																class="form-control form-control-sm" />
@@ -475,17 +524,18 @@
 														<td>
 															<h4>
 																<h:outputLabel>Telephone</h:outputLabel>
-															</h4> <p:inputText id="Employee_Phone_Number" pt:type="number"
-																pt:placeholder="Ex. 355675623752" pt:min="355660000000"
-																pt:max="355699999999" thousandSeparator=""
+															</h4> <p:inputNumber id="Employee_Phone_Number"
+																pt:placeholder="Ex. 355675623752" thousandSeparator=""
 																decimalSeparator="" decimalPlaces="0"
 																value="#{userManagementBean.employee.phoneNumber}"
-																required="true" maxlength="200"
+																required="true" maxlength="12"
 																class="form-control form-control-sm"
 																label="Phone Number"
-																validationMessage="Please provide a valid number"
-																requiredMessage="Phone Number is required" /> <p:keyFilter
-																for="Employee_Phone_Number" mask="num" />
+																validatorMessage="Please enter the number in the appropriate format Ex. 355675623752"
+																requiredMessage="Phone Number is required">
+																<f:validateLongRange minimum="355660000000"
+																	maximum="355699999999" />
+															</p:inputNumber> <p:keyFilter for="Employee_Phone_Number" mask="num" />
 														</td>
 													</tr>
 												</table>
@@ -499,11 +549,11 @@
 														<td>
 															<h4>
 																<h:outputLabel>Email</h:outputLabel>
-															</h4> <h:inputText id="Employee_Email_Editable"
-																pt:type="email"
+															</h4> <h:inputText id="Employee_Email" pt:type="email"
 																value="#{userManagementBean.employee.email}"
-																required="true" maxlength="200"
+																required="true" maxlength="100"
 																class="form-control form-control-sm" label="Email"
+																validatorMessage="Please provide the email in an appropriate format"
 																requiredMessage="Email is required">
 																<f:validateRegex
 																	pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
@@ -514,8 +564,8 @@
 																<h:outputLabel>Username</h:outputLabel>
 															</h4> <h:inputText id="Employee_Username" label="Username"
 																value="#{userManagementBean.employee.username}"
-																class="form-control form-control-sm" required="true"
-																requiredMessage="Username is required" />
+																maxlength="30" class="form-control form-control-sm"
+																required="true" requiredMessage="Username is required" />
 														</td>
 													</tr>
 													<tr>

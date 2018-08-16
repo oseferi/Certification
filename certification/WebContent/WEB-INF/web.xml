@@ -60,4 +60,7 @@
    	<exception-type>org.springframework.beans.factory.BeanCreationException</exception-type>
   	<location>/error500.xhtml?faces-redirect=true</location>
    </error-page>
+   <welcome-file-list>
+    <welcome-file>/login.xhtml?faces-redirect=true</welcome-file>
+   </welcome-file-list>
 </web-app>

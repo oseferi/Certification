@@ -3,21 +3,25 @@ package com.ikubinfo.certification.dao.impl;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.jboss.logging.Message;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ikubinfo.certification.bean.ManagerCertificationBean;
 import com.ikubinfo.certification.dao.UserDao;
 import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.model.User;
+import com.ikubinfo.certification.utility.MessageUtility;
 
 @Repository(value = "UserDao")
 @Scope("singleton")
@@ -56,17 +60,37 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 	
-	
+	@Transactional
 	@Override
 	public boolean removePermanently(User user) {
 		try {
-			entityManager.remove(user);
+			User userToBeDeleted = findById(user.getId());
+			entityManager.remove(userToBeDeleted);
 			log.info("User: " + user.getUsername() + " was removed succesfully!");
 			return true;
 		} catch (Exception e) {
 			log.info("User: " + user.getUsername() + " failed to be removed! Error message :" + e.getMessage());
 			return false;
 		}
+	}
+	
+	public boolean removeMultiplePermanently(ArrayList<User>employees) {
+		EntityTransaction etx= null;
+		try {
+			etx= entityManager.getTransaction();
+			etx.begin();
+			for (User user : employees) {
+				removePermanently(user);
+			}
+		}catch (Exception e) {
+			if (etx != null && etx.isActive())
+                etx.rollback();
+            e.printStackTrace();
+         }
+		finally {
+		entityManager.close();	
+		}
+		return true;
 	}
 
 	@Transactional
@@ -177,10 +201,10 @@ public class UserDaoImpl implements UserDao {
 					.setParameter("username", userToBeValidated.getUsername()).getSingleResult();
 			if (user.isDeleted()) {
 				log.warn("Username belongs to previously deleted User!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_PREVIOUSLY_DELETED"));
 			} else {
 				log.warn("Username belongs to active User: " + user.getName() + " " + user.getSurname() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_USERNAME.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_DUPLICATE_USERNAME"));
 			}
 
 		} catch (NoResultException e) {
@@ -196,10 +220,10 @@ public class UserDaoImpl implements UserDao {
 					.setParameter("ssn", userToBeValidated.getSsn()).getSingleResult();
 			if (user.isDeleted()) {
 				log.warn("SSN belongs to previously deleted User: " + user.getUsername() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_PREVIOUSLY_DELETED"));
 			} else {
 				log.warn("SSN belongs to active User: " + user.getUsername() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_SSN.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_DUPLICATE_SSN"));
 			}
 
 		} catch (NoResultException e) {
@@ -220,10 +244,10 @@ public class UserDaoImpl implements UserDao {
 
 			if (user.isDeleted()) {
 				log.warn("Full Name belongs to previously deleted User" + user.getUsername() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_PREVIOUSLY_DELETED"));
 			} else {
 				log.warn("Full Name belongs to active User" + user.getUsername() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_FULL_NAME.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_DUPLICATE_FULL_NAME"));
 			}
 
 		} catch (NoResultException e) {
@@ -243,10 +267,10 @@ public class UserDaoImpl implements UserDao {
 
 			if (user.isDeleted()) {
 				log.warn("Phone Number belongs to previously deleted User" + user.getUsername() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_PREVIOUSLY_DELETED"));
 			} else {
 				log.warn("Phone Number belongs to active User" + user.getUsername() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_PHONE.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_DUPLICATE_PHONE"));
 			}
 
 		} catch (NoResultException e) {
@@ -266,10 +290,10 @@ public class UserDaoImpl implements UserDao {
 
 			if (user.isDeleted()) {
 				log.warn("Email Address belongs to previously deleted User" + user.getUsername() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_PREVIOUSLY_DELETED.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_PREVIOUSLY_DELETED"));
 			} else {
 				log.warn("Email Address belongs to active User" + user.getUsername() + "!");
-				throw new GeneralException(ErrorMessages.EMPLOYEE_DUPLICATE_EMAIL.getMessage());
+				throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_DUPLICATE_EMAIL"));
 			}
 		} catch (NoResultException e) {
 			log.info("Email Address " + userToBeValidated.getEmail() + " is Valid");
@@ -289,8 +313,8 @@ public class UserDaoImpl implements UserDao {
 				if(results.isEmpty()) {
 					return true;
 				}else {
-					log.info(ErrorMessages.EMPLOYEE_FORBID_DELETE.getMessage());
-					throw new GeneralException(ErrorMessages.EMPLOYEE_FORBID_DELETE.getMessage());	
+					log.info(MessageUtility.getMessage("EMPLOYEE_FORBID_DELETE"));
+					throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_FORBID_DELETE"));	
 				}
 			}catch(NoResultException e) {
 				return true;
@@ -308,8 +332,8 @@ public class UserDaoImpl implements UserDao {
 				if(results.isEmpty()) {
 					return true;
 				}else {
-					log.info(ErrorMessages.EMPLOYEE_FORBID_DELETE.getMessage());
-					throw new GeneralException(ErrorMessages.EMPLOYEE_FORBID_DELETE.getMessage());	
+					log.info(MessageUtility.getMessage("EMPLOYEE_FORBID_DELETE"));
+					throw new GeneralException(MessageUtility.getMessage("EMPLOYEE_FORBID_DELETE"));	
 				}
 			}catch(NoResultException e) {
 				return true;
@@ -317,14 +341,16 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public int getTotalRows() {
-		return ((Number)entityManager.createQuery("select count(u) from User u")
+	public int getTotalRows(int managerId) {
+		return ((Number)entityManager.createQuery("select count(u) from User u Where u.manager.id=:managerId")
+				.setParameter("managerId", managerId)
                 .getSingleResult()).intValue();
 	}
 
 	@Override
-	public int getTotalDeletedRows() {
-		return ((Number)entityManager.createQuery("select count(u) from User u where u.deleted=1")
+	public int getTotalDeletedRows(int managerId) {
+		return ((Number)entityManager.createQuery("select count(u) from User u where u.deleted=1 and u.manager.id=:managerId")
+				.setParameter("managerId", managerId)
                 .getSingleResult()).intValue();
 	}
 	
