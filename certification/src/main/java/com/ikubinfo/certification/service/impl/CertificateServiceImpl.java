@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ikubinfo.certification.dao.CertificateDao;
 import com.ikubinfo.certification.exception.GeneralException;
@@ -18,6 +19,7 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 	@Autowired
 	CertificateDao certificateDao;
 	
+	@Transactional
 	@Override
 	public boolean add(Certificate certificate) throws GeneralException {
 		if(isValid(certificate)) {
@@ -26,7 +28,8 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 			return false;
 		}
 	}
-
+	
+	@Transactional
 	@Override
 	public boolean remove(Certificate certificate) throws GeneralException {
 		if(canBeDeleted(certificate.getId())) {
@@ -35,7 +38,8 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 			return false;
 		}
 	}
-
+	
+	@Transactional
 	@Override
 	public boolean removePermanently(Certificate certificate) throws GeneralException {
 		if(canBeDeletedPermanently(certificate.getId())) {
@@ -44,7 +48,8 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 			return false;
 		}
 	}
-
+	
+	@Transactional
 	@Override
 	public boolean update(Certificate certificate) throws GeneralException {
 		if(isValid(certificate)) {
@@ -54,6 +59,7 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 		}
 	}
 	
+	@Transactional
 	@Override
 	public boolean restore(Certificate certificate) {
 		return certificateDao.restore(certificate);

@@ -32,7 +32,6 @@ public class UserDaoImpl implements UserDao {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	@Transactional
 	@Override
 	public boolean add(User user) {
 		try {
@@ -45,7 +44,6 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public boolean remove(User user) {
 		try {
@@ -60,7 +58,6 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 	
-	@Transactional
 	@Override
 	public boolean removePermanently(User user) {
 		try {
@@ -73,27 +70,19 @@ public class UserDaoImpl implements UserDao {
 			return false;
 		}
 	}
-	
+	@Transactional
 	public boolean removeMultiplePermanently(ArrayList<User>employees) {
-		EntityTransaction etx= null;
 		try {
-			etx= entityManager.getTransaction();
-			etx.begin();
 			for (User user : employees) {
 				removePermanently(user);
 			}
 		}catch (Exception e) {
-			if (etx != null && etx.isActive())
-                etx.rollback();
             e.printStackTrace();
          }
-		finally {
-		entityManager.close();	
-		}
+		
 		return true;
 	}
 
-	@Transactional
 	@Override
 	public boolean update(User user) {
 		try {
@@ -107,7 +96,6 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public boolean restore(User user) {
 		try {
@@ -125,13 +113,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User findById(int id) {
 		try {
-			User user = entityManager.find(User.class, id);
-			//if (!user.isDeleted()) {
-				return user;
-			//} else {
-			//	log.warn("User: " + user.getUsername() + " is deleted!");
-			//	return null;
-			//}
+			return entityManager.find(User.class, id);
 		} catch (NoResultException e) {
 			log.warn("User cannot be found! Error message :" + e.getMessage());
 			return null;
@@ -189,6 +171,20 @@ public class UserDaoImpl implements UserDao {
 			log.warn("User cannot be found!(Maybe wrong credentials) Error message :" + e.getMessage());
 			return null;
 
+		}
+	}
+
+	@Override
+	public boolean changePassword(String username, String password) {
+		try {
+			entityManager.createQuery("update User set password=:password where username=:username")
+			.setParameter("username", username)
+			.setParameter("password", password)
+			.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 

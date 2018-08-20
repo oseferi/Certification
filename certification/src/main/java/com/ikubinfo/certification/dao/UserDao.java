@@ -17,6 +17,7 @@ public interface UserDao {
 	public ArrayList<User> getAllActive(int id);
 	public ArrayList<User> getAllDisabled(int id);
 	public User exists(String username, String password);
+	public boolean changePassword(String username, String password);
 	
 	public boolean isValidUsername(User user) throws GeneralException;
 	public boolean isValidSsn(User user) throws GeneralException;

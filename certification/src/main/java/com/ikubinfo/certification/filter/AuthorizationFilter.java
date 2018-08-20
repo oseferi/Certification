@@ -44,7 +44,51 @@ public class AuthorizationFilter implements Filter {
 			else if (uri.contains("resources")){
 				chain.doFilter(servletRequest, servletResponse);
 			}
-			else if(uri.contains("login")) {
+			else if (uri.contains("profile")){
+				if(userBean!=null) {
+					if(userBean.getUser()!=null &&( userBean.getUser().getRole().getTitle().equals("Manager")
+													|| userBean.getUser().getRole().getTitle().equals("Employee"))) {
+						chain.doFilter(servletRequest, servletResponse);
+					}
+					else {
+						httpServletResponse.sendError(401,"Unauthorized Access!Please log in to access this resource.");
+					}
+				}else {
+					//chain.doFilter(servletRequest, servletResponse);
+					System.out.println("User Bean is null while trying to accesss administration resources");
+					httpServletResponse.sendError(401,"Unauthorized Access!Please log in to access this resource.");
+				}
+			}
+			else if (uri.contains("resetpassword")){
+				if(userBean!=null) {
+					if(userBean.getUser()!=null &&( userBean.getUser().getRole().getTitle().equals("Manager")
+													|| userBean.getUser().getRole().getTitle().equals("Employee"))) {
+						chain.doFilter(servletRequest, servletResponse);
+					}
+					else {
+						httpServletResponse.sendError(401,"Unauthorized Access!Please log in to access this resource.");
+					}
+				}else {
+					//chain.doFilter(servletRequest, servletResponse);
+					System.out.println("User Bean is null while trying to accesss administration resources");
+					httpServletResponse.sendError(401,"Unauthorized Access!Please log in to access this resource.");
+				}
+			}
+			else if (uri.contains("dashboard")){
+				if(userBean!=null) {
+					if(userBean.getUser()!=null &&( userBean.getUser().getRole().getTitle().equals("Manager")
+													|| userBean.getUser().getRole().getTitle().equals("Employee"))) {
+						chain.doFilter(servletRequest, servletResponse);
+					}
+					else {
+						httpServletResponse.sendError(401,"Unauthorized Access!Please log in to access this resource.");
+					}
+				}else {
+					//chain.doFilter(servletRequest, servletResponse);
+					System.out.println("User Bean is null while trying to accesss administration resources");
+					httpServletResponse.sendError(401,"Unauthorized Access!Please log in to access this resource.");
+				}
+			}else if(uri.contains("login")) {
 				if(userBean!=null) {
 					if(userBean.getUser()!=null) {
 						if(userBean.getUser().getRole().getTitle().equals("Manager")) {

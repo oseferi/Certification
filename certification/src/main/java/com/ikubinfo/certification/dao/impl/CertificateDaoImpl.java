@@ -26,7 +26,6 @@ public class CertificateDaoImpl implements CertificateDao{
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	@Transactional
 	@Override
 	public boolean add(Certificate certificate) {
 		try {
@@ -41,7 +40,6 @@ public class CertificateDaoImpl implements CertificateDao{
 		}
 	}
 	
-	@Transactional
 	@Override
 	public boolean remove(Certificate certificate) {
 		try {
@@ -58,7 +56,6 @@ public class CertificateDaoImpl implements CertificateDao{
 			}
 	}
 	
-	@Transactional
 	@Override
 	public boolean removePermanently(Certificate certificate) {
 		try {
@@ -72,7 +69,6 @@ public class CertificateDaoImpl implements CertificateDao{
 		}
 	}
 	
-	@Transactional
 	@Override
 	public boolean update(Certificate certificate) {
 		try {
@@ -87,7 +83,6 @@ public class CertificateDaoImpl implements CertificateDao{
 	}
 	
 	
-	@Transactional
 	@Override
 	public boolean restore(Certificate certificate) {
 		try {
@@ -107,14 +102,7 @@ public class CertificateDaoImpl implements CertificateDao{
 	@Override
 	public Certificate findById(int id) {
 		try {
-			Certificate certificate =  entityManager.find(Certificate.class, id);
-			//if(!certificate.isDeleted()) {
-				return certificate;
-			//}
-			//else {
-			//	log.warn("Certificate: "+certificate.getTitle()+" is deleted!");
-			//	return null;
-			//}
+				return entityManager.find(Certificate.class, id);
 		} catch (Exception e) {
 			log.warn("Certificate cannot be found! Error message :"+e.getMessage());
 			return null;
@@ -126,7 +114,7 @@ public class CertificateDaoImpl implements CertificateDao{
 	public ArrayList<Certificate> getAll() {
 		try {
 			return (ArrayList<Certificate>) entityManager
-					.createQuery("Select certificate from Certificate certificate Where certificate.deleted=1")
+					.createQuery("Select certificate from Certificate certificate")
 					.getResultList();
 				
 		} catch (Exception e) {

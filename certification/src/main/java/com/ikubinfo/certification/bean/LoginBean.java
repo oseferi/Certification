@@ -38,14 +38,14 @@ public class LoginBean implements Serializable {
 			if(user!=null) {
 				String role = user.getRole().getTitle();
 				if(role.equals("Manager")) {
-					log.info("Manager Successfully logged in!");
+					log.info("Manager "+username+" successfully logged in!");
 					userBean.setUser(user);
-					return "administration/index?faces-redirect=true";
+					return "dashboard?faces-redirect=true";
 				}
 				else if (role.equals("Employee")) {
-					log.info("Employee Successfully logged in!");
+					log.info("Employee "+username+" successfully logged in!");
 					userBean.setUser(user);
-					return "employee/index?faces-redirect=true";
+					return "dashboard?faces-redirect=true";
 				}
 				else {
 					log.error("Unknown role type!");

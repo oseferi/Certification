@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import org.apache.log4j.Logger;
 import org.primefaces.event.RowEditEvent;
@@ -16,7 +17,9 @@ import org.primefaces.event.RowEditEvent;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.exception.SuccessMessages;
 import com.ikubinfo.certification.model.EmployeeCertification;
+import com.ikubinfo.certification.model.Status;
 import com.ikubinfo.certification.service.CertificationService;
+import com.ikubinfo.certification.service.StatusService;
 import com.ikubinfo.certification.utility.MessageUtility;
 
 @ManagedBean(name = "userCertificationBean")
@@ -32,9 +35,14 @@ public class UserCertificationBean implements Serializable{
 	@ManagedProperty(value="#{certificationService}")
 	CertificationService certificationService;
 	
+	@ManagedProperty(value="#{statusService}")
+	StatusService statusService;
+	
 	private ArrayList<EmployeeCertification> certifications,backUpCertifications,filteredCertifications;
 	private String status;
+	private ArrayList<Status> statuses;
 	private String query;
+	private int statusId;
 	
 	@PostConstruct
 	public void init() {
@@ -53,6 +61,7 @@ public class UserCertificationBean implements Serializable{
 	public void setCertificationService(CertificationService certificationService) {
 		this.certificationService = certificationService;
 	}
+	
 	public ArrayList<EmployeeCertification> getCertifications() {
 		return certifications;
 	}
@@ -88,10 +97,34 @@ public class UserCertificationBean implements Serializable{
 	public void setQuery(String query) {
 		this.query = query;
 	}
+	
+	public StatusService getStatusService() {
+		return statusService;
+	}
+
+	public void setStatusService(StatusService statusService) {
+		this.statusService = statusService;
+	}
+
+	public ArrayList<Status> getStatuses() {
+		return statuses;
+	}
+
+	public void setStatuses(ArrayList<Status> statuses) {
+		this.statuses = statuses;
+	}
+	
+	public int getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
+	}
 
 	public void editRow(RowEditEvent event) {
 		EmployeeCertification certification1 = (EmployeeCertification)event.getObject();
-		certification1.setStatus(convertStatus(status));
+		certification1.setStatus(statusService.findById(statusId));
 		try {
 			certificationService.edit(certification1);
 			addMessage(new FacesMessage(getSuccess(),MessageUtility.getMessage("CERTIFICATION_UPDATED")));
@@ -116,34 +149,15 @@ public class UserCertificationBean implements Serializable{
 			break;
 		}
 	}
-	private Boolean convertStatus(String sts) {
-		if(sts!=null) {
-			if(sts.equals("")){
-				return null;
-			}
-			else if(sts.equals("true")){
-				return true;
-			}
-			else if(sts.equals("false")) {
-				return false;
-			}
-			else {
-				return null;
-			}
-		}
-		else {
-			return null;
-		}
+	public void clearFilter() {
+		status="";
+		refreshCertifications();
 	}
+	
 	public void filter() {
-		if(query!=null ) {
+		if(validQuery() || validStatus()) {
 			System.out.println("Query for \""+query+"\"");
-			if(!query.equals("")){
-				filteredCertifications = certificationService.filter(query, user.getUser());
-			}else {
-				refreshCertifications();
-			}
-			certifications = filteredCertifications;
+			certifications = certificationService.filter(user.getUser().getId(),query, status);
 		}else {
 			refreshCertifications();
 		}
@@ -154,7 +168,7 @@ public class UserCertificationBean implements Serializable{
 	}
 	public void clear() {
 		backUpCertifications = certifications = certificationService.findByUser(user.getUser());
-		query=null;
+		query="";
 	}
 	
 	private String getSuccess() {
@@ -169,6 +183,13 @@ public class UserCertificationBean implements Serializable{
 		if(exception!=null) {
 			addMessage(new FacesMessage(getError(),exception.getMessage()));
 		}
+	}
+	
+	private boolean validQuery() {
+		return query!=null && !query.equals("");
+	}
+	private boolean validStatus() {
+		return status!=null &&!status.equals("-");
 	}
 }
 

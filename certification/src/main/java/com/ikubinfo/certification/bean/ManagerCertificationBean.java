@@ -11,16 +11,19 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.primefaces.PrimeFaces;
 
 import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.exception.SuccessMessages;
 import com.ikubinfo.certification.model.Certificate;
 import com.ikubinfo.certification.model.EmployeeCertification;
+import com.ikubinfo.certification.model.Status;
 import com.ikubinfo.certification.model.Technology;
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.CertificateService;
 import com.ikubinfo.certification.service.CertificationService;
+import com.ikubinfo.certification.service.StatusService;
 import com.ikubinfo.certification.service.TechnologyService;
 import com.ikubinfo.certification.service.UserService;
 import com.ikubinfo.certification.utility.MessageUtility;
@@ -44,18 +47,23 @@ public class ManagerCertificationBean implements Serializable{
 	@ManagedProperty(value="#{userService}")
 	UserService userService;
 	
+	@ManagedProperty(value="#{statusService}")
+	StatusService statusService;
+	
 	private EmployeeCertification certification,newCertification;
 	private Certificate certificate;
 	private int certificateId, userId, technologyId;
-	private ArrayList<EmployeeCertification> certifications,certifications2;
+	private ArrayList<EmployeeCertification> certifications;
 	private ArrayList<EmployeeCertification> filteredCertifications;
 	private ArrayList<Certificate> certificates;
 	private ArrayList<Technology> technologies;
 	private ArrayList<User> employees;
 	private String query;
 	private String status;
-	private ArrayList<Boolean> statuses;
+	private ArrayList<Status> statuses;
+	private Integer statusId;
 	private Integer id;
+	private boolean requiredScore;
 	
 	public UserBean getUser() {
 		return user;
@@ -103,6 +111,14 @@ public class ManagerCertificationBean implements Serializable{
 
 	public void setCertification(EmployeeCertification certification) {
 		this.certification = certification;
+	}
+	
+	public StatusService getStatusService() {
+		return statusService;
+	}
+
+	public void setStatusService(StatusService statusService) {
+		this.statusService = statusService;
 	}
 
 	public EmployeeCertification getNewCertification() {
@@ -202,11 +218,11 @@ public class ManagerCertificationBean implements Serializable{
 		this.status = status;
 	}
 
-	public ArrayList<Boolean> getStatuses() {
+	public ArrayList<Status> getStatuses() {
 		return statuses;
 	}
 
-	public void setStatuses(ArrayList<Boolean> statuses) {
+	public void setStatuses(ArrayList<Status> statuses) {
 		this.statuses = statuses;
 	}
 	
@@ -218,35 +234,51 @@ public class ManagerCertificationBean implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public Integer getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
+	}
+	
+	public boolean isRequiredScore() {
+		return requiredScore;
+	}
+
+	public void setRequiredScore(boolean requiredScore) {
+		this.requiredScore = requiredScore;
+	}
+	
+	public void enableScore() {
+		requiredScore = true;
+	}
 
 	@PostConstruct
 	public void init() {
 		certification = new EmployeeCertification();
 		certificate = new Certificate();
 		newCertification = new EmployeeCertification();
+		statuses = new ArrayList<Status>();
+		status = query = "";
 		refreshCertifications();
 		refreshCertificates();
 		refreshTechnologies();
 		refreshEmployees();
-		statuses = new ArrayList<Boolean>();
 		setStatusesList();
 		try {
 			if(id!=null) {
 				selectCertification(id);
-				statuses = new ArrayList<Boolean>();
-				setStatusesList();
 			}
 		}
 		catch(NullPointerException x) {
 			log.warn("An error occured.There will be nothing displayed in the front-end");
 			certification= null;
 		}
-		
-		
 	}
 	
-	@SuppressWarnings("finally")
-	public String addCertificate() {
+	public void addCertificate() {
 		try {
 			certificateService.add(certificate);
 			certificate=new Certificate();
@@ -255,22 +287,19 @@ public class ManagerCertificationBean implements Serializable{
 		} catch (GeneralException ge) {
 			exceptionHandler(ge);
 		}
-		finally {
-			return "";
-		}
 	}
 	
-	public String updateCertification() {
+	public void updateCertification() {
 		try {
 			certificationService.edit(certification);
 			setStatusesList();
 			addMessage( new FacesMessage(getSuccess(),
 						SuccessMessages.CERTIFICATION_UPDATED.getMessage()) );
+			PrimeFaces.current().executeScript("setTimeout( \" location.href = 'certifications.xhtml'; \" ,1500);");
 			
 		} catch (GeneralException e) {
 			exceptionHandler(e);
 		}
-		return "";
 	
 }
 	
@@ -288,11 +317,12 @@ public class ManagerCertificationBean implements Serializable{
 		return null;
 	}
 	
-	public String assignCertification() {
+	public void assignCertification() {
 		log.info("assign Certification executed!");
 		try {
 			newCertification.setUser(userService.findById(userId));
 			newCertification.setCertificate(certificateService.findById(certificateId));
+			newCertification.setStatus(statusService.getOnProgressStasus());
 			certificationService.add(newCertification);
 			addMessage(new FacesMessage(getSuccess(), MessageUtility.getMessage("CERTIFICATION_ASSIGNED")) );
 			newCertification = new EmployeeCertification();
@@ -302,10 +332,9 @@ public class ManagerCertificationBean implements Serializable{
 		}catch(GeneralException e) {
 			exceptionHandler(e);
 		}
-			return null;
 	}
 	
-	public String removeCertification(int id) {
+	public void removeCertification(int id) {
 		if(certificationService.remove(certificationService.find(id))) {
 			addMessage(new FacesMessage(getSuccess(), MessageUtility.getMessage("CERTIFICATION_UNASSIGNED")));
 			refreshCertifications();
@@ -313,12 +342,10 @@ public class ManagerCertificationBean implements Serializable{
 			log.info("Certificate could not be unassigned!");
 			addMessage(new FacesMessage(getError(), MessageUtility.getMessage("CERTIFICATION_UNASSIGN_FAIL")) );
 		}
-		return null;
 		
 	}
 	public void refreshCertifications() {
 		certifications = certificationService.getAllActive(user.getUser());
-		certifications2 = certifications;
 	}
 	public void refreshCertificates() {
 		certificates = certificateService.getAllActive();
@@ -329,8 +356,11 @@ public class ManagerCertificationBean implements Serializable{
 	public void refreshEmployees() {
 		employees = userService.getAllActive(user.getUser().getId());
 	}
+	public void setStatusesList() {
+		statuses = statusService.getAllActive();
+	}
 	public String edit(EmployeeCertification certification) {
-		return "edit-certification?faces-redirect=true&id="+certification.getId();
+		return "editcertification?faces-redirect=true&id="+certification.getId();
 	}
 	private void exceptionHandler(GeneralException exception) {
 		if(exception!=null) {
@@ -360,45 +390,20 @@ public class ManagerCertificationBean implements Serializable{
 		return "Error!";
 	}
 	
-	public String filter() {
+	public void filter() {
 		System.out.println("Key"+query);
-		if(userId>0 || (query!=null && !(query.equals(""))) || (status!=null &&!status.equals("-"))) {
-			if(query==null || query.equals("")) {
-				filterByEmployee();
-				if(status!=null && !status.equals("-")) {
-					filterByStatus();
-				}
-			}else if (userId<=0) {
-				filterByDescription();
-				if(status!=null && !status.equals("-")) {
-					filterByStatus();
-				}
-			}else if (userId>0 && query!=null) {
-				filterByQueryAndUser();
-				if(status!=null && !status.equals("-")) {
-					filterByStatus();
-				}
-			}else if(status!=null && !status.equals("-")) {
-				filterByStatus();
+		if(userId>0 || validQuery() || validStatus()) {
+			if(userId<=0) {
+				certifications = certificationService.filter(query, status, user.getUser().getId());
+			}else {
+				certifications = certificationService.filter(userId, query, status, user.getUser().getId());
 			}
 		}else{
 			refreshCertifications();
 		}
-		return null;
 	}
 	
-	private void filterByDescription() {
-		
-		certifications = certifications2 = certificationService.filterByTitle(query, user.getUser());
-	}
 	
-	private void filterByEmployee() {
-		certifications = certifications2 = certificationService.filterByEmployee(userId, user.getUser());
-	}
-	
-	private void filterByQueryAndUser() {
-		certifications = certifications2 = certificationService.filterByTitleAndEmployee(query, userId, user.getUser());
-	}
 	public String selectCertification(int id) {
 		try{
 			certification = certificationService.find(id);
@@ -407,41 +412,26 @@ public class ManagerCertificationBean implements Serializable{
 		}
 		return "";
 	}
-	
-	
-	public void filterByStatus() {
-		filteredCertifications = new ArrayList<EmployeeCertification>();
-		for(EmployeeCertification ec : certifications2) {
-			if( status.equals("Progress") && ec.getStatus()==null) {
-				filteredCertifications.add(ec);
-			}else if(status.equals("Failed") && ec.getStatus()!=null && !ec.getStatus()) {
-				filteredCertifications.add(ec);
-			}else if(status.equals("Passed") && ec.getStatus()!=null && ec.getStatus()) {
-				filteredCertifications.add(ec);
-			}
+	public String selectCertificate(int id) {
+		try{
+			certificate = certificateService.findById(id);
+		}catch (NullPointerException e) {
+			certificate = null;
 		}
-		certifications = filteredCertifications;
-		
+		return "";
 	}
 	
 	public void clearFilter() {
 		userId=0;
-		status=null;
+		status="";
 		refreshCertifications();
 	}
-	public void clearSearch() {
-		query=null;
-		filter();
-	}
 	
-	public void setStatusesList() {
-		if(certification.getStatus()==null) {
-			statuses.add(null);statuses.add(true);statuses.add(false);
-		}else if(certification.getStatus()) {
-			statuses.add(true);statuses.add(false);statuses.add(null);
-		}else if(!certification.getStatus()) {
-			statuses.add(false);statuses.add(true);statuses.add(null);
-		}
+	private boolean validQuery() {
+		return query!=null && !query.equals("");
+	}
+	private boolean validStatus() {
+		return status!=null && !status.equals("-");
 	}
 }
 

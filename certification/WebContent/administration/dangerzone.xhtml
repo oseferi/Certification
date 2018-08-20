@@ -49,23 +49,27 @@
 }
 
 .badge {
-    width: 100px;
-}
-.ui-state-default{
-background-image: -ms-linear-gradient(top, #ffffff, #ffffff) !important;
-background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#ffffff)) !important;
-background-image: -webkit-linear-gradient(top, #ffffff, #ffffff) !important;
-background-image: -o-linear-gradient(top, #ffffff, #ffffff) !important;
-background-image: linear-gradient(top, #ffffff, #ffffff) !important;
-background-image: -moz-linear-gradient(top, #ffffff, #ffffff) !important;
-background-repeat: repeat-x;
+	width: 100px;
 }
 
-.ui-datatable-odd{
-background-color: #ffffff !important;
+.ui-state-default {
+	background-image: -ms-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
+		to(#ffffff)) !important;
+	background-image: -webkit-linear-gradient(top, #ffffff, #ffffff)
+		!important;
+	background-image: -o-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: -moz-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-repeat: repeat-x;
 }
-.ui-datatable{
-border: 1px solid #dddddd !important;
+
+.ui-datatable-odd {
+	background-color: #ffffff !important;
+}
+
+.ui-datatable {
+	border: 1px solid #dddddd !important;
 }
 
 .ui-datatable {
@@ -89,7 +93,7 @@ border: 1px solid #dddddd !important;
 		<!-- partial -->
 		<div class="container-fluid page-body-wrapper">
 			<!-- partial:partials/_sidebar.html -->
-			<ui:include src="../resources/partials/_sidebar.xhtml" />
+			<ui:include src="../resources/partials/_sidebar_admin.xhtml" />
 			<!-- partial -->
 			<div class="main-panel">
 				<div class="content-wrapper">
@@ -102,7 +106,7 @@ border: 1px solid #dddddd !important;
 						<nav aria-label="breadcrumb">
 						<ul class="breadcrumb">
 							<li class="breadcrumb-item active" aria-current="page"><span></span>
-								<a href="index.xhtml">Dashboard</a></li>
+								<a href="../dashboard.xhtml">Dashboard</a></li>
 							<li class="breadcrumb-item active" aria-current="page"><span></span>Danger
 								Zone <i
 								class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
@@ -118,17 +122,15 @@ border: 1px solid #dddddd !important;
 									style="border: 1px solid red; border-radius: 5px;">
 									<!-- Nav tabs -->
 									<ul class="nav nav-tabs nav-justified">
-										<li class="nav-item">
-											<a class="nav-link active " style="font-size:2em"
-											data-toggle="tab" href="#panel1" role="tab">Employees</a>
-											</li>
-										<li class="nav-item ">
-										<a class="nav-link " style="font-size:2em"
-											data-toggle="tab" href="#panel2" role="tab">Certificates</a>
-											</li>
-										<li class="nav-item ">
-										<a class="nav-link " style="font-size:2em"
-											data-toggle="tab" href="#panel3" role="tab">Certifications</a></li>
+										<li class="nav-item"><a class="nav-link active "
+											style="font-size: 2em" data-toggle="tab" href="#panel1"
+											role="tab">Employees</a></li>
+										<li class="nav-item "><a class="nav-link "
+											style="font-size: 2em" data-toggle="tab" href="#panel2"
+											role="tab">Certificates</a></li>
+										<li class="nav-item "><a class="nav-link "
+											style="font-size: 2em" data-toggle="tab" href="#panel3"
+											role="tab">Certifications</a></li>
 									</ul>
 									<!-- Tab panels -->
 									<div class="tab-content card">
@@ -137,8 +139,8 @@ border: 1px solid #dddddd !important;
 											role="tabpanel">
 											<br />
 											<!-- - - - - - - - - 
-										  E M P L O Y E E S
-										 - - - - - - - - - -->
+											  E M P L O Y E E S
+											 - - - - - - - - - -->
 											<h:form id="formEmployee">
 												<p:growl id="growl" showDetail="true" severity="info"
 													sticky="true" />
@@ -147,25 +149,24 @@ border: 1px solid #dddddd !important;
 													value="#{dangerZoneBean.employees}"
 													widgetVar="employeeTable" multiViewState="true" rows="10"
 													paginator="true" paginatorPosition="bottom"
-													paginatorTemplate=" {PreviousPageLink} 
-				                 			{PageLinks} {NextPageLink} {RowsPerPageDropdown}"
-													rowsPerPageTemplate="5,10,15"  rowKey="#{employe}"
+													paginatorTemplate=" {PreviousPageLink} {PageLinks} {NextPageLink}"
+													rowKey="#{employe}"
 													class="table"
 													emptyMessage="No employees found with given criteria">
 
 
 
-													<p:column id="table_header_name" style="width:13%">
+													<p:column id="table_header_name" style="height:40px;width:13%;border-left:0px;border-right:0px">
 														<f:facet name="header">Name</f:facet>
 														<h:outputText value="#{employe.name}" />
 													</p:column>
 
-													<p:column id="table_header_surname" style="width:13%">
+													<p:column id="table_header_surname" style="width:13%;border-left:0px;border-right:0px">
 														<f:facet name="header">Surname</f:facet>
 														<h:outputText value="#{employe.surname}" />
 													</p:column>
 
-													<p:column id="table_header_address">
+													<p:column id="table_header_address" style="border-left:0px;border-right:0px">
 														<f:facet name="header">Address</f:facet>
 														<h:outputText
 															value="#{(fn:length(employe.address)>20) ?
@@ -174,14 +175,14 @@ border: 1px solid #dddddd !important;
 																#{(fn:length(employe.address)>20) ? '...' : ''}" />
 													</p:column>
 
-													<p:column id="table_header_birthday" style="width:13%">
+													<p:column id="table_header_birthday" style="width:13%;border-left:0px;border-right:0px">
 														<f:facet name="header">Birth Day</f:facet>
 														<h:outputText value="#{employe.dateOfBirth}">
 															<f:convertDateTime pattern="dd-MM-yyyy" />
 														</h:outputText>
 													</p:column>
 
-													<p:column id="table_header_email">
+													<p:column id="table_header_email" style="border-left:0px;border-right:0px">
 														<f:facet name="header">Email Address</f:facet>
 														<h:outputText
 															value="#{(fn:length(employe.email)>30) ?
@@ -190,8 +191,8 @@ border: 1px solid #dddddd !important;
 																#{(fn:length(employe.email)>30) ? '...' : ''}" />
 													</p:column>
 
-													<p:column style="width:8%">
-													<p:commandLink
+													<p:column style="width:8%;border-left:0px;border-right:0px">
+														<p:commandLink
 															action="#{dangerZoneBean.selectEmployee(employe.id)}"
 															update=":formEmployee:employeeDetail"
 															oncomplete="PF('employeeDialog').show()">
@@ -207,8 +208,8 @@ border: 1px solid #dddddd !important;
 															update="@form :formEmployee:employeesTable :formEmployee:growl"
 															action="#{dangerZoneBean.removeEmployee(employe.id)}"
 															class="text-danger">
-															<p:confirm header="Confirmation"
-																message="Delete Permanently?" icon="ui-icon-alert" />
+															<p:confirm header="Permanent Deletion"
+																message="Are you sure?" icon="ui-icon-alert" />
 															<i class="fa fa-trash"></i>
 														</p:commandLink>
 													</p:column>
@@ -326,6 +327,9 @@ border: 1px solid #dddddd !important;
 											</h:form>
 										</div>
 										<!--/.Panel 1-->
+										<!--  - - - - - - - - - - 
+										 C E R T I F I C A T E S 
+										 - - - - - - - - - - - -->
 										<!--Panel 2-->
 										<div class="tab-pane fade" id="panel2" role="tabpanel">
 											<br />
@@ -333,17 +337,17 @@ border: 1px solid #dddddd !important;
 												<p:dataTable id="certificates" var="certificate"
 													value="#{dangerZoneBean.certificates}"
 													multiViewState="true" rows="10" paginator="true"
+													paginatorTemplate=" {PreviousPageLink} {PageLinks} {NextPageLink}"
 													class="table" paginatorPosition="bottom">
 
-													<p:column style="border-left: 0px;width:5%;height:40px">
-														<p:rowToggler />
+													<p:column
+														style="height:40px;border-left: 0px;
+														border-right: 0px;text-align: left;">
+														<f:facet name="header">Title</f:facet>
+														<h:outputText value="#{certificate.title}"/>
 													</p:column>
-
-													<p:column style="border-left: 0px;border-right: 0px;text-align: left;">
-														<f:facet name="header">Title</f:facet>		
-														<h:outputText value="#{certificate.title}" />
-													</p:column>
-													<p:column  style="border-left: 0px;text-align: left;border-right: 0px;">
+													<p:column
+														style="border-left: 0px;text-align: left;border-right: 0px;">
 														<f:facet name="header">Description</f:facet>
 														<h:outputText id="certificateDescription"
 															value="#{(fn:length(certificate.description)>20) ?
@@ -352,11 +356,19 @@ border: 1px solid #dddddd !important;
 																#{(fn:length(certificate.description)>20) ? '...' : ''}">
 														</h:outputText>
 													</p:column>
-													<p:column  style="border-left: 0px;text-align: left;border-right: 0px;">
+													<p:column
+														style="border-left: 0px;text-align: left;border-right: 0px;">
 														<f:facet name="header">Technology</f:facet>
 														<h:outputText value="#{certificate.technology.title}" />
 													</p:column>
-													<p:column style="width:8%;text-align: center;border-left: 0px;border-right: 0px;">
+													<p:column
+														style="width:8%;text-align: center;border-left: 0px;border-right: 0px;">
+														<p:commandLink 
+															action="#{dangerZoneBean.selectCertificate(certificate.id)}"
+															update=":certificatesForm:certificateDetail" 
+															onclick="PF('certificateDialog').show()">
+															<i class="fa fa-eye"></i>
+														</p:commandLink>
 														<p:commandLink
 															action="#{dangerZoneBean.restoreCertificate(certificate.id)}"
 															update=":certificatesForm:certificates :formEmployee:growl">
@@ -366,16 +378,12 @@ border: 1px solid #dddddd !important;
 															action="#{dangerZoneBean.removeCertificate(certificate.id)}"
 															update=":certificatesForm:certificates :formEmployee:growl"
 															class="text-danger">
-															<p:confirm header="Confirmation"
-																message="Delete Permanently?" icon="ui-icon-alert" />
+															<p:confirm header="Permanent Deletion"
+																message="Are you sure?" icon="ui-icon-alert" />
 															<i class="fa fa-trash"></i>
 														</p:commandLink>
 
 													</p:column>
-													<p:rowExpansion>
-														<h4>Description</h4>
-														<h:outputText value="#{certificate.description}" />
-													</p:rowExpansion>
 												</p:dataTable>
 
 												<p:confirmDialog global="true" showEffect="fade"
@@ -385,9 +393,52 @@ border: 1px solid #dddddd !important;
 													<p:commandButton value="No" type="button"
 														styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 												</p:confirmDialog>
+
+												<p:dialog header="Certificate Info"
+													widgetVar="certificateDialog" showEffect="fade"
+													hideEffect="fade" resizable="false" width="500" height="250">
+													<p:outputPanel id="certificateDetail">
+														<table class="table table-hover">
+															<tr>
+																<td>
+																	<h4>
+																		<h:outputLabel>Title:</h:outputLabel>
+																	</h4>
+																</td>
+																<td><i><h:outputText
+																			value="#{dangerZoneBean.certificate.title}" /></i></td>
+															</tr>
+															<tr>
+																<td>
+																	<h4>
+																		<h:outputLabel>Technology:</h:outputLabel>
+																	</h4>
+																</td>
+																<td><i><h:outputText
+																			value="#{dangerZoneBean.certificate.technology.title}" /></i>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	<h4>
+																		<h:outputLabel>Certificate Description:</h:outputLabel>
+																	</h4>
+																</td>
+																<td><i><h:outputText
+																			value="#{dangerZoneBean.certificate.description}" /></i>
+																</td>
+															</tr>
+
+														</table>
+													</p:outputPanel>
+												</p:dialog>
+
 											</h:form>
 										</div>
 										<!--/.Panel 2-->
+										<!-- - - - - - - - - - - - - 
+										  C E R T I F I C A T I O N 
+										 - - - - - - - - - - - - -->
 										<!--Panel 3-->
 										<div class="tab-pane fade" id="panel3" role="tabpanel">
 											<br />
@@ -396,50 +447,50 @@ border: 1px solid #dddddd !important;
 													value="#{dangerZoneBean.certifications}"
 													widgetVar="certificationsTable" multiViewState="true"
 													rows="10" paginator="true" paginatorPosition="bottom"
-													paginatorTemplate=" {PreviousPageLink} 
-				                 			{PageLinks} {NextPageLink} {RowsPerPageDropdown}"
-													rowsPerPageTemplate="5,10,15" 
-													rowKey="#{certification}"
+													paginatorTemplate=" {PreviousPageLink} {PageLinks} {NextPageLink}"
+													rowsPerPageTemplate="5,10,15" rowKey="#{certification}"
 													emptyMessage="No employees found with given criteria"
 													class="table">
 
 
 													<p:column id="table_header_name"
-													style="height:40px;text-align:left;margin-left:10px;border-left: 0px;border-right: 0px;">
+														style="height:40px;text-align:left;margin-left:10px;border-left: 0px;border-right: 0px;">
 														<f:facet name="header">Full Name</f:facet>
-														<h:outputText value="#{certification.user.name} #{certification.user.surname}" />
+														<h:outputText
+															value="#{certification.user.name} #{certification.user.surname}" />
 													</p:column>
 
 													<p:column id="table_header_address"
-													style="text-align:left;border-left: 0px;border-right: 0px;">
+														style="text-align:left;border-left: 0px;border-right: 0px;">
 														<f:facet name="header">Certificate</f:facet>
 														<h:outputText value="#{certification.certificate.title}" />
 													</p:column>
 
 													<p:column id="table_header_date"
-													style="text-align:left;border-left: 0px;border-right: 0px;">
+														style="text-align:left;border-left: 0px;border-right: 0px;">
 														<f:facet name="header">Date</f:facet>
 														<h:outputText value="#{certification.dateAssigned}">
 															<f:convertDateTime pattern="dd-MM-yyyy" />
 														</h:outputText>
 													</p:column>
 													<p:column id="table_header_status"
-													style="text-align:center;border-left: 0px;border-right: 0px;">
+														style="text-align:center;border-left: 0px;border-right: 0px;">
 														<f:facet name="header">Status</f:facet>
 														<h:outputLabel
-															value="#{certification.status != null ? (certification.status == true ? 'Passed' : 'Failed' ) : 'On Progress'}"
-															class="badge #{certification.status != null ? (certification.status == true ? 'badge-secondary text-info' : 'badge-secondary text-danger' ) : 'badge-secondary text-success'} "
-															style="background-color:transparent" />
+													value="#{certification.status.title}"
+													class="badge #{certification.status.title != 'On Progress' ? (certification.status.title == 'Failed' ? 'badge-secondary text-danger' : 'badge-secondary text-info' ) : 'badge-secondary text-success'} "
+													style="background-color:transparent" />
 													</p:column>
 
-													<p:column style="width:18%;text-align:right;border-left: 0px;border-right: 0px;">
+													<p:column
+														style="width:18%;text-align:right;border-left: 0px;border-right: 0px;">
 														<p:commandLink
 															action="#{dangerZoneBean.selectCertification(certification.id)}"
 															update=":certificationsForm:certificationDetail"
 															oncomplete="PF('certificationDialog').show()">
 															<i class="fa fa-eye"></i>
 														</p:commandLink>
-														<p:commandLink 
+														<p:commandLink
 															action="#{dangerZoneBean.restoreCertification(certification.id)}"
 															update="@form :certificationsForm:certificationTable :formEmployee:growl">
 															<i class="fa fa-undo"></i>
@@ -449,8 +500,8 @@ border: 1px solid #dddddd !important;
 															action="#{dangerZoneBean.removeCertification(certification.id)}"
 															update=":certificationsForm:certificationTable :formEmployee:growl"
 															class="text-danger">
-															<p:confirm header="Confirmation"
-																message="Delete Permanently?" icon="ui-icon-alert" />
+															<p:confirm header="Permanent Deletion"
+																message="Are you sure?" icon="ui-icon-alert" />
 															<i class="fa fa-trash"></i>
 														</p:commandLink>
 													</p:column>
@@ -520,8 +571,8 @@ border: 1px solid #dddddd !important;
 																	</h4>
 																</td>
 																<td><h:outputLabel
-																		value="#{dangerZoneBean.certification.status != null ? (dangerZoneBean.certification.status == true ? 'Passed' : 'Failed' ) : 'On Progress'}"
-																		class="badge #{dangerZoneBean.certification.status != null ? (dangerZoneBean.certification.status == true ? 'badge-info' : 'badge-danger' ) : 'badge-success'}" />
+																		value="#{dangerZoneBean.certification.status.title}"
+																		class="badge #{dangerZoneBean.certification.status.title != 'On Progress' ? (dangerZoneBean.certification.status.title == 'Sucesss' ? 'badge-info' : 'badge-danger' ) : 'badge-success'}" />
 																</td>
 															</tr>
 														</table>

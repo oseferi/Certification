@@ -49,21 +49,25 @@
 }
 
 .badge {
-    width: 100px;
-}
-.ui-state-default{
-background-image: -ms-linear-gradient(top, #ffffff, #ffffff) !important;
-background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#ffffff)) !important;
-background-image: -webkit-linear-gradient(top, #ffffff, #ffffff) !important;
-background-image: -o-linear-gradient(top, #ffffff, #ffffff) !important;
-background-image: linear-gradient(top, #ffffff, #ffffff) !important;
-background-image: -moz-linear-gradient(top, #ffffff, #ffffff) !important;
-background-repeat: repeat-x;
+	width: 100px;
 }
 
-.ui-datatable-odd{
-background-color: #ffffff !important;
+.ui-state-default {
+	background-image: -ms-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
+		to(#ffffff)) !important;
+	background-image: -webkit-linear-gradient(top, #ffffff, #ffffff)
+		!important;
+	background-image: -o-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: -moz-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-repeat: repeat-x;
 }
+
+.ui-datatable-odd {
+	background-color: #ffffff !important;
+}
+
 .ui-datatable {
 	border: 0px !important;
 }
@@ -85,7 +89,7 @@ background-color: #ffffff !important;
 		<!-- partial -->
 		<div class="container-fluid page-body-wrapper">
 			<!-- partial:partials/_sidebar.html -->
-			<ui:include src="../resources/partials/_sidebar.xhtml" />
+			<ui:include src="../resources/partials/_sidebar_admin.xhtml" />
 			<!-- partial -->
 			<div class="main-panel">
 				<div class="content-wrapper">
@@ -97,7 +101,7 @@ background-color: #ffffff !important;
 						</h3>
 						<nav aria-label="breadcrumb">
 						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.xhtml"> <span></span>Home
+							<li class="breadcrumb-item"><a href="../dashboard.xhtml"> <span></span>Dashboard
 							</a></li>
 							<li class="breadcrumb-item active" aria-current="page"><span></span>Certificates
 								<i
@@ -136,14 +140,15 @@ background-color: #ffffff !important;
 											value="#{managerCertificationBean.certificates}"
 											multiViewState="true" rows="10" paginator="true"
 											class="table" paginatorPosition="bottom">
-											<p:column style="border-left: 0px;width:5%;height:40px">
-													<p:rowToggler />
-											</p:column >
-											<p:column style="border-left: 0px;border-right: 0px;text-align: left;">
+
+
+											<p:column
+												style="height:40px;border-left: 0px;border-right: 0px;text-align: left;">
 												<f:facet name="header">Title</f:facet>
 												<h:outputText value="#{certificate.title}" />
 											</p:column>
-											<p:column style="border-left: 0px;border-right: 0px;text-align: left;">
+											<p:column
+												style="border-left: 0px;border-right: 0px;text-align: left;">
 												<f:facet name="header">Description</f:facet>
 												<h:outputText id="certificateDescription"
 													value="#{(fn:length(certificate.description)>20) ?
@@ -152,32 +157,80 @@ background-color: #ffffff !important;
 																#{(fn:length(certificate.description)>20) ? '...' : ''}">
 												</h:outputText>
 											</p:column>
-											<p:column  style="border-left: 0px;text-align: left;border-right: 0px;">
+											<p:column
+												style="border-left: 0px;text-align: left;border-right: 0px;">
 												<f:facet name="header">Technology</f:facet>
 												<h:outputText value="#{certificate.technology.title}" />
 											</p:column>
-											<p:column style="width:8%;text-align: center;border-left: 0px;border-right: 0px;">
-											
-												<p:commandLink 
-													action="#{managerCertificationBean.removeCertificate(certificate.id)}"
-													update=":allCertificatesForm:certificates 
-														:allCertificatesForm:growl1" >
+											<p:column
+												style="width:8%;text-align: center;border-left: 0px;border-right: 0px;">
+
+												<p:commandLink
+													action="#{managerCertificationBean.selectCertificate(certificate.id)}"
+													update=":allCertificatesForm:certificateDetail"
+													onclick="PF('certificateDialog').show()">
 													<i class="fa fa-eye"></i>
 												</p:commandLink>
-												<p:commandLink 
+												<p:commandLink
 													action="#{managerCertificationBean.removeCertificate(certificate.id)}"
 													update=":allCertificatesForm:certificates 
-														:allCertificatesForm:growl1" >
+														:allCertificatesForm:growl1">
+													<p:confirm header="Certificate Deletion"
+														message="Are you sure?" icon="ui-icon-alert" />
 													<i class="fa fa-trash"></i>
 												</p:commandLink>
-												
+
 											</p:column>
-											<p:rowExpansion>
-												<h4>Description</h4>
-												
-												<h:outputText value="#{certificate.description}" />
-											</p:rowExpansion>
+
 										</p:dataTable>
+
+										<p:confirmDialog global="true" showEffect="fade"
+											hideEffect="fade">
+											<p:commandButton value="Yes" type="button"
+												styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+											<p:commandButton value="No" type="button"
+												styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										</p:confirmDialog>
+
+										<p:dialog header="Certificate Info"
+											widgetVar="certificateDialog" showEffect="fade"
+											hideEffect="fade" resizable="false" width="500" height="250">
+											<p:outputPanel id="certificateDetail">
+												<table class="table table-hover">
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>Title:</h:outputLabel>
+															</h4>
+														</td>
+														<td><i><h:outputText
+																	value="#{managerCertificationBean.certificate.title}" /></i>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>Technology:</h:outputLabel>
+															</h4>
+														</td>
+														<td><i><h:outputText
+																	value="#{managerCertificationBean.certificate.technology.title}" /></i>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<h4>
+																<h:outputLabel>Description:</h:outputLabel>
+															</h4>
+														</td>
+														<td><i><h:outputText
+																	value="#{managerCertificationBean.certificate.description}" /></i>
+														</td>
+													</tr>
+
+												</table>
+											</p:outputPanel>
+										</p:dialog>
 									</h:form>
 
 									<!-- +++++++++++++++++++++++++++++++++++ 
@@ -225,7 +278,7 @@ background-color: #ffffff !important;
 														autoResize="false" resizable="false"
 														class="form-control form-control-sm" />
 													<h:outputText value="&lt;br/&gt;" escape="false" />
-													<h:outputText id="display" class="text-primary"/>
+													<h:outputText id="display" class="text-primary" />
 													<p:message for="new_certificate_Description" />
 
 													<h:outputText value="&lt;br/&gt;" escape="false" />
@@ -233,8 +286,8 @@ background-color: #ffffff !important;
 													<div class="text-center">
 														<p:commandLink
 															action="#{managerCertificationBean.addCertificate()}"
-															type="submit"
-															class="btn btn-outline-primary btn-rounded" value="Save"
+															type="submit" class="btn btn-outline-primary btn-rounded"
+															value="Save"
 															oncomplete="if (args &amp;&amp; !args.validationFailed) { 
 													        			PF('newCertificateDialog').hide();
 													        			PF('certificatesDialog').show()}"

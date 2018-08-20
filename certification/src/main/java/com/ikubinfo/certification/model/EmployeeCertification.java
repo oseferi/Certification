@@ -15,7 +15,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name="employee_certifications")
@@ -42,13 +41,14 @@ public class EmployeeCertification implements Serializable{
 	@Column(name = "date_assigned")
 	private Date dateAssigned;
 	
-	@Column(name="status", nullable = true)
-	private Boolean status;
+	@ManyToOne( fetch = FetchType.LAZY)
+	@JoinColumn(name = "status_id", nullable = false)
+	private Status status;
 	
 	@Column(name = "score", length = 11)
 	private int score;
 	
-	@Column(name = "deleted", nullable = true)
+	@Column(name = "deleted", nullable = false)
 	private boolean deleted;
 	
 	public User getUser() {
@@ -69,10 +69,10 @@ public class EmployeeCertification implements Serializable{
 	public void setDateAssigned(Date dateAssigned) {
 		this.dateAssigned = dateAssigned;
 	}
-	public Boolean getStatus() {
+	public Status getStatus() {
 		return status;
 	}
-	public void setStatus(Boolean status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 	public int getScore() {
@@ -134,7 +134,7 @@ public class EmployeeCertification implements Serializable{
 	public EmployeeCertification() {
 		super();
 	}
-	public EmployeeCertification(User user, Certificate certificate, Date dateAssigned, boolean status, int score) {
+	public EmployeeCertification(User user, Certificate certificate, Date dateAssigned, Status status, int score) {
 		super();
 		this.user = user;
 		this.certificate = certificate;

@@ -13,22 +13,19 @@ import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.jasypt.util.password.BasicPasswordEncryptor;
-import org.jboss.logging.Message;
-import org.primefaces.event.FlowEvent;
+import org.primefaces.PrimeFaces;
 
-import com.ikubinfo.certification.exception.ErrorMessages;
 import com.ikubinfo.certification.exception.GeneralException;
-import com.ikubinfo.certification.exception.SuccessMessages;
 import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.RoleService;
 import com.ikubinfo.certification.service.UserService;
 import com.ikubinfo.certification.utility.MessageUtility;
 
-@ManagedBean(name="userManagementBean")
+@ManagedBean(name="usersAdministrationBean")
 @ViewScoped
-public class UserManagementBean implements Serializable {
+public class UsersAdministrationBean implements Serializable {
 	
-	private static Logger log = Logger.getLogger(UserManagementBean.class);
+	private static Logger log = Logger.getLogger(UsersAdministrationBean.class);
 	private static final long serialVersionUID = 1L;
 
 	@ManagedProperty(value = "#{userService}")
@@ -180,6 +177,7 @@ public class UserManagementBean implements Serializable {
 			    newPassword="";
 			    disableEditing();
 			    refreshEmployees();
+				PrimeFaces.current().executeScript("setTimeout( \" location.href = 'users.xhtml'; \" ,1500);");
 			    return null;
 			}
 		}
@@ -271,7 +269,7 @@ public class UserManagementBean implements Serializable {
 	
 	public String edit(int id) {
 		
-		return "edit-user?faces-redirect=true&id="+id;
+		return "edituser?faces-redirect=true&id="+id;
 	}
 	
 	private void exceptionHandler(GeneralException exception) {

@@ -180,6 +180,15 @@ public class DangerZoneBean implements Serializable {
 		return "";
 	}
 	
+	public String selectCertificate(int id) {
+		try{
+			certificate = certificateService.findById(id);
+		}catch (NullPointerException e) {
+			certificate = null;
+		}
+		return "";
+	}
+	
 	public String restoreEmployee(int id) {
 		if (userService.restore(userService.findById(id))) {
 			addMessage(new FacesMessage(getSuccess(), MessageUtility.getMessage("EMPLOYEE_RESTORED")));

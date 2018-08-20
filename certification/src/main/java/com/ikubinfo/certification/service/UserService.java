@@ -2,6 +2,7 @@ package com.ikubinfo.certification.service;
 
 import java.util.ArrayList;
 
+import com.ikubinfo.certification.dto.PasswordDto;
 import com.ikubinfo.certification.exception.GeneralException;
 import com.ikubinfo.certification.model.User;
 
@@ -28,4 +29,5 @@ public interface UserService {
 	
 	public int getTotalRows(int managerId) ;
 	public int getTotalDeletedRows(int managerId);
+	public boolean changePassword(PasswordDto passwordDto) throws GeneralException;
 }

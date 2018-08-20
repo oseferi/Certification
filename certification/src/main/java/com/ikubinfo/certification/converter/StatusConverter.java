@@ -9,14 +9,17 @@ import javax.faces.convert.ConverterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ikubinfo.certification.model.Certificate;
+import com.ikubinfo.certification.model.Status;
 import com.ikubinfo.certification.model.Technology;
-import com.ikubinfo.certification.service.CertificateService;
+import com.ikubinfo.certification.service.StatusService;
+import com.ikubinfo.certification.service.TechnologyService;
 
 @Service
-public class CertificateConverter implements Converter {
+public class StatusConverter implements Converter {
+
+
 	@Autowired
-	CertificateService certificateService;
+	StatusService statusService;
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String submittedValue) {
@@ -24,10 +27,10 @@ public class CertificateConverter implements Converter {
 			return null;
 		}
 		try {
-			return certificateService.findById(Integer.valueOf(submittedValue));
-			 
+			Status status = statusService.findById(Integer.valueOf(submittedValue));
+			return status; 
 		} catch (Exception e) {
-			FacesMessage msg = new FacesMessage("Error converting certificate","Invalid certificate format. Error: "+e.getMessage());
+			FacesMessage msg = new FacesMessage("Error converting Status","Invalid status format. Error: "+e.getMessage());
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             e.printStackTrace();
             throw new ConverterException(msg);
@@ -39,13 +42,12 @@ public class CertificateConverter implements Converter {
 		  if (modelValue == null) {
 	            return "";
 	        }
-	       if (modelValue instanceof Certificate) {
-	            return String.valueOf(((Certificate) modelValue).getId());
+	       if (modelValue instanceof Status) {
+	            return String.valueOf(((Status) modelValue).getId());
 	        } else {
 	            Throwable e = null;
-				throw new ConverterException(new FacesMessage(String.format("%s is not a valid Certificate", modelValue)), e);
+				throw new ConverterException(new FacesMessage(String.format("%s is not a valid Status", modelValue)), e);
 	        }
 	}
-	
-	
+
 }

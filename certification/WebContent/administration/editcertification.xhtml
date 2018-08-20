@@ -14,7 +14,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Purple Admin</title>
+	<title>Edit certification</title>
 	<!-- plugins:css -->
 	<link rel="stylesheet"
 		href="../resources/vendors/iconfonts/mdi/css/materialdesignicons.min.css" />
@@ -51,7 +51,8 @@
 <h:body>
 	<f:metadata>
 		<f:viewParam name="id" value="#{managerCertificationBean.id}" />
-		<f:event type="preRenderView" listener="#{managerCertificationBean.init}" />
+		<f:event type="preRenderView"
+			listener="#{managerCertificationBean.init}" />
 	</f:metadata>
 
 	<div class="container-scroller">
@@ -60,7 +61,7 @@
 		<!-- partial -->
 		<div class="container-fluid page-body-wrapper">
 			<!-- partial:partials/_sidebar.html -->
-			<ui:include src="../resources/partials/_sidebar.xhtml" />
+			<ui:include src="../resources/partials/_sidebar_admin.xhtml" />
 			<!-- partial -->
 			<div class="main-panel">
 				<div class="content-wrapper">
@@ -83,11 +84,11 @@
 						</h3>
 						<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item " aria-current="page">
-							<a href="index.xhtml">Home</a></li>
-							<li class="breadcrumb-item " aria-current="page">
-							<a href="certifications.xhtml">Certifications</a></li>
-							<li class="breadcrumb-item active" aria-current="page"><span></span>Edit
+							<li class="breadcrumb-item " aria-current="page"><a
+								href="../dashboard.xhtml">Dashboard</a></li>
+							<li class="breadcrumb-item " aria-current="page"><a
+								href="certifications.xhtml">Certifications</a></li>
+							<li class="breadcrumb-item active" aria-current="page"><span></span>Edit certification
 								<i
 								class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
 							</li>
@@ -156,14 +157,17 @@
 														</h4>
 													</td>
 													<td><p:selectOneMenu id="certificationStatus"
+														converter="#{statusConverter}"
 															value="#{managerCertificationBean.certification.status}"
 															lazy="true" style="width:100%"
 															class="form-control form-control-sm">
-															<f:selectItems var="status" value="#{managerCertificationBean.statuses}"
-																itemLabel="#{status != null ? (status == true ? 'Passed' : 'Failed' ) : 'On Progress'}"
-																itemValue="#{status}" />
-														</p:selectOneMenu>
-														</td>
+															<f:selectItems var="status"
+																value="#{managerCertificationBean.statuses}"
+																itemLabel="#{status.title}"
+																itemValue="#{status}" /> 
+																<p:ajax listener="#{managerCertificationBean.enableScore()}" 
+																update="certificationScore" event="change"/>
+														</p:selectOneMenu></td>
 												</tr>
 												<tr>
 													<td>
@@ -174,25 +178,25 @@
 													<td><p:inputNumber minValue="0" maxValue="1000"
 															id="certificationScore"
 															value="#{managerCertificationBean.certification.score}"
-															class="form-control form-control-sm" /></td>
+															class="form-control form-control-sm" 
+															rendered="#{managerCertificationBean.requiredScore}"
+															required="true"/></td>
 												</tr>
 											</table>
-											<div class="text-right">
+												<div class="text-right">
+													<p:commandButton id="saveCertification" type="submit"
+														value="Save"
+														class="btn btn-gradient-primary btn-rounded btn-sm " 
+														action="#{managerCertificationBean.updateCertification()}"
+														update="certificationsForm:growl2 certificationsForm:certificationDetail">
+													</p:commandButton>
 
-												<p:commandButton id="saveCertification"
-													type="submit" icon="fa fa-check"
-													class="btn btn-gradient-success btn-rounded btn-icon "
-													action="#{managerCertificationBean.updateCertification()}"
-													oncomplete="setTimeout( &quot; location.href = 'certifications.xhtml'; &quot; ,1500);"
-													update="certificationsForm:growl2 certificationsForm:certificationDetail">
-												</p:commandButton>
-
-												<p:commandButton id="cancelCertification"
-													icon="fa fa-times "
-													class="btn btn-gradient-danger btn-rounded btn-icon"
-													oncomplete="setTimeout( &quot; location.href = 'certifications.xhtml'; &quot; ,200);">
-												</p:commandButton>
-											</div>
+													<p:commandButton id="cancelCertification"
+														icon="fa fa-times "
+														class="btn btn-gradient-danger btn-rounded btn-icon"
+														oncomplete="setTimeout( &quot; location.href = 'certifications.xhtml'; &quot; ,200);">
+													</p:commandButton>
+												</div>
 											<p:messages severity="error" closable="true" />
 										</p:outputPanel>
 

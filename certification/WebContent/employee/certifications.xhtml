@@ -6,103 +6,296 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
-<h:head></h:head>
+
+<h:head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Assigned Certifications</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet"
+		href="../resources/vendors/iconfonts/mdi/css/materialdesignicons.min.css" />
+	<link rel="stylesheet"
+		href="../resources/vendors/css/vendor.bundle.base.css" />
+	<!-- endinject -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="../resources/css/style.css" />
+	<!-- endinject -->
+	<link rel="shortcut icon" href="../resources/images/favicon.png" />
+	<style type="text/css">
+.ui-growl {
+	top: 75px;
+}
+
+.ui-growl-item-container {
+	background-image: -o-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -moz-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.24, #9c57ff
+		), color-stop(0.62, #9c57ff));
+	background-image: -webkit-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -ms-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	/* This last line is all you need for modern browsers */
+	background-image: linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight {
+	background-image: linear-gradient(to bottom, #a25cff, #9c57ff)
+		!important;
+	background-color: #9c57ff !important;
+}
+
+.badge {
+	width: 100px;
+}
+
+.ui-state-default {
+	background-image: -ms-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
+		to(#ffffff)) !important;
+	background-image: -webkit-linear-gradient(top, #ffffff, #ffffff)
+		!important;
+	background-image: -o-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: linear-gradient(top, #ffffff, #ffffff) !important;
+	background-image: -moz-linear-gradient(top, #ffffff, #ffffff) !important;
+	background-repeat: repeat-x;
+}
+
+.ui-datatable-odd {
+	background-color: #ffffff !important;
+}
+
+.ui-datatable {
+	border: 0px !important;
+}
+
+.ui-datatable-tablewrapper {
+	border: 1px solid #dddddd;
+}
+
+.ui-widget-header {
+	border: 0px;
+	background: #ffffff;
+}
+</style>
+</h:head>
 <h:body>
-	<h:form id="logout">	
-	<h:commandButton value="Log Out" action="${loginBean.logOut()}"></h:commandButton> 
-	</h:form>
-	<h:form id="form">
-		<p:growl id="msgs" showDetail="true" />
-	
-		<p:dataTable id="certificationsTable" var="certification"
-			value="#{userCertificationBean.certifications}" editable="true" style="margin-bottom:20px">
-			<f:facet name="header">
-				<p:inputText id="search" value="#{userCertificationBean.query}">
-					<p:ajax listener="#{userCertificationBean.filter}" update="certificationsTable" event="keyup" />
-				</p:inputText>
-			<p:commandButton action="#{userCertificationBean.clear()}" value="clear" update="certificationsTable search">
-			 </p:commandButton>
-	       </f:facet>
-			
-			<p:ajax event="rowEdit" listener="#{userCertificationBean.editRow}"
-				update=":form:msgs" />
-	
-			<p:column headerText="Full Name">
-				<p:cellEditor>			
-					<f:facet name="output">
-						<h:outputText value="#{certification.user.name} " />
-						<h:outputText value="#{certification.user.surname}" />
-					</f:facet>
-					<f:facet name="input">
-						<h:outputText value="#{certification.user.name} " />
-						<h:outputText value="#{certification.user.surname}" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
-	
-			<p:column headerText="Certificate">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{certification.certificate.title}" />
-					</f:facet>
-					<f:facet name="input">
-						<h:outputText value="#{certification.certificate.title}" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
-			
-			<p:column headerText="Date Assigned">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{certification.dateAssigned}" />
-					</f:facet>
-					<f:facet name="input">
-						<h:outputText value="#{certification.dateAssigned}" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
-			
-			<p:column headerText="Status">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{certification.status != null ? (certification.status == true ? 'Passed' : (certification.status == null ? 'Undone' : 'Failed' )) : 'Undone'}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectOneMenu id="certificationStatus"
-							value="#{userCertificationBean.status}"
-							lazy="true" style="width:125px" >
-			            <f:selectItem 
-				            itemLabel="Undone"
-				            itemValue=""/>
-				         <f:selectItem 
-				            itemLabel="Passed"
-				            itemValue="true"/>
-				          <f:selectItem 
-				            itemLabel="Failed"
-				            itemValue="false"/>
-			        </p:selectOneMenu>
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
-	
-			<p:column headerText="Score">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{certification.score}" />
-					</f:facet>
-					<f:facet name="input">
-						<h:inputText pt:type="number" value="#{certification.score}"/>
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
-				
-	
-			<p:column style="width:32px">
-				<p:rowEditor />
-			</p:column>
-		</p:dataTable>
-	</h:form>
+	<div class="container-scroller">
+		<!-- partial:partials/_navbar.html -->
+		<ui:include src="../resources/partials/_navbar.xhtml" />
+		<!-- partial -->
+		<div class="container-fluid page-body-wrapper">
+			<!-- partial:partials/_sidebar.html -->
+			<ui:include src="../resources/partials/_sidebar_employee.xhtml" />
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="page-header">
+						<h3 class="page-title">
+							<span class="page-title-icon bg-gradient-primary text-white mr-2">
+								<i class="mdi mdi-home"></i>
+							</span> Dashboard
+						</h3>
+						<nav aria-label="breadcrumb">
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><span></span><a href="../dashboard.xhtml">Dashboard</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page"><span></span>Certifications
+								<i
+								class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+							</li>
+						</ul>
+						</nav>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h:form>
+										<p:commandLink onclick="PF('filters').show()"
+											style="margin-left: 10px;" class="btn btn-secondary btn-sm">
+											<i class="fas fa-sliders-h "></i>Filters
+											</p:commandLink>
+										<h:outputText value="&lt;br/&gt;" escape="false" />
+										<h:outputText value="&lt;br/&gt;" escape="false" />
+
+										<p:dialog widgetVar="filters" headers="Filters"
+											showEffect="fade" hideEffect="fade" resizable="false">
+											<table class="table">
+												<tr>
+													<td><h4>Status</h4></td>
+													<td><p:selectOneMenu id="statusFilter"
+															style="width:180px;height: 40px;"
+															class="form-control form-control-sm"
+															value="#{userCertificationBean.status}">
+															<f:selectItem itemLabel="Select One" itemValue="-" />
+															<f:selectItem itemLabel="On Progress"
+																itemValue="Progress" />
+															<f:selectItem itemLabel="Failed" itemValue="Failed" />
+															<f:selectItem itemLabel="Passed" itemValue="Passed" />
+														</p:selectOneMenu></td>
+												</tr>
+											</table>
+											<div class="text-right">
+												<p:commandLink action="#{userCertificationBean.filter()}"
+													update=":form:certificationsTable" value="Apply filters"
+													onclick="PF('filters').hide()"
+													class="btn btn-primary btn-rounded btn-xs">
+												</p:commandLink>
+												<p:commandLink
+													action="#{userCertificationBean.clearFilter()}"
+													update=":form:certificationsTable statusFilter"
+													class="btn btn-danger btn-rounded btn-xs"
+													onclick="PF('filters').hide()">
+													<i class="fa fa-times"></i>
+												</p:commandLink>
+											</div>
+										</p:dialog>
+
+									</h:form>
+									<h:form id="form">
+										<p:growl id="msgs" showDetail="true" />
+
+										<p:dataTable id="certificationsTable" var="certification"
+											value="#{userCertificationBean.certifications}"
+											editable="true" style="margin-bottom:20px">
+											<f:facet name="header">
+												<p:inputText id="search"
+													pt:placeholder="Search By Certificate"
+													style="border-radius:100px;width:40%;height:35px;"
+													class="form-control form-control-sm"
+													value="#{userCertificationBean.query}">
+													<p:ajax listener="#{userCertificationBean.filter}"
+														delay="1000" update="certificationsTable" event="keyup" />
+												</p:inputText>
+												<p:commandLink class="text-primary" style="position:absolute;top:105px;left:360px">
+												<i class="fa fa-search"></i>
+												</p:commandLink>
+											</f:facet>
+
+											<p:ajax event="rowEdit"
+												listener="#{userCertificationBean.editRow}"
+												update=":form:msgs" />
+
+											<p:column headerText="Full Name"
+												style="height:40px;text-align:left;border-left:0px;border-right:0px;">
+												<p:cellEditor>
+													<f:facet name="output">
+														<span style="font-size: 0.8em">#{certification.user.name}
+															#{certification.user.surname}</span>
+													</f:facet>
+													<f:facet name="input">
+														<span style="font-size: 0.8em">#{certification.user.name}
+															#{certification.user.surname}</span>
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+											<p:column headerText="Certificate"
+												style="width:20%;text-align:left;border-left:0px;border-right:0px;">
+												<p:cellEditor>
+													<f:facet name="output">
+														<span style="font-size: 0.8em">#{certification.certificate.title}</span>
+													</f:facet>
+													<f:facet name="input">
+														<span style="font-size: 0.8em">#{certification.certificate.title}</span>
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+											<p:column headerText="Date Assigned"
+												style="text-align:left;border-left:0px;border-right:0px;">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputText style="font-size:0.8em"
+															value="#{certification.dateAssigned}">
+															<f:convertDateTime pattern="dd-MM-yyyy" />
+														</h:outputText>
+													</f:facet>
+													<f:facet name="input">
+														<h:outputText style="font-size:0.8em"
+															value="#{certification.dateAssigned}">
+															<f:convertDateTime pattern="dd-MM-yyyy" />
+														</h:outputText>
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+											<p:column headerText="Status"
+												style="text-align:left;border-left:0px;border-right:0px;">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputLabel
+															value="#{certification.status != null ? (certification.status == true ? 'Passed' : 'Failed' ) : 'On Progress'}"
+															class="badge #{certification.status != null ? (certification.status == true ? 'badge-secondary text-info' : 'badge-secondary text-danger' ) : 'badge-secondary text-success'} "
+															style="background-color:transparent" />
+													</f:facet>
+													<f:facet name="input">
+														<h:selectOneMenu id="certificationStatus"
+															value="#{userCertificationBean.statusId}" lazy="true"
+															style="width:125px">
+															<f:selectItems var="status"
+															value="#{userCertificationBean.statuses}"
+															itemLabel="#{status.title}"
+															itemValue="#{status.id}"/>
+														</h:selectOneMenu>
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+											<p:column headerText="Score"
+												style="text-align:left;border-left:0px;border-right:0px;">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputText style="font-size:0.8em"
+															value="#{certification.score}" />
+													</f:facet>
+													<f:facet name="input">
+														<p:inputNumber minValue="0" maxValue="1000"
+															value="#{certification.score}" />
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+
+											<p:column
+												style="width:7%;text-align:left;border-left:0px;border-right:0px;">
+												<p:rowEditor />
+											</p:column>
+										</p:dataTable>
+									</h:form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- content-wrapper ends -->
+				<!-- partial:partials/_footer.html -->
+				<ui:include src="../resources/partials/_footer.xhtml" />
+				<!-- partial -->
+			</div>
+			<!-- main-panel ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+
+	<!-- plugins:js -->
+	<script src="../resources/vendors/js/vendor.bundle.base.js"></script>
+	<script src="../resources/vendors/js/vendor.bundle.addons.js"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<script src="../resources/js/off-canvas.js"></script>
+	<script src="../resources/js/misc.js"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script src="../resources/js/dashboard.js"></script>
+	<!-- End custom js for this page-->
 </h:body>
+
 </html>

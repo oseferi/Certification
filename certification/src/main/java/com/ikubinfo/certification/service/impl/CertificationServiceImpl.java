@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ikubinfo.certification.dao.CertificationDao;
 import com.ikubinfo.certification.exception.GeneralException;
@@ -17,6 +18,7 @@ public class CertificationServiceImpl implements CertificationService {
 	@Autowired
 	CertificationDao certificationDao;
 
+	@Transactional
 	@Override
 	public boolean add(EmployeeCertification certification) throws GeneralException {
 		if(isValid(certification)) {
@@ -26,22 +28,25 @@ public class CertificationServiceImpl implements CertificationService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public boolean edit(EmployeeCertification certification) throws GeneralException {
 			return certificationDao.edit(certification);
 	}
 
-	
+	@Transactional
 	@Override
 	public boolean removePermanently(EmployeeCertification certification) {
 		return certificationDao.removePermanently(certification);
 	}
 
+	@Transactional
 	@Override
 	public boolean restore(EmployeeCertification certification) {
 		return certificationDao.restore(certification);
 	}
 
+	@Transactional
 	@Override
 	public boolean remove(EmployeeCertification certification) {
 		return certificationDao.remove(certification);
@@ -92,6 +97,21 @@ public class CertificationServiceImpl implements CertificationService {
 	@Override
 	public ArrayList<EmployeeCertification> filterByTitleAndEmployee(String title, int employeeId, User manager) {
 		return certificationDao.filterByTitleAndEmployee(title, employeeId, manager);
+	}
+	
+	@Override
+	public ArrayList<EmployeeCertification> filter(String certificate, String status, int managerId) {
+		return certificationDao.filter(certificate, status, managerId);
+	}
+
+	@Override
+	public ArrayList<EmployeeCertification> filter(int userId, String certificate, String status, int managerId) {
+			return certificationDao.filter(userId, certificate, status, managerId);
+	}
+	
+	@Override
+	public ArrayList<EmployeeCertification> filter(int userId, String certificate, String status) {
+		return certificationDao.filter(userId, certificate, status);
 	}
 
 	@Override

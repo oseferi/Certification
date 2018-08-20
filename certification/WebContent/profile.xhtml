@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+<h:head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Profile</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet"
+		href="resources/vendors/iconfonts/mdi/css/materialdesignicons.min.css" />
+	<link rel="stylesheet"
+		href="resources/vendors/css/vendor.bundle.base.css" />
+	<!-- endinject -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="resources/css/style.css" />
+	<!-- endinject -->
+	<link rel="shortcut icon" href="resources/images/favicon.png" />
+	<style type="text/css">
+.ui-growl {
+	top: 75px;
+}
+
+.ui-growl-item-container {
+	background-image: -o-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -moz-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.24, #9c57ff
+		), color-stop(0.62, #9c57ff));
+	background-image: -webkit-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	background-image: -ms-linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+	/* This last line is all you need for modern browsers */
+	background-image: linear-gradient(bottom, #9c57ff 24%, #9c57ff 62%);
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight {
+	background-image: linear-gradient(to bottom, #a25cff, #9c57ff)
+		!important;
+	background-color: #9c57ff !important;
+}
+</style>
+</h:head>
+<h:body>
+	<div class="container-scroller">
+		<!-- partial:partials/_navbar.html -->
+		<ui:include src="resources/partials/_navbar_root.xhtml" />
+		<!-- partial -->
+		<div class="container-fluid page-body-wrapper">
+			<!-- partial:partials/_sidebar.html -->
+			<ui:include
+				src="#{(userBean.user.role.title == 'Manager') ? 
+            					'resources/partials/_sidebar_admin_root.xhtml': 
+      							((userBean.user.role.title == 'Employee') ? 
+      							'resources/partials/_sidebar_employee_root.xhtml' :'')}" />
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="page-header">
+						<h3 class="page-title">
+							<span class="page-title-icon bg-gradient-primary text-white mr-2">
+								<i class="mdi mdi-home"></i>
+							</span> Profile
+						</h3>
+						<nav aria-label="breadcrumb">
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item "><a href="dashboard.xhtml">
+									<span></span>Dashboard
+							</a></li>
+							<li class="breadcrumb-item active" aria-current="page"><span></span>Profile
+								<i
+								class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i></li>
+						</ul>
+						</nav>
+					</div>
+					<div class="row">
+						<div class="col-lg-8 grid-margin stretch-card offset-lg-2">
+							<div class="card">
+								<div class="card-body">
+								<!-- C O N T E N T -->
+
+									<h:form id="profile">
+										<p:growl id="growl1" showDetail="true" severity="info"
+											sticky="true" />
+										<div class="row">
+											<div class="col-md-10">
+												<h1 class="font-weight-normal text-primary mb-3">Personal
+													Details</h1>
+											</div>
+											<div class="col-md-2 text-right">
+												<p:commandButton
+													class="btn btn-outline-primary btn-rounded btn-icon "
+													icon="fa fa-pencil" update="profile"
+													rendered="#{not profileBean.userEditable}"
+													action="#{profileBean.enableEditing()}">
+												</p:commandButton>
+
+											</div>
+										</div>
+
+										<p:outputPanel id="employeeDetail" style="">
+											<table class="table table-hover">
+												<tr>
+													<td colspan="2">
+														<h4>
+															<h:outputLabel>Full Name</h:outputLabel>
+														</h4>
+														<div class="form-inline">
+															<h:inputText id="Employee_Name_Editable"
+																disabled="#{not profileBean.userEditable}"
+																value="#{profileBean.user.name}" required="true"
+																style="width:43%;margin-right:3.5%" label="Name"
+																requiredMessage="Name is required" maxlength="200"
+																class="form-control form-control-sm" />
+
+															<h:inputText id="Employee_Surname_Editable"
+																disabled="#{not profileBean.userEditable}"
+																value="#{profileBean.user.surname}" required="true"
+																style="width:50%;margin-left:3.5%" label="Surname"
+																requiredMessage="Surname is required"
+																class="form-control form-control-sm" maxlength="200" />
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<h4>
+															<h:outputLabel>SSN</h:outputLabel>
+														</h4> <h:inputText id="Employee_SSN_Editable"
+															value="#{profileBean.user.ssn}" required="true"
+															maxlength="50" disabled="#{not profileBean.userEditable}"
+															label="Social Security Number"
+															requiredMessage="Social Security Number is required"
+															class="form-control form-control-sm" />
+													</td>
+													<td>
+														<h4>
+															<h:outputLabel>Telephone</h:outputLabel>
+														</h4> <p:inputNumber id="Employee_Phone_Number_Editable"
+															minValue="355660000000" maxValue="355699999999"
+															thousandSeparator="" decimalSeparator=""
+															decimalPlaces="0" value="#{profileBean.user.phoneNumber}"
+															required="true" maxlength="200"
+															disabled="#{not profileBean.userEditable}"
+															class="form-control form-control-sm" label="Phone Number"
+															requiredMessage="Phone Number is required" />
+													</td>
+												</tr>
+
+												<tr>
+													<td colspan="2">
+														<h4>
+															<h:outputLabel>Email</h:outputLabel>
+														</h4> <h:inputText id="Employee_Email_Editable" pt:type="email"
+															value="#{profileBean.user.email}" required="true"
+															maxlength="200" class="form-control form-control-sm"
+															label="Email" disabled="#{not profileBean.userEditable}"
+															requiredMessage="Email is required" />
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<h4>
+															<h:outputLabel>Address</h:outputLabel>
+														</h4> <p:inputTextarea id="Employee_Address_Editable" rows="10"
+															cols="30" counter="display" maxlength="500"
+															counterTemplate="{0} characters remaining."
+															autoResize="false" class="form-control form-control-sm"
+															value="#{profileBean.user.address}"
+															disabled="#{not profileBean.userEditable}"
+															required="true" /> 
+															<h:outputText id="display" rendered="#{profileBean.userEditable}"
+															label="Address" class="text-primary" requiredMessage="Address is required" />
+
+													</td>
+												</tr>
+											</table>
+											<p:messages closable="true" severity="error">
+												<p:autoUpdate />
+											</p:messages>
+											<div class="text-right">
+												<p:commandButton type="submit"
+													rendered="#{profileBean.userEditable}"
+													class="btn btn-gradient-primary btn-rounded btn-sm "
+													value="Save" update="growl1 employeeDetail"
+													action="#{profileBean.update()}">
+												</p:commandButton>
+												<p:commandButton icon="fa fa-times"
+													rendered="#{profileBean.userEditable}"
+													class="btn btn-gradient-danger btn-rounded btn-icon">
+												</p:commandButton>
+											</div>
+										</p:outputPanel>
+										<p:commandLink class="btn btn-primary btn-fw btn-sm"
+											style="position: fixed;top: 200px;right: 0px;"
+											action="resetpassword?faces-redirect=true">
+														Reset Password 	
+														<i class="fa fa-key"></i>
+										</p:commandLink>
+
+										<!-- /C O N T E N T -->
+									</h:form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- content-wrapper ends -->
+				<!-- partial:partials/_footer.html -->
+				<ui:include src="resources/partials/_footer.xhtml" />
+				<!-- partial -->
+			</div>
+			<!-- main-panel ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+
+	<!-- plugins:js -->
+	<script src="resources/vendors/js/vendor.bundle.base.js"></script>
+	<script src="resources/vendors/js/vendor.bundle.addons.js"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<script src="resources/js/off-canvas.js"></script>
+	<script src="resources/js/misc.js"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script src="resources/js/dashboard.js"></script>
+	<!-- End custom js for this page-->
+</h:body>
+
+</html>

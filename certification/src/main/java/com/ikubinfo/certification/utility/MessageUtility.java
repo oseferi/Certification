@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 public class MessageUtility {
 	
-	private final static ResourceBundle bundle = ResourceBundle.getBundle("com.ikubinfo.certification.utility.messages");
+	private final static ResourceBundle bundle = ResourceBundle.getBundle("messages");
 	
 	public static void addMessage(String summary, String detail) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary, detail));
