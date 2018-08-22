@@ -171,14 +171,20 @@
 													<td>
 														<h4>
 															<h:outputLabel>Telephone</h:outputLabel>
-														</h4> <p:inputNumber id="Employee_Phone_Number_Editable"
-															minValue="355660000000" maxValue="355699999999"
-															thousandSeparator="" decimalSeparator=""
-															decimalPlaces="0"
-															value="#{usersAdministrationBean.selectedEmployee.phoneNumber}"
-															required="true" maxlength="200"
-															class="form-control form-control-sm" label="Phone Number"
-															requiredMessage="Phone Number is required" />
+														</h4> 
+															 <p:inputNumber id="Employee_Phone_Number_Editable"
+																pt:placeholder="Ex. 355675623752" thousandSeparator=""
+																decimalSeparator="" decimalPlaces="0"
+																value="#{usersAdministrationBean.selectedEmployee.phoneNumber}"
+																required="true" maxlength="12"
+																class="form-control form-control-sm"
+																label="Phone Number"
+																validatorMessage="Please enter the number in the appropriate format Ex. 355675623752"
+																requiredMessage="Phone Number is required">
+																<f:validateLongRange minimum="355660000000"
+																	maximum="355699999999" />
+															</p:inputNumber>
+															 <p:keyFilter for="Employee_Phone_Number_Editable" mask="num" />
 													</td>
 												</tr>
 												<tr>

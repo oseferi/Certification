@@ -15,8 +15,6 @@ import com.ikubinfo.certification.dao.StatusDao;
 import com.ikubinfo.certification.model.Status;
 
 @Repository(value = "StatusDao")
-@Scope("singleton")
-@Component
 public class StatusDaoImpl implements StatusDao {
 	private static Logger log = Logger.getLogger(StatusDaoImpl.class);
 

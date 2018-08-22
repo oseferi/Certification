@@ -24,8 +24,6 @@ import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.utility.MessageUtility;
 
 @Repository(value = "UserDao")
-@Scope("singleton")
-@Component
 public class UserDaoImpl implements UserDao {
 	private static Logger log = Logger.getLogger(UserDaoImpl.class);
 
@@ -47,10 +45,16 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean remove(User user) {
 		try {
-			entityManager.createQuery("update User set deleted=1 where id=:id").setParameter("id", user.getId())
+			int rowsAffected = entityManager.createQuery("update User set deleted=1 where id=:id").setParameter("id", user.getId())
 					.executeUpdate();
-			log.info("User: " + user.getUsername() + " was removed succesfully!");
-			return true;
+			if(rowsAffected>0) {
+				log.info("User: " + user.getUsername() + " was removed succesfully!");
+				return true;
+			}else {
+				log.info("User: " + user.getUsername() + " failed to be removed!");
+				return false;
+			}
+			
 
 		} catch (Exception e) {
 			log.info("User: " + user.getUsername() + " failed to be removed! Error message :" + e.getMessage());
@@ -70,6 +74,7 @@ public class UserDaoImpl implements UserDao {
 			return false;
 		}
 	}
+	
 	@Transactional
 	public boolean removeMultiplePermanently(ArrayList<User>employees) {
 		try {
@@ -99,10 +104,16 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean restore(User user) {
 		try {
-			entityManager.createQuery("update User set deleted=0 where id=:id").setParameter("id", user.getId())
+			int rowsAffected = entityManager.createQuery("update User set deleted=0 where id=:id").setParameter("id", user.getId())
 					.executeUpdate();
-			log.info("User: " + user.getUsername() + " was removed succesfully!");
-			return true;
+			if(rowsAffected>0) {
+				log.info("User: " + user.getUsername() + " was removed succesfully!");
+				return true;
+			}else {
+				log.info("User: " + user.getUsername() + " failed to be removed!");
+				return false;
+			}
+			
 
 		} catch (Exception e) {
 			log.info("User: " + user.getUsername() + " failed to be removed! Error message :" + e.getMessage());
@@ -114,7 +125,7 @@ public class UserDaoImpl implements UserDao {
 	public User findById(int id) {
 		try {
 			return entityManager.find(User.class, id);
-		} catch (NoResultException e) {
+		} catch (IllegalArgumentException e) {
 			log.warn("User cannot be found! Error message :" + e.getMessage());
 			return null;
 		}
@@ -128,7 +139,7 @@ public class UserDaoImpl implements UserDao {
 					.createQuery("Select user from User user Where user.manager=:manager And user.deleted=0")
 					.setParameter("manager", findById(id)).getResultList();
 
-		} catch (NoResultException e) {
+		} catch (Exception e) {
 			log.info("Users cannot be found! Error message :" + e.getMessage());
 			return null;
 		}
@@ -143,7 +154,7 @@ public class UserDaoImpl implements UserDao {
 					.createQuery("Select user from User user Where user.manager=:manager And user.deleted=1")
 					.setParameter("manager", findById(id)).getResultList();
 
-		} catch (NoResultException e) {
+		} catch (Exception e) {
 			log.info("Users cannot be found! Error message :" + e.getMessage());
 			return null;
 		}

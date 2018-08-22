@@ -172,6 +172,12 @@
 													<i class="fa fa-eye"></i>
 												</p:commandLink>
 												<p:commandLink
+													action="#{managerCertificationBean.selectCertificate(certificate.id)}"
+													update=":editCertificateForm:editCertificateDetails"
+													onclick="PF('editCertificateDialog').show()">
+													<i class="fa fa-pencil"></i>
+												</p:commandLink>
+												<p:commandLink
 													action="#{managerCertificationBean.removeCertificate(certificate.id)}"
 													update=":allCertificatesForm:certificates 
 														:allCertificatesForm:growl1">
@@ -289,11 +295,75 @@
 															type="submit" class="btn btn-outline-primary btn-rounded"
 															value="Save"
 															oncomplete="if (args &amp;&amp; !args.validationFailed) { 
-													        			PF('newCertificateDialog').hide();
-													        			PF('certificatesDialog').show()}"
+													        			PF('newCertificateDialog').hide();}"
 															update=":allCertificatesForm:certificates
 													        		:allCertificatesForm:growl1 
 													        		:newCertificateForm:newCertificateDetails">
+														</p:commandLink>
+													</div>
+												</div>
+											</p:outputPanel>
+										</p:dialog>
+
+									</h:form>
+									<h:form id="editCertificateForm">
+										<p:dialog header="Edit Certificate"
+											widgetVar="editCertificateDialog" autoResize="false"
+											resizable="false">
+											<p:outputPanel id="editCertificateDetails">
+												<div class="form-group">
+													<div class="row ">
+														<div class="col-md-4 ">
+															<b style="font-size:1.3em">Title :</b>
+														</div>
+														<div class="col-md-6 ">
+															<span class="align-bottom"><i>${managerCertificationBean.certificate.title}</i></span>
+														</div>
+													</div>
+													<hr/>
+													<h:outputText value="&lt;br/&gt;" escape="false" />
+
+
+													<p:selectOneMenu id="certificate_technology_editable"
+														converter="#{technologyConverter}"
+														value="#{managerCertificationBean.certificate.technology}"
+														required="true" label="Techonolgy"
+														requiredMessage="Please choose the Technology."
+														class="form-control form-control-sm" filter="true"
+														filterMatchMode="contains">
+														<f:selectItem itemLabel="Select One" itemValue="" />
+														<f:selectItems var="technology"
+															value="#{managerCertificationBean.technologies}"
+															itemLabel="#{technology.title}" itemValue="#{technology}" />
+													</p:selectOneMenu>
+													<p:message for="certificate_technology_editable" />
+													<h:outputText value="&lt;br/&gt;" escape="false" />
+
+													<p:inputTextarea id="certificate_Description_editable"
+														value="#{managerCertificationBean.certificate.description}"
+														pt:placeholder="Description" required="true"
+														label="Description"
+														requiredMessage="Please fill the required field." rows="5"
+														cols="30" counter="display" maxlength="500"
+														counterTemplate="{0} characters remaining."
+														autoResize="false" resizable="false"
+														class="form-control form-control-sm" />
+													<h:outputText value="&lt;br/&gt;" escape="false" />
+													<h:outputText id="display" class="text-primary" />
+													<p:message for="certificate_Description_editable" />
+
+													<h:outputText value="&lt;br/&gt;" escape="false" />
+													<h:outputText value="&lt;br/&gt;" escape="false" />
+													<div class="text-center">
+														<p:commandLink
+															action="#{managerCertificationBean.updateCertificate()}"
+															type="submit" class="btn btn-outline-primary btn-rounded"
+															value="Save" 
+															oncomplete="if (args &amp;&amp; !args.validationFailed) { 
+													        			PF('editCertificateDialog').hide();}"
+															update=":allCertificatesForm:certificates
+													        		:allCertificatesForm:growl1 
+													        		:editCertificateForm:editCertificateDetails">
 														</p:commandLink>
 													</div>
 												</div>
@@ -319,8 +389,8 @@
 	<!-- container-scroller -->
 
 	<!-- plugins:js -->
-	<!-- script src="../resources/vendors/js/vendor.bundle.base.js"></script>
-	<script src="../resources/vendors/js/vendor.bundle.addons.js"></script-->
+	<script src="../resources/vendors/js/vendor.bundle.base.js"></script>
+	<script src="../resources/vendors/js/vendor.bundle.addons.js"></script>
 	<!-- endinject -->
 	<!-- Plugin js for this page-->
 	<!-- End plugin js for this page-->

@@ -13,8 +13,6 @@ import com.ikubinfo.certification.dao.RoleDao;
 import com.ikubinfo.certification.model.Role;
 
 @Repository(value = "RoleDao")
-@Scope("singleton")
-@Component
 public class RoleDaoImpl implements RoleDao {
 	private static Logger log = Logger.getLogger(RoleDaoImpl.class);
 

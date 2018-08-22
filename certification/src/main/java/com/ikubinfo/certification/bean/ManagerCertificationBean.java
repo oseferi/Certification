@@ -58,12 +58,11 @@ public class ManagerCertificationBean implements Serializable{
 	private ArrayList<Certificate> certificates;
 	private ArrayList<Technology> technologies;
 	private ArrayList<User> employees;
+	private ArrayList<Status> statuses;
 	private String query;
 	private String status;
-	private ArrayList<Status> statuses;
 	private Integer statusId;
-	private Integer id;
-	private boolean requiredScore;
+	private String id;
 	
 	public UserBean getUser() {
 		return user;
@@ -225,13 +224,11 @@ public class ManagerCertificationBean implements Serializable{
 	public void setStatuses(ArrayList<Status> statuses) {
 		this.statuses = statuses;
 	}
-	
-
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -243,18 +240,6 @@ public class ManagerCertificationBean implements Serializable{
 		this.statusId = statusId;
 	}
 	
-	public boolean isRequiredScore() {
-		return requiredScore;
-	}
-
-	public void setRequiredScore(boolean requiredScore) {
-		this.requiredScore = requiredScore;
-	}
-	
-	public void enableScore() {
-		requiredScore = true;
-	}
-
 	@PostConstruct
 	public void init() {
 		certification = new EmployeeCertification();
@@ -267,23 +252,36 @@ public class ManagerCertificationBean implements Serializable{
 		refreshTechnologies();
 		refreshEmployees();
 		setStatusesList();
+		loadCertification();
+	}
+	
+	private void loadCertification() {
 		try {
 			if(id!=null) {
-				selectCertification(id);
+				int certificationId = Integer.parseInt(id);
+				selectCertification(certificationId);
 			}
+		}catch(NumberFormatException x) {
+			log.warn("An error occured.Certification id could not be parsed to a valid integer!");
+			certification= null;
 		}
 		catch(NullPointerException x) {
-			log.warn("An error occured.There will be nothing displayed in the front-end");
+			log.warn("An error occured.There will be nothing displayed in the front-end.");
 			certification= null;
 		}
 	}
 	
 	public void addCertificate() {
 		try {
-			certificateService.add(certificate);
-			certificate=new Certificate();
-			refreshCertificates();
-			addMessage(new FacesMessage(getSuccess(),MessageUtility.getMessage("CERTIFICATE_ADDED")));
+			if(certificateService.add(certificate)) {
+				certificate=new Certificate();
+				refreshCertificates();
+				addMessage(new FacesMessage(getSuccess(),MessageUtility.getMessage("CERTIFICATE_ADDED")));	
+			}else {
+				refreshCertificates();
+				addMessage(new FacesMessage(getSuccess(),MessageUtility.getMessage("CERTIFICATE_ADD_FAIL")));
+			}
+			
 		} catch (GeneralException ge) {
 			exceptionHandler(ge);
 		}
@@ -292,16 +290,27 @@ public class ManagerCertificationBean implements Serializable{
 	public void updateCertification() {
 		try {
 			certificationService.edit(certification);
-			setStatusesList();
 			addMessage( new FacesMessage(getSuccess(),
-						SuccessMessages.CERTIFICATION_UPDATED.getMessage()) );
+						MessageUtility.getMessage("CERTIFICATION_UPDATED")) );
 			PrimeFaces.current().executeScript("setTimeout( \" location.href = 'certifications.xhtml'; \" ,1500);");
 			
 		} catch (GeneralException e) {
 			exceptionHandler(e);
 		}
 	
-}
+	}
+	
+	public void updateCertificate() {
+		try {
+			certificateService.update(certificate);
+			addMessage( new FacesMessage(getSuccess(),
+						MessageUtility.getMessage("CERTIFICATE_UPDATED")) );
+			
+		} catch (GeneralException e) {
+			exceptionHandler(e);
+		}
+	
+	}
 	
 	public String removeCertificate(int id) {
 		try {
@@ -359,9 +368,12 @@ public class ManagerCertificationBean implements Serializable{
 	public void setStatusesList() {
 		statuses = statusService.getAllActive();
 	}
-	public String edit(EmployeeCertification certification) {
+	
+	
+	public String editCertification(EmployeeCertification certification) {
 		return "editcertification?faces-redirect=true&id="+certification.getId();
 	}
+	
 	private void exceptionHandler(GeneralException exception) {
 		if(exception!=null) {
 			addMessage(new FacesMessage(getError(),exception.getMessage()));

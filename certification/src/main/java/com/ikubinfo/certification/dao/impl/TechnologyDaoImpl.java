@@ -14,8 +14,6 @@ import com.ikubinfo.certification.dao.TechnologyDao;
 import com.ikubinfo.certification.model.Technology;
 
 @Repository(value = "TechnologyDao")
-@Scope("singleton")
-@Component
 public class TechnologyDaoImpl implements TechnologyDao {
 	private static Logger log = Logger.getLogger(UserDaoImpl.class);
 

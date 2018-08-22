@@ -20,6 +20,7 @@ import com.ikubinfo.certification.model.User;
 import com.ikubinfo.certification.service.RoleService;
 import com.ikubinfo.certification.service.UserService;
 import com.ikubinfo.certification.utility.MessageUtility;
+import com.sun.el.parser.ParseException;
 
 @ManagedBean(name="usersAdministrationBean")
 @ViewScoped
@@ -42,21 +43,14 @@ public class UsersAdministrationBean implements Serializable {
 	private boolean selectedEmployeeCredentialsEditable;	
 	private List<User> filteredEmployees;
 	private String newPassword;
-	private Integer id; 
+	private String id; 
 	
 	 @PostConstruct
 	 public void init() {
 		refreshEmployees(); 
 		employee = new User();
 		selectedEmployee = new User();
-		try{
-			if(id!=null) {
-				selectEmployeeForEdit(id); 
-			}
-		}catch(NullPointerException x) {
-			log.warn("An error occured.There will be nothing displayed in the front-end");
-			selectedEmployee = null;
-		}
+		loadEmployee();
 	 }
 	 
 	public UserService getUserService() {
@@ -125,11 +119,26 @@ public class UsersAdministrationBean implements Serializable {
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+	
+	private void loadEmployee() {
+		try{
+			if(id!=null && id!=null) {
+				int userId = Integer.parseInt(id);
+				selectEmployeeForEdit(userId); 
+			}
+		}catch(NumberFormatException e) {
+			log.warn("An error occured.User id could not be parsed to a valid integer!");
+			selectedEmployee = null;
+		}catch(NullPointerException x) {
+			log.warn("An error occured.There will be nothing displayed in the front-end");
+			selectedEmployee = null;
+		}
 	}
 	
 	@SuppressWarnings("finally")
@@ -177,7 +186,9 @@ public class UsersAdministrationBean implements Serializable {
 			    newPassword="";
 			    disableEditing();
 			    refreshEmployees();
-				PrimeFaces.current().executeScript("setTimeout( \" location.href = 'users.xhtml'; \" ,1500);");
+			    if(this.id!=null && this.id!="") {
+					PrimeFaces.current().executeScript("setTimeout( \" location.href = 'users.xhtml'; \" ,1500);");
+				}
 			    return null;
 			}
 		}
@@ -185,6 +196,10 @@ public class UsersAdministrationBean implements Serializable {
 			disableEditing();
 			refreshEmployees();
 			addMessage(new FacesMessage("Info!", MessageUtility.getMessage("EMPLOYEE_NO_CHANGE")));
+			
+			if(this.id!=null && this.id!="") {
+				PrimeFaces.current().executeScript("setTimeout( \" location.href = 'users.xhtml'; \" ,1500);");
+			}
 		    return null;
 		}
 		try {
@@ -193,6 +208,10 @@ public class UsersAdministrationBean implements Serializable {
 				refreshEmployees();
 				selectedEmployee = new User();
 				addMessage(new FacesMessage(getSuccess(), MessageUtility.getMessage("EMPLOYEE_UPDATED")) );
+				if(this.id!=null && this.id!="") {
+					PrimeFaces.current().executeScript("setTimeout( \" location.href = 'users.xhtml'; \" ,1500);");
+				}
+
 			}
 			else {
 				disableEditing();

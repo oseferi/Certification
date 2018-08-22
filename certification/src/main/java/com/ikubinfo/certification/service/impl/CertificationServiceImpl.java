@@ -83,6 +83,7 @@ public class CertificationServiceImpl implements CertificationService {
 		return certificationDao.filter(searchQuery, user);
 	}
 
+	/*
 	@Override
 	public ArrayList<EmployeeCertification> filterByTitle(String title, User manager) {
 		return certificationDao.filterByTitle(title, manager) ;
@@ -98,6 +99,7 @@ public class CertificationServiceImpl implements CertificationService {
 	public ArrayList<EmployeeCertification> filterByTitleAndEmployee(String title, int employeeId, User manager) {
 		return certificationDao.filterByTitleAndEmployee(title, employeeId, manager);
 	}
+	*/
 	
 	@Override
 	public ArrayList<EmployeeCertification> filter(String certificate, String status, int managerId) {

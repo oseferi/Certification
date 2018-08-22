@@ -23,10 +23,11 @@ public interface CertificationService {
 	public ArrayList<EmployeeCertification> filter(String certificate, String status, int managerId);
 	public ArrayList<EmployeeCertification> filter(int userId, String certificate, String status, int managerId);
 	public ArrayList<EmployeeCertification> filter(int userId, String certificate, String status);
+	/*
 	public ArrayList<EmployeeCertification> filterByTitle(String title,User manager);
 	public ArrayList<EmployeeCertification> filterByEmployee(int employeeId, User manager);
 	public ArrayList<EmployeeCertification> filterByTitleAndEmployee(String title,int employeeId, User manager);
-	
+	*/
 
 	public int getTotalRows(int managerId) ;
 	public int getTotalDeletedRows(int managerId);

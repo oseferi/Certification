@@ -18,8 +18,6 @@ import com.ikubinfo.certification.model.EmployeeCertification;
 import com.ikubinfo.certification.utility.MessageUtility;
 
 @Repository(value="CertificateDao")
-@Scope("singleton")
-@Component
 public class CertificateDaoImpl implements CertificateDao{
 	private static Logger log = Logger.getLogger(CertificateDaoImpl.class);
 	
@@ -35,7 +33,6 @@ public class CertificateDaoImpl implements CertificateDao{
 		}
 		catch (Exception e) {
 			log.error("Failed to add certificate! Error Message :"+e.getMessage());
-			//e.printStackTrace();
 			return false;
 		}
 	}

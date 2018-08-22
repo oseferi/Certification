@@ -52,11 +52,7 @@ public class CertificateServiceImpl implements CertificateService,Serializable{
 	@Transactional
 	@Override
 	public boolean update(Certificate certificate) throws GeneralException {
-		if(isValid(certificate)) {
-			return certificateDao.update(certificate);
-		}else {
-			return false;	
-		}
+		return certificateDao.update(certificate);
 	}
 	
 	@Transactional

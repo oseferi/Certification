@@ -262,7 +262,7 @@
 													<i class="fa fa-eye"></i>
 												</p:commandLink>
 												<p:commandLink
-													action="#{managerCertificationBean.edit(certification)}">
+													action="#{managerCertificationBean.editCertification(certification)}">
 													<i class="fa fa-pencil"></i>
 												</p:commandLink>
 												<h:outputLabel value=" " />
@@ -348,7 +348,7 @@
 														</td>
 														<td><h:outputLabel
 																value="#{managerCertificationBean.certification.status.title}"
-																		class="badge #{managerCertificationBean.certification.status.title != 'On Progress' ? (managerCertificationBean.certification.status.title == 'Sucesss' ? 'badge-info' : 'badge-danger' ) : 'badge-success'}" />
+																		class="badge #{managerCertificationBean.certification.status.title != 'On Progress' ? (managerCertificationBean.certification.status.title == 'Passed' ? 'badge-info' : 'badge-danger' ) : 'badge-success'}" />
 																</td>
 													</tr>
 												</table>
@@ -437,8 +437,8 @@
 	<!-- container-scroller -->
 
 	<!-- plugins:js -->
-	<!-- script src="../resources/vendors/js/vendor.bundle.base.js"></script>
-	<script src="../resources/vendors/js/vendor.bundle.addons.js"></script-->
+	<script src="../resources/vendors/js/vendor.bundle.base.js"></script>
+	<script src="../resources/vendors/js/vendor.bundle.addons.js"></script>
 	<!-- endinject -->
 	<!-- Plugin js for this page-->
 	<!-- End plugin js for this page-->

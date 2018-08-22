@@ -165,8 +165,6 @@
 																value="#{managerCertificationBean.statuses}"
 																itemLabel="#{status.title}"
 																itemValue="#{status}" /> 
-																<p:ajax listener="#{managerCertificationBean.enableScore()}" 
-																update="certificationScore" event="change"/>
 														</p:selectOneMenu></td>
 												</tr>
 												<tr>
@@ -179,7 +177,6 @@
 															id="certificationScore"
 															value="#{managerCertificationBean.certification.score}"
 															class="form-control form-control-sm" 
-															rendered="#{managerCertificationBean.requiredScore}"
 															required="true"/></td>
 												</tr>
 											</table>
